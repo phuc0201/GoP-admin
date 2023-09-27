@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { layoutsManagementModule } from '../layouts/management/management.module';
 import { ManagementRoutingModule } from './management-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UsersComponent } from './users/users.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ManagementLayoutModule } from '../layouts/management-layout/management-layout.module';
+
 @NgModule({
   declarations: [
-    DashboardComponent,
-    UsersComponent
+    
   ],
   imports: [
     CommonModule,
     ManagementRoutingModule,
-    layoutsManagementModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ManagementLayoutModule
   ]
 })
 export class ManagementModule { }
