@@ -1,0 +1,12 @@
+#dashboard-page{
+    width: 100%;
+    .widget-chart-list{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        app-widget-chart-card{
+            width: 25%;
+        }
+    }
+}

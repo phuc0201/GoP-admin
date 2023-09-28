@@ -1,0 +1,8 @@
+.web-body{
+    display: flex;
+    height: calc(100% - 79px);
+    .web-content{
+        flex: 1;
+        padding: 20px;
+    }
+}

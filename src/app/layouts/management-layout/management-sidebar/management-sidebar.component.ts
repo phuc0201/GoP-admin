@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./management-sidebar.component.scss']
 })
 export class ManagementSidebarComponent {
-
+  isActive: string = 'dashboard';
+  setActive(item: string) {
+      this.isActive = item;
+      
+  }
 }

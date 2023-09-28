@@ -4,10 +4,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 /* reset default style */
 :root {
-  --main-color: #0cbdcf;
-  --sidebar-hover-color: #22d2cf;
-  --border-color: #e5e5e5;
+  --background-color: #fff;
+  --sidebar-hover-color: #f1f1f5;
+  --main-color: #4a40e7;
   --error-color: #ef5350;
+  --increases-value-color: #42cd74;
+  --decreases-value-color: #ef3e3e;
+  --text-color: #9c9ca2;
 }
 
 * {
@@ -18,31 +21,13 @@
 }
 
 body {
-  background-color: #e6f4fd;
+  background-color: #fafafb;
   font-family: "Roboto", sans-serif;
 }
 button {
   outline: none;
   border: none;
 }
-// #user{
-//   .MyApp{
-//     max-width: 1200px;
-//     margin: auto;
-//     overflow: hidden;
-//   }
-// }
-
-// #admin{
-//   height: 100vh;
-//   .MyApp{
-//     margin: auto;
-//   }
-// }
-// a {
-//   text-decoration: none;
-//   color: unset;
-// }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

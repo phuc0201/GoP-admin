@@ -1,0 +1,45 @@
+#header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 15px 35px;
+    height: 78px;
+    box-shadow: 0 1px 1px rgba($color: #000000, $alpha: .1);
+    margin-bottom: 1px;
+    .header-item{
+      display: flex;
+    }
+    .header-item.left{
+        margin: auto 0;
+        .logo{
+            display: flex;
+            img{
+                margin: auto 0;
+            }
+        }
+    }
+    .header-item.right{
+        margin: auto 0;
+        display: flex;
+        .right-item{
+            margin: auto 0;
+            display: flex;
+            cursor: pointer;
+            mat-icon{
+                margin: auto 0;
+                font-size: 30px;
+                width: 30px;
+                height: 30px;
+                margin-right: 25px;
+                color: #676768;
+            }
+        }
+        .user-avatar{
+            margin: auto 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: beige;
+        }
+    }
+}

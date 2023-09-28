@@ -4,6 +4,7 @@ import { ManagementLayoutComponent } from './management-layout/management-layout
 import { ManagementHeaderComponent } from './management-header/management-header.component';
 import { ManagementSidebarComponent } from './management-sidebar/management-sidebar.component';
 import { RouterModule } from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ]
 })
 export class ManagementLayoutModule { }
