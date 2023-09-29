@@ -2,18 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 /* google fonts */
-/* @import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 /* reset default style */
 :root {
-  --background-color: #fff;
-  --sidebar-hover-color: #f1f1f5;
   --main-color: #4a40e7;
+  --sidebar-hover-color: #f1f1f5;
+  --border-color: #e5e5e5;
   --error-color: #ef5350;
   --increases-value-color: #42cd74;
   --decreases-value-color: #ef3e3e;
-  --text-color: #9c9ca2;
 }
 
 * {
@@ -21,17 +20,17 @@
   padding: 0;
   box-sizing: border-box;
   font-weight: 300;
-  @apply font-base text-base;
+  @apply font-base text-base
 }
 
 body {
-  background-color: #fafafb;
-  @apply m-0;
+    background-color: #fff;
+    /* font-family: "Roboto", sans-serif; */
 }
 button {
   outline: none;
   border: none;
 }
 
-html, body { height: 100%; }
 
+html, body { height: 100%; }

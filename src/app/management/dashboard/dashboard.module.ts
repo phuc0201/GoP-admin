@@ -7,7 +7,7 @@ import { CircleChartCardComponent } from './circle-chart-card/circle-chart-card.
 import { LineChartCardComponent } from './line-chart-card/line-chart-card.component';
 import { TopDriversComponent } from './top-drivers/top-drivers.component';
 import { MapComponent } from './map/map.component';
-
+import { NgChartsModule } from 'ng2-charts';
 
 
 
@@ -22,7 +22,8 @@ import { MapComponent } from './map/map.component';
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    NgChartsModule
   ]
 })
 export class DashboardModule { }

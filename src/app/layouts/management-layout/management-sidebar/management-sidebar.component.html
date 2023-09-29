@@ -1,32 +1,32 @@
-<div id="side-bar">
-    <ul>
-        <a [routerLink]="['dashboard']">
-            <li [ngClass]="{'active': isActive === 'dashboard' }" (click)="setActive('dashboard')">
-                <i class="fa-solid fa-house"></i>
-                <span>Dashboard</span>
-            </li>
-        </a>
-        <a [routerLink]="['users']">
-            <li [ngClass]="{'active': isActive === 'users' }" (click)="setActive('users')">
-                <i class="fa-regular fa-user"></i>
-                <span>Quản lý người dùng</span>
-            </li>
-        </a>
-        <a [routerLink]="['journeys']">
-            <li [ngClass]="{'active': isActive === 'journeys' }" (click)="setActive('journeys')">
-                <i class="fa-solid fa-map-location-dot"></i>
-                <span>Quản lý hành trình</span>
-            </li>
-        </a>
-    </ul>
-    <ul>
-        <li>
-            <i class="fa-solid fa-gear"></i>
-            <span>Settings</span>
-        </li>
-        <li>
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            <span>Logout</span>
-        </li>
-    </ul>
+<div id="side-bar" class="w-[250px] h-full flex flex-col justify-between pb-[50px] shadow-lg">
+  <ul class="m-0 p-0">
+    <a [routerLink]="['dashboard']">
+      <li [ngClass]="{'active': isActive === 'dashboard' }" (click)="setActive('dashboard')">
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+      </li>
+    </a>
+    <a [routerLink]="['users']">
+      <li [ngClass]="{'active': isActive === 'users' }" (click)="setActive('users')">
+        <i class="fa-regular fa-user"></i>
+        <span>Quản lý người dùng</span>
+      </li>
+    </a>
+    <a [routerLink]="['journeys']">
+      <li [ngClass]="{'active': isActive === 'journeys' }" (click)="setActive('journeys')">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Quản lý hành trình</span>
+      </li>
+    </a>
+  </ul>
+  <ul class="m-0 p-0">
+    <li class="text-grey">
+      <i class="fa-solid fa-gear"></i>
+      <span>Settings</span>
+    </li>
+    <li class="text-grey">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <span>Logout</span>
+    </li>
+  </ul>
 </div>

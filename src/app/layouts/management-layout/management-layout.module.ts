@@ -16,6 +16,8 @@ import {MatIconModule} from '@angular/material/icon';
     CommonModule,
     RouterModule,
     MatIconModule
-  ]
+  ],
+  exports: [],
+  providers: [],
 })
 export class ManagementLayoutModule { }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-widget-chart-card',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./widget-chart-card.component.scss']
 })
 export class WidgetChartCardComponent {
-
+  @Input() title: string='';
+  constructor(){}
 }

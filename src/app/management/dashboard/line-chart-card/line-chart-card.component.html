@@ -1,1 +1,26 @@
-<p>line-chart-card works!</p>
+<div class="p-[10px] w-[891px]">
+  <div class="p-5 w-full shadow-[rgba(0,0,0,0.08)_0px_1px_3px_0px,#f2f2f4_0px_0px_0px_2px] rounded-lg">
+    <div class="flex justify-between w-full items-center">
+      <div class="flex items-center">
+        <span class="text-2xl font-bold">Active Drivers By Time</span>
+      </div>
+      <div class="flex items-center">
+        <div
+          class="group cursor-pointer active flex px-4 py-1 hover:border-primary border-solid border-[2px] border-transparent  rounded-md "
+          [ngClass]="{'active': chartOption === 'today'}" (click)="setActive('today')">
+          <span class="m-auto text-grey group-hover:text-primary">Today</span>
+        </div>
+        <div
+          class="group cursor-pointer ml-6 flex px-4 py-1 hover:border-primary border-solid border-[2px] border-transparent hover:text-primary rounded-md"
+          [ngClass]="{'active': chartOption === 'month'}" (click)="setActive('month')">
+          <span class="m-auto text-grey group-hover:text-primary">Month</span>
+        </div>
+      </div>
+    </div>
+    <div style="display: block;" class="w-full">
+      <canvas baseChart height="281" class="w-full" [type]="'line'" [data]="lineChartData" [options]="lineChartOptions"
+        [legend]="lineChartLegend">
+      </canvas>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,13 @@
 <div id="dashboard-page">
     <div class="widget-chart-list">
-        <app-widget-chart-card></app-widget-chart-card>
-        <app-widget-chart-card></app-widget-chart-card>
-        <app-widget-chart-card></app-widget-chart-card>
-        <app-widget-chart-card></app-widget-chart-card>
+        <app-widget-chart-card [title]="'BOOK TRIPS'">
+        </app-widget-chart-card>
+        <app-widget-chart-card [title]="'CANCELLED TRIPS'">
+        </app-widget-chart-card>
+        <app-widget-chart-card [title]="'AVAILABLE TRANSPORTATION'">
+        </app-widget-chart-card>
+        <app-widget-chart-card [title]="'TOTAL EARNING'">
+        </app-widget-chart-card>
     </div>
     <div>
         <app-line-chart-card></app-line-chart-card>

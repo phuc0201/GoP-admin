@@ -4,10 +4,11 @@ import { ManagementRoutingModule } from './management-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ManagementLayoutModule } from '../layouts/management-layout/management-layout.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
-    
+
   ],
   imports: [
     CommonModule,
