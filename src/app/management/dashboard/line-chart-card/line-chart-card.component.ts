@@ -35,7 +35,7 @@ export class LineChartCardComponent {
     ]
   };
   public lineChartOptions: ChartOptions<'line'> = {
-    responsive: false,
+    responsive: true,
     scales: {
       x: {
         grid: {

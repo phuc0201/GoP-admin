@@ -1,4 +1,4 @@
-<div id="side-bar" class="w-[250px] h-full flex flex-col justify-between pb-[50px] shadow-lg">
+<div id="side-bar" class="w-[250px] max-w-[250px] h-full max-h-[calc(100vh-78px)] flex flex-col justify-between pb-[50px] shadow-lg">
   <ul class="m-0 p-0">
     <a [routerLink]="['dashboard']">
       <li [ngClass]="{'active': isActive === 'dashboard' }" (click)="setActive('dashboard')">
@@ -20,11 +20,11 @@
     </a>
   </ul>
   <ul class="m-0 p-0">
-    <li class="text-grey">
+    <li class="text-grey cursor-pointer">
       <i class="fa-solid fa-gear"></i>
       <span>Settings</span>
     </li>
-    <li class="text-grey">
+    <li class="text-grey cursor-pointer">
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
       <span>Logout</span>
     </li>

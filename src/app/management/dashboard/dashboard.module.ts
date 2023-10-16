@@ -8,7 +8,7 @@ import { LineChartCardComponent } from './line-chart-card/line-chart-card.compon
 import { TopDriversComponent } from './top-drivers/top-drivers.component';
 import { MapComponent } from './map/map.component';
 import { NgChartsModule } from 'ng2-charts';
-
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 
 @NgModule({
@@ -23,7 +23,8 @@ import { NgChartsModule } from 'ng2-charts';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    NgChartsModule
+    NgChartsModule,
+    NzGridModule
   ]
 })
 export class DashboardModule { }

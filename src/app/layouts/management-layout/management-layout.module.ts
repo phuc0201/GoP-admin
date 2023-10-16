@@ -5,7 +5,8 @@ import { ManagementHeaderComponent } from './management-header/management-header
 import { ManagementSidebarComponent } from './management-sidebar/management-sidebar.component';
 import { RouterModule } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
-
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 @NgModule({
   declarations: [
     ManagementLayoutComponent,
@@ -15,7 +16,9 @@ import {MatIconModule} from '@angular/material/icon';
   imports: [
     CommonModule,
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    NzGridModule,
+    NzLayoutModule
   ],
   exports: [],
   providers: [],

@@ -1,7 +1,9 @@
-<app-management-header></app-management-header>
-<div class="web-body">
+<div class="flex flex-col h-full">
+  <app-management-header></app-management-header>
+  <div class="flex flex-1 w-full">
     <app-management-sidebar></app-management-sidebar>
-    <div class="web-content">
-        <router-outlet></router-outlet>
+    <div class="web-content w-full max-h-[calc(100vh-78px)] overflow-y-auto">
+      <router-outlet></router-outlet>
     </div>
+  </div>
 </div>
