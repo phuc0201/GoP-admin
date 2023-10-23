@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { JourneysRoutingModule } from './journeys-routing.module';
 import { JourneysComponent } from './journeys.component';
-
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @NgModule({
@@ -12,7 +11,8 @@ import { JourneysComponent } from './journeys.component';
   ],
   imports: [
     CommonModule,
-    JourneysRoutingModule
+    JourneysRoutingModule,
+    GoogleMapsModule
   ]
 })
 export class JourneysModule { }
