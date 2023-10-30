@@ -9,8 +9,9 @@ import { TopDriversComponent } from './top-drivers/top-drivers.component';
 import { MapComponent } from './map/map.component';
 import { NgChartsModule } from 'ng2-charts';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-
-
+import { GoogleMapsModule } from '@angular/google-maps';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { NgApexchartsModule } from "ng-apexcharts";
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -24,7 +25,10 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     CommonModule,
     DashboardRoutingModule,
     NgChartsModule,
-    NzGridModule
+    NzGridModule,
+    GoogleMapsModule,
+    LeafletModule,
+    NgApexchartsModule,
   ]
 })
 export class DashboardModule { }

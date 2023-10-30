@@ -1,0 +1,11 @@
+<nz-breadcrumb class="mb-[10px]">
+  <nz-breadcrumb-item>
+    <i class="fa-solid fa-home"></i>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item *ngFor="let item of breadcrumb.listBreadcrumb">
+    <a [routerLink]="[item.link]">{{item.title}}</a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <span>{{breadcrumb.heading}}</span>
+  </nz-breadcrumb-item>
+</nz-breadcrumb>

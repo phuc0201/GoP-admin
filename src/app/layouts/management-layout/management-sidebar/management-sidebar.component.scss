@@ -2,7 +2,7 @@ a{
   @apply no-underline text-grey cursor-pointer;
 }
 li{
-  @apply py-[20px] pl-[35px] border-l-[5px] border-l-transparent border-solid flex items-center hover:bg-white1
+  @apply py-[20px] pl-[35px] border-l-[5px] border-l-transparent border-solid flex items-center hover:bg-white1 w-full
 }
 li.active{
   @apply border-l-[5px] border-l-primary border-solid bg-white1

@@ -1,5 +1,8 @@
-<div id="side-bar" class="w-[250px] max-w-[250px] h-full max-h-[calc(100vh-78px)] flex flex-col justify-between pb-[50px] shadow-lg">
-  <ul class="m-0 p-0">
+<div id="side-bar" class="relative max-w-[250px] h-full max-h-[calc(100vh-78px)] flex flex-col justify-between pb-[50px] shadow-1x transition-all" [ngClass]="isOpen ? 'w-[250px]' : 'w-0'">
+  <div class="absolute flex justify-center items-center top-[50%] -right-4 w-4 h-20 border-2 border-solid border-l-0 border-[#ebebed] -translate-y-[50%] cursor-pointer rounded-tr-[20px] rounded-br-[20px]" (click)="isOpen = !isOpen">
+    <i class="fa-solid !m-0 text-grey" [ngClass]="isOpen ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+  </div>
+  <ul *ngIf="isOpen" class="m-0 p-0">
     <a [routerLink]="['dashboard']">
       <li [ngClass]="{'active': isActive === 'dashboard' }" (click)="setActive('dashboard')">
         <i class="fa-solid fa-house"></i>
@@ -19,7 +22,7 @@
       </li>
     </a>
   </ul>
-  <ul class="m-0 p-0">
+  <ul *ngIf="isOpen" class="m-0 p-0">
     <li class="text-grey cursor-pointer">
       <i class="fa-solid fa-gear"></i>
       <span>Settings</span>

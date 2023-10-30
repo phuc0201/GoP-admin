@@ -13,7 +13,7 @@ module.exports = {
         '1x': '0px 1px 3px 0px rgba(0,0,0,0.08), 0px 0px 0px 2px #f2f2f4',
       },
       colors: {
-        'primary': '#4a40e7',
+        'primary': '#5850e6',
         'white': '#fff',
         'white1': '#f1f1f5',
         'blue': '#4a40e7',

@@ -1,3 +1,9 @@
-<div class="p-4">
-  <p>circle-chart-card works!</p>
+<div id="chart" class="w-full h-full shadow-1x rounded-lg flex justify-center items-center">
+  <apx-chart
+    [series]="chartOptions.series!"
+    [chart]="chartOptions.chart!"
+    [plotOptions]="chartOptions.plotOptions!"
+    [labels]="chartOptions.labels!"
+    [stroke]="chartOptions.stroke!"
+  ></apx-chart>
 </div>

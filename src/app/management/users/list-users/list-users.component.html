@@ -1,0 +1,68 @@
+<div class="py-4 px-9">
+  <app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+  <div class="mb-4 flex items-end flex-col w-full">
+    <div class="flex">
+      <div class="mr-2">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input type="text" nz-input placeholder="Tiềm kiếm người dùng" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" nzSearch>
+            <span nz-icon nzType="search"></span>
+          </button>
+        </ng-template>
+      </div>
+      <button nz-button class="nz-btn-green">
+        <i class="fa-solid fa-plus mr-4"></i>Thêm mới
+      </button>
+    </div>
+  </div>
+  <nz-table
+  #rowSelectionTable
+  nzShowSizeChanger
+  [nzData]="listOfData"
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+  class="shadow-1x pt-4 px-4 rounded"
+  >
+    <thead>
+      <tr>
+        <th
+          [(nzChecked)]="checked"
+          [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="onAllChecked($event)"
+        ></th>
+        <th *ngFor="let item of listHeadTable">{{ item }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of rowSelectionTable.data">
+        <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+        <td>
+          <div class="relative w-12">
+            <img [src]="data.avatar" width="48" height="48">
+            <div class="absolute w-3 h-3 rounded-[50%] bottom-0 right-1" [ngClass]="data.active ? 'bg-green' : 'bg-red'"></div>
+          </div>
+        </td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.age }}</td>
+        <td>{{ data.address }}</td>
+        <td>
+          <nz-tag [nzColor]="data.role === 'driver' ? 'orange' : 'cyan'">{{ data.role }}</nz-tag>
+        </td>
+        <td>
+         <div class="flex justify-center items-center">
+          <a [routerLink]="data.id">
+            <button class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </a>
+          <button class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3" (click)="data.ban = !data.ban">
+            <i class="fa-solid" [ngClass]="data.ban ? 'fa-lock': 'fa-lock-open'"></i>
+          </button>
+         </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

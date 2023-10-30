@@ -1,0 +1,44 @@
+<div class="px-9 py-4">
+  <div class="max-w-xs mb-4 ">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" nz-input placeholder="Tiềm kiếm người dùng" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch>
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+  <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" class="shadow-1x pt-4 px-4 rounded">
+    <thead>
+      <tr>
+        <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+        <th *ngFor="let item of listHeadTable">{{ item }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of rowSelectionTable.data">
+        <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+        <td>{{ data.date }}</td>
+        <td>{{ data.customer_id }}</td>
+        <td>{{ data.driver_id }}</td>
+        <td>{{ data.source_address }}</td>
+        <td>{{ data.destiny_address }}</td>
+        <td>
+          {{ data.fare }} VND
+        </td>
+        <td>
+          <div class="flex justify-center items-center">
+            <a [routerLink]="['journey-details']">
+              <button
+                class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

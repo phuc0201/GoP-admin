@@ -1,21 +1,21 @@
-<div id="dashboard-page w-full">
-    <div nz-row  class="widget-chart-list">
-        <app-widget-chart-card nz-col nzSpan="6" [title]="'BOOK TRIPS'">
+<div id="dashboard-page" class="px-9 py-4">
+    <div nz-row [nzGutter]="20" class="mb-5">
+      <div  nz-col nzLg="6" nzMd="12" nzSm="12" nzXs="24" *ngFor="let dataItem of data">
+        <app-widget-chart-card [totalData]="dataItem.totalData" [percent]="dataItem.percent" [title]="dataItem.title">
         </app-widget-chart-card>
-        <app-widget-chart-card nz-col nzSpan="6" [title]="'CANCELLED TRIPS'">
-        </app-widget-chart-card>
-        <app-widget-chart-card nz-col nzSpan="6" [title]="'AVAILABLE TRANSPORTATION'">
-        </app-widget-chart-card>
-        <app-widget-chart-card nz-col nzSpan="6" [title]="'TOTAL EARNING'">
-        </app-widget-chart-card>
+      </div>
     </div>
-    <div nz-row>
-        <app-line-chart-card nz-col nzSpan="15"></app-line-chart-card>
-        <app-circle-chart-card nz-col nzSpan="9"></app-circle-chart-card>
+    <div nz-row nzGutter="20" class="mb-5">
+      <app-line-chart-card nz-col nzSpan="16"></app-line-chart-card>
+      <div nz-col nzSpan="8">
+        <app-circle-chart-card [percent]="80" [chartLabel]="'Active Drivers'"></app-circle-chart-card>
+      </div>
     </div>
 
-    <div>
-        <app-top-drivers></app-top-drivers>
-        <app-map></app-map>
+    <div nz-row nzGutter="20" class="mb-9 min-h-[500px]">
+      <app-map nz-col nzSpan="16"></app-map>
+      <app-top-drivers nz-col nzSpan="8"></app-top-drivers>
     </div>
 </div>
+
+

@@ -6,6 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./widget-chart-card.component.scss']
 })
 export class WidgetChartCardComponent {
-  @Input() title: string='';
+  @Input() title: string = '';
+  @Input() percent: number = 0;
+  @Input() totalData: string = '';
   constructor(){}
 }
