@@ -6,5 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./journey-details.component.scss']
 })
 export class JourneyDetailsComponent {
-
+  dataUsers = [
+    {
+      name: 'Phuc',
+      phone: '0987654321',
+      avatar: 'assets/img/avt.jpg',
+      role: 'driver'
+    },
+    {
+      name: 'Phuoc',
+      phone: '0987654321',
+      avatar: 'assets/img/avt.jpg',
+      role: 'customer'
+    }
+  ]
 }

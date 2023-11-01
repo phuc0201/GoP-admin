@@ -8,11 +8,14 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { JourneyDetailsComponent } from './journey-details/journey-details.component';
 import { JourneysRoutingModule } from './journeys-routing.module';
 import { ListJourneysComponent } from './list-journeys/list-journeys.component';
-
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { JourneyMapComponent } from './journey-map/journey-map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 @NgModule({
   declarations: [
     JourneyDetailsComponent,
     ListJourneysComponent,
+    JourneyMapComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +24,9 @@ import { ListJourneysComponent } from './list-journeys/list-journeys.component';
     NzTableModule,
     NzInputModule,
     NzIconModule,
-    NzButtonModule
+    NzButtonModule,
+    NzGridModule,
+    LeafletModule
   ]
 })
 export class JourneysModule { }

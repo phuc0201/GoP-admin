@@ -17,10 +17,12 @@ module.exports = {
         'white': '#fff',
         'white1': '#f1f1f5',
         'blue': '#4a40e7',
+        'blue1': '#e9eeff',
         'red': '#ef5350',
         'red1': '#ef3e3e',
         'green': '#42cd74',
         'grey': '#717176',
+        'orange1': '#ff7903',
       }
     },
     fontFamily: {

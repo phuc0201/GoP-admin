@@ -17,7 +17,7 @@ interface ItemData {
   styleUrls: ['./list-users.component.scss']
 })
 export class ListUsersComponent implements OnInit{
-  listHeadTable = ['Avatar' ,'Name', 'Age', 'Address', 'Role', 'Action'];
+  listHeadTable = ['Avatar' ,'Name', 'Email', 'Age', 'Address', 'Role', 'Action'];
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
@@ -55,9 +55,11 @@ export class ListUsersComponent implements OnInit{
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
-
+  onPageChange(index: number) {
+    console.log('Chuyển đến trang', index);
+  }
   ngOnInit(): void {
-    this.listOfData = new Array(200).fill(0).map((_, index) => ({
+    this.listOfData = new Array(5).fill(0).map((_, index) => ({
       id: index.toString(),
       name: `Edward King ${index}`,
       avatar:'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',

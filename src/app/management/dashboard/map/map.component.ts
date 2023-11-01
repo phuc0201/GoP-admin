@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit{
+export class MapComponent implements OnInit, OnDestroy{
   private map!: L.Map;
   private initMap(): void {
     this.map = L.map('map', {
@@ -22,5 +22,8 @@ export class MapComponent implements OnInit{
 
   ngOnInit(): void {
     this.initMap();
+  }
+  ngOnDestroy(): void {
+    this.map.remove();
   }
 }

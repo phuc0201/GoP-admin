@@ -1,20 +1,15 @@
 <div class="py-4 px-9">
   <app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
   <div class="mb-4 flex items-end flex-col w-full">
-    <div class="flex">
-      <div class="mr-2">
-        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input type="text" nz-input placeholder="Tiềm kiếm người dùng" />
-        </nz-input-group>
-        <ng-template #suffixIconButton>
-          <button nz-button nzType="primary" nzSearch>
-            <span nz-icon nzType="search"></span>
-          </button>
-        </ng-template>
-      </div>
-      <button nz-button class="nz-btn-green">
-        <i class="fa-solid fa-plus mr-4"></i>Thêm mới
-      </button>
+    <div>
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input type="text" nz-input placeholder="Tiềm kiếm người dùng" />
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch>
+          <span nz-icon nzType="search"></span>
+        </button>
+      </ng-template>
     </div>
   </div>
   <nz-table
@@ -22,6 +17,9 @@
   nzShowSizeChanger
   [nzData]="listOfData"
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+  (nzPageIndexChange)="onPageChange($event)"
+  [nzFrontPagination]="false"
+  [nzTotal]="200"
   class="shadow-1x pt-4 px-4 rounded"
   >
     <thead>
@@ -52,7 +50,7 @@
         </td>
         <td>
          <div class="flex justify-center items-center">
-          <a [routerLink]="data.id">
+          <a [routerLink]="[data.id]">
             <button class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
               <i class="fa-regular fa-eye"></i>
             </button>

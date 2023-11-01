@@ -1,1 +1,86 @@
-<div class="px-9 py-4"></div>
+<div class="px-9 py-4">
+  <div nz-row nzGutter="30">
+    <div nz-col nzSpan="24" nzMd="15" class="p-5 flex flex-col">
+      <div nz-row nzGutter="20">
+        <div nz-col nzSpan="12" *ngFor="let data of dataUsers">
+          <div class="p-3 flex justify-between items-center border border-solid border-gray-300 rounded-[20px]">
+            <div class="flex items-center gap-3">
+              <div class="rounded-[20px] w-16 h-16 overflow-hidden">
+                <img [src]="data.avatar" class="rounded-[20px] w-full h-auto">
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xl font-bold">{{ data.name }}</span>
+                <nz-tag [nzColor]="data.role === 'driver' ? 'orange' : 'cyan'">{{ data.role }}</nz-tag>
+              </div>
+            </div>
+            <div class="bg-orange1 rounded-[20px] w-14 h-14 flex justify-center items-center cursor-pointer">
+              <i class="fa-solid fa-phone text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative flex-1 mt-5">
+        <app-journey-map></app-journey-map>
+      </div>
+    </div>
+    <div nz-col nzSpan="24" nzMd="9" class="p-5">
+      <div class="p-3 bg-white shadow-1x rounded-[20px]">
+        <img src="assets/img/car.jpg" class="w-full h-auto rounded-[20px]">
+      </div>
+      <div class="flex justify-between items-center mt-5">
+        <div class="flex flex-col">
+          <span class="text-2xl font-bold">Porsche</span>
+          <span class="text-sm text-gray-400">
+            <i class="fa-solid fa-location-dot"></i>
+            128 Trần Quang Khải, P. Tân Định, Q1, TP HCM
+          </span>
+        </div>
+        <div class="shadow-1x p-3 rounded bg-[#fff]">
+          <span class="text-base text-primary font-bold">100$</span>
+        </div>
+      </div>
+      <div class="mt-5">
+        <div class="text-xl font-medium">Trip details</div>
+        <div class="flex gap-4 mt-3">
+          <div class="bg-blue1 p-2 text-blue rounded">
+            <i class="fa-regular fa-map"></i>
+            50km
+          </div>
+          <div class="bg-blue1 p-2 text-blue rounded">
+            <i class="fa-regular fa-clock"></i>
+            30m
+          </div>
+          <div class="bg-blue1 p-2 text-blue rounded">
+            <i class="fa-solid fa-car"></i>
+            4 sit
+          </div>
+        </div>
+      </div>
+      <div class="flex mt-5 gap-5">
+        <div class="flex flex-col items-center justify-between py-3">
+          <div class="w-4 h-4 rounded-[50%] border border-solid border-gray-300 p-[2px] relative">
+            <div class="absolute w-[2px] h-[61px] top-[100%] left-[50%] -translate-x-[50%] bg-gray-300"></div>
+            <div class="w-full h-full bg-primary rounded-[50%]"></div>
+          </div>
+          <div>
+            <i class="fa-solid fa-location-dot text-base text-primary"></i>
+          </div>
+        </div>
+        <div class="flex flex-col gap-3">
+          <div class="flex flex-col border border-x-0 border-t-0 border-solid border-gray-200 pb-3">
+            <span class="text-xl font-medium">Điểm đón</span>
+            <span class="text-sm text-gray-400">
+              128 Trần Quang Khải, P. Tân Định, Q1, TP HCM
+            </span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-medium">Điểm đến</span>
+            <span class="text-sm text-gray-400">
+              325 Trần Quang Khải, P. Tân Định, Q1, TP HCM
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
