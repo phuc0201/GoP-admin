@@ -4,15 +4,30 @@
             <img src="../../../../assets/logo/taxi-logo.png" alt="logo" width="108" height="36">
         </div>
     </div>
-    <div class="header-item right">
-        <div class="right-item email">
-            <mat-icon>mail_outline</mat-icon>
+    <div class="header-item right items-center">
+      <div class="flex justify-center items-center cursor-pointer mr-4 w-12 h-12 relative">
+        <i class="fa-brands fa-facebook-messenger text-black opacity-80 text-2xl absolute  top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]" (click)="openChatList = !openChatList"></i>
+        <div class="w-full h-full bg-gray-300 rounded-[50%]" (click)="openChatList = !openChatList"></div>
+        <div *ngIf="openChatList" class="z-20 absolute mt-2 top-full right-0 w-80 overflow-y-auto scroll-smooth focus:scroll-auto max-h-[80vh] bg-white shadow-3x rounded-lg p-3 transition-all">
+          <div>
+            <input type="text" placeholder="Tìm kiếm người dùng" class="outline-none rounded-[20px] bg-gray-100 px-4 py-1 w-full mb-3">
+          </div>
+          <div *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]">
+            <div class="flex items-center p-2 hover:bg-gray-100 cursor-pointer rounded-lg" (click)="openChatBox(item.toString())">
+              <div class="w-14 h-14 min-w-[56px] rounded-[50%] overflow-hidden mr-3">
+                <img src="assets/img/avt.jpg" class="w-full h-auto">
+              </div>
+              <div>
+                <span class="text-sm font-medium">Trịnh Hoàng Phúc</span>
+                <span class="line-clamp-1 text-sm text-gray-500">Bạn: m chở khách đi đâu z m chở khách đi đâu z m chở khách đi đâu z</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="right-item notifications">
-            <mat-icon>notifications</mat-icon>
-        </div>
-        <div class="right-item user-avatar">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="user" width="48" height="48">
-        </div>
+      </div>
+      <div class="right-item user-avatar">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="user" width="48" height="48">
+      </div>
     </div>
 </header>
+<app-chat-box *ngIf="isOpenChatBox" (closeChatBox)="closeChatBox($event)"></app-chat-box>

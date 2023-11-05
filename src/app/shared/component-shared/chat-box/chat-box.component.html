@@ -1,0 +1,39 @@
+<div class="fixed bottom-0 right-14 z-50 w-80">
+  <div class="shadow-3x h-[400px] bg-white rounded-t-xl flex flex-col justify-between">
+    <div class="flex items-center justify-between p-2 shadow-4x">
+      <div class="flex items-center">
+        <div class="w-10 h-10 min-w-[40px] rounded-[50%] overflow-hidden mr-3">
+          <img src="assets/img/avt.jpg" class="w-full h-auto">
+        </div>
+        <span class="text-sm font-medium">Trịnh Hoàng Phúc</span>
+      </div>
+      <i class="fa-solid fa-xmark text-primary text-xl cursor-pointer" (click)="toggleChatBox()"></i>
+    </div>
+    <div class="list-message flex-1 p-2 overflow-y-auto scroll-smooth focus:scroll-auto"  #messageContainer [scrollTop]="messageContainer.scrollHeight">
+      <div *ngFor="let item of chatData.messages">
+        <div *ngIf="item.userID === chatData.freindID" class="flex items-end mt-1">
+          <div class="w-8 h-8 min-w-[32px] rounded-[50%] overflow-hidden mr-2">
+            <img src="assets/img/avt.jpg" class="w-full h-auto">
+          </div>
+          <span class="text-sm bg-gray-300 p-3 rounded-tl-2xl rounded-br-2xl max-w-[65%] break-words">
+            {{item.message}}
+          </span>
+        </div>
+        <div *ngIf="item.userID !== chatData.freindID" class="flex flex-row-reverse items-end w-full mt-1">
+          <div class="w-8 h-8 min-w-[32px] rounded-[50%] overflow-hidden ">
+            <img src="assets/img/avt.jpg" class="w-full h-auto">
+          </div>
+          <span class="text-sm bg-primary text-white p-3 rounded-tr-2xl rounded-bl-2xl max-w-[65%] break-words mr-2">
+            {{item.message}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center p-2">
+      <input type="text" placeholder="Aa" class="flex-1 bg-gray-200 rounded-2xl py-2 px-5 outline-none mr-2"  (keydown.enter)="addMessage()" [(ngModel)]="messageInput"/>
+      <div class="flex items-center cursor-pointer" (click)="addMessage()">
+        <mat-icon class=" text-primary">send</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

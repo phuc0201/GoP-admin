@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./management-header.component.scss']
 })
 export class ManagementHeaderComponent {
-
+  openChatList = false;
+  isOpenChatBox = false;
+  openChatBox(userID: string){
+    this.openChatList = false;
+    this.isOpenChatBox = true;
+    console.log(userID)
+  }
+  closeChatBox(isCloseChatBox: boolean){
+    this.isOpenChatBox = !isCloseChatBox;
+  }
 }

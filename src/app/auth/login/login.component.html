@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div class="flex justify-center items-center">
+  <div>
+    <img src="assets/img/bg-login.jpg" class="w-full h-full">
+  </div>
+  <div>
+    <form nz-form [formGroup]="validateForm" class="login-form max-w-[300px]" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row class="login-form-margin mb-4 items-center">
+        <div nz-col [nzSpan]="12">
+          <label nz-checkbox formControlName="remember">
+            <span>Remember me</span>
+          </label>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <a class="login-form-forgot float-right">Forgot password</a>
+        </div>
+      </div>
+      <button nz-button class="login-form-button login-form-margin mb-2 w-full" [nzType]="'primary'">Log in</button>
+      Or
+      <a>register now!</a>
+    </form>
+
+  </div>
+</div>

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { ChatBoxComponent } from 'src/app/shared/component-shared/chat-box/chat-box.component';
 @NgModule({
   declarations: [
     ManagementLayoutComponent,
@@ -18,7 +19,8 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
     RouterModule,
     MatIconModule,
     NzGridModule,
-    NzLayoutModule
+    NzLayoutModule,
+    ChatBoxComponent
   ],
   exports: [],
   providers: [],
