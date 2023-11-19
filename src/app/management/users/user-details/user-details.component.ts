@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { URLConstant } from 'src/app/core/constants/url.constant';
+import { IOrder } from 'src/app/core/model/management/order.model';
 import { BreadCrumb } from 'src/app/shared/widget/breadcrumb/breadcrumb.model';
-import { IOrder } from 'src/app/core/model/order.model';
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss']
 })
-export class UserDetailsComponent implements OnInit{
+export class UserDetailsComponent implements OnInit {
   breadcrumbObj: BreadCrumb = new BreadCrumb({
     heading: 'Details',
     listBreadcrumb: [
@@ -18,7 +18,7 @@ export class UserDetailsComponent implements OnInit{
       },
     ],
   });
-  listHeadTable = ['Date' ,'DriverID', 'SourceAddress', 'DestinyAddress', 'Fare', 'Action'];
+  listHeadTable = ['Date', 'DriverID', 'SourceAddress', 'DestinyAddress', 'Fare', 'Action'];
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly IOrder[] = [];

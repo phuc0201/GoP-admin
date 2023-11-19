@@ -1,1 +1,114 @@
-<p>register works!</p>
+<div class="h-[100vh] w-full bg-white1 flex justify-center">
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" class="w-full max-w-[1200px] bg-white p-5 shadow-3x flex flex-col items-center mt-5">
+    <div class="capitalize text-2xl font-bold my-5">đăng ký đối tác tài xế</div>
+    <div nz-row nzGutter="40" class="w-full">
+      <div nz-col nzSpan="24" nzLg="15" class="lg:border-y-0 lg:border-l-0 lg:border border-0 border-gray-300">
+        <nz-form-item nzFlex>
+          <nz-form-control
+          [nzErrorTip]="'Vui lòng nhập địa chỉ!'"
+          [nzHasFeedback]="form.controls.address.valid">
+            <input
+              type="text"
+              nz-input
+              formControlName="address"
+              placeholder="address"
+              class="p-2"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select formControlName="vehicle" [ngModel]="'Xe máy'" nzSize="large">
+              <nz-option nzValue="Xe máy" nzLabel="Xe máy"></nz-option>
+              <nz-option nzValue="Ô tô 4 chỗ" nzLabel="Ô tô 4 chỗ"></nz-option>
+              <nz-option nzValue="Ô tô 6 chỗ" nzLabel="Ô tô 6 chỗ"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+          <nz-form-control
+          [nzErrorTip]="'Vui lòng nhập họ và tên!'"
+          [nzHasFeedback]="form.controls.fullname.valid">
+            <input
+            type="text"
+            nz-input
+            formControlName="fullname"
+            placeholder="name"
+            class="p-2"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+          <nz-form-control
+          [nzErrorTip]="'Vui lòng nhập email'"
+          [nzHasFeedback]="form.controls.email.valid">
+            <input
+            type="text"
+            nz-input
+            formControlName="email"
+            placeholder="email"
+            class="p-2"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+          <nz-form-control
+          [nzErrorTip]="'Vui lòng nhập password'"
+          [nzHasFeedback]="form.controls.password.valid">
+            <nz-input-group nzPrefixIcon="lock" nzSize="large" [nzAddOnAfter]="addOnAfterEyeIcon">
+              <input [type]="hidePassword ? 'password' : 'text'"
+              nz-input
+              formControlName="password"
+              placeholder="password"
+              class="p-2" />
+              <ng-template #addOnAfterEyeIcon>
+                <div class="flex items-center cursor-pointer" (click)="hidePassword = !hidePassword">
+                  <span nz-icon [nzType]="hidePassword ? 'eye': 'eye-invisible'" nzTheme="outline" class="text-lg"></span>
+                </div>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <div nz-row nzGutter="20" class="items-center">
+          <div nz-col nzSpan="16">
+            <nz-form-item>
+              <nz-form-control
+              [nzHasFeedback]="form.controls.phoneNumber.valid && verifyOTP"
+              nzSpan="24">
+                <nz-input-group nzSize="large" [nzAddOnAfter]="addOnAfterTemplate">
+                  <ng-template #addOnBeforeTemplate>
+                    <nz-select class="phone-select !w-20" formControlName="" [ngModel]="'+84'">
+                      <nz-option nzLabel="+84" nzValue="+84"></nz-option>
+                    </nz-select>
+                  </ng-template>
+                  <ng-template #addOnAfterTemplate>
+                    <div formControlName="verify-otp" class="cursor-pointer text-gray-400" (click)="showModal()">
+                      <span>
+                        Gửi mã
+                      </span>
+                    </div>
+                  </ng-template>
+                  <input formControlName="phoneNumber" placeholder="phone" nz-input/>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="8">
+            <nz-form-item>
+              <nz-form-control>
+                <nz-date-picker formControlName="birthDate" nzSize="large" class="w-full"></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <button nz-button class="mb-2 w-full" [nzType]="'primary'">Sign in</button>
+      </div>
+      <div nz-col nzSpan="24" nzLg="9" class="">
+
+      </div>
+    </div>
+  </form>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Verify OTP" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <ng-otp-input class="flex justify-center" (onInputChange)="onOtpChange($event)"  [config]="{length:6}"></ng-otp-input>
+  </ng-container>
+</nz-modal>

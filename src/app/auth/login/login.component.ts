@@ -1,26 +1,48 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { URLConstant } from 'src/app/core/constants/url.constant';
+import { ILoginDTO } from 'src/app/core/model/auth/auth.model';
+import { MakeForm } from 'src/app/core/model/common/make-form.model';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-  validateForm: FormGroup<{
-    userName: FormControl<string>;
-    password: FormControl<string>;
-    remember: FormControl<boolean>;
-  }> = this.fb.group({
-    userName: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    remember: [true]
-  });
+export class LoginComponent implements OnInit {
 
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach(control => {
+  formLogin!: FormGroup<MakeForm<ILoginDTO>>;
+
+  createFormGroupLogin(): void {
+    this.formLogin = this.fb.nonNullable.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      remember: [true],
+    });
+  }
+
+  onLoginWithForm(): void {
+    if (this.formLogin.valid) {
+      this.spinner.show();
+      this.authSvc.doLoginForm(this.formLogin.value)
+        .subscribe({
+          next: res => {
+            if (res) {
+              this.authSvc.setToken(res?.accessToken ?? '');
+             // delete res.accessToken;
+              this.authSvc.setAuthData(res);
+              this.router.navigateByUrl(URLConstant.ROUTE.ADMINISTRATION.DASHBOARD);
+            } else {
+              this.toast.error({ detail: "ERROR", summary: 'Đăng nhập thất bại', duration: 3000, position: 'topRight' });
+            }
+          },
+        });
+    }
+    else {
+      Object.values(this.formLogin.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
@@ -28,5 +50,15 @@ export class LoginComponent {
       });
     }
   }
-  constructor(private fb: NonNullableFormBuilder) {}
+
+  ngOnInit(): void {
+    this.createFormGroupLogin();
+  }
+  constructor(
+    private fb: FormBuilder,
+    private toast: NgToastService,
+    private spinner: NgxSpinnerService,
+    private authSvc: AuthService,
+    private router: Router,
+  ) { }
 }

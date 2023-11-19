@@ -11,6 +11,11 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NgOtpInputModule } from  'ng-otp-input'
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -25,7 +30,12 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzInputModule,
     NzButtonModule,
     ReactiveFormsModule,
-    NzCheckboxModule
-  ]
+    NzCheckboxModule,
+    NzSelectModule,
+    NzIconModule,
+    NzModalModule,
+    NgOtpInputModule,
+    NzDatePickerModule
+  ],
 })
 export class AuthModule { }

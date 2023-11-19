@@ -25,12 +25,15 @@
 
 body {
     background-color: #fff;
-    /* font-family: "Roboto", sans-serif; */
 }
 button {
   outline: none;
   border: none;
 }
-
-
+p{
+  margin: 0 !important;
+}
+.ng-toast #close{
+  align-self: center !important;
+}
 html, body { height: 100%; }

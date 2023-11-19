@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { IOrder } from 'src/app/core/model/order.model';
+import { IOrder } from 'src/app/core/model/management/order.model';
 
 @Component({
   selector: 'app-list-journeys',
   templateUrl: './list-journeys.component.html',
   styleUrls: ['./list-journeys.component.scss']
 })
-export class ListJourneysComponent implements OnInit{
-  listHeadTable = ['Date' ,'CusID', 'DriverID', 'SourceAddress', 'DestinyAddress', 'Fare', 'Action'];
+export class ListJourneysComponent implements OnInit {
+  listHeadTable = ['Date', 'CusID', 'DriverID', 'SourceAddress', 'DestinyAddress', 'Fare', 'Action'];
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly IOrder[] = [];
