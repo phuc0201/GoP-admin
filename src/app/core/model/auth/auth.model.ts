@@ -1,13 +1,9 @@
 export interface IAuthData {
-  avatar: string;
   accessToken?: string;
   refreshToken?: string;
-  expired: number;
-  roles: string[];
-  fullName: string;
 }
 export interface ILoginDTO {
-  email: string;
+  username: string;
   password: string;
   remember: boolean;
 }

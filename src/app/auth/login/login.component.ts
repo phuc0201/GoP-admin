@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
 
   createFormGroupLogin(): void {
     this.formLogin = this.fb.nonNullable.group({
-      email: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required]],
       remember: [true],
     });
@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
           next: res => {
             if (res) {
               this.authSvc.setToken(res?.accessToken ?? '');
-             // delete res.accessToken;
               this.authSvc.setAuthData(res);
               this.router.navigateByUrl(URLConstant.ROUTE.ADMINISTRATION.DASHBOARD);
             } else {

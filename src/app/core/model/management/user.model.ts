@@ -1,12 +1,10 @@
 export interface IUser {
   id: string;
   fullname: string;
-  email: string;
-  location: [{
-    lat: number,
-    long: number
-  }],
-  accessToken: string;
+  location: [],
   refreshToken: string;
   avatar: string;
+  phone: string;
+  createdAt: string;
+  updatedAt: string;
 }

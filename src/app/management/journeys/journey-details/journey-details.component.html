@@ -13,7 +13,7 @@
                 <nz-tag [nzColor]="data.role === 'driver' ? 'orange' : 'cyan'">{{ data.role }}</nz-tag>
               </div>
             </div>
-            <div class="bg-orange1 rounded-[20px] w-14 h-14 flex justify-center items-center cursor-pointer">
+            <div class="bg-orange1 rounded-[20px] w-14 h-14 flex justify-center items-center cursor-pointer" (click)="makeCall('0328614013')">
               <i class="fa-solid fa-phone text-white"></i>
             </div>
           </div>

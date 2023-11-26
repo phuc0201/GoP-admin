@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { catchError, switchMap, throwError } from 'rxjs';
+import { IAuthData } from 'src/app/core/model/auth/auth.model';
 import { MakeForm } from 'src/app/core/model/common/make-form.model';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 
 export interface IUserDTO{
@@ -91,6 +94,7 @@ export class RegisterComponent implements OnInit{
   constructor(
       private fb: FormBuilder,
       private toast: NgToastService,
+      private authSvc: AuthService,
     ){}
   ngOnInit(): void {
     this.createForm();

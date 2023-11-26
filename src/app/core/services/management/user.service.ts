@@ -12,9 +12,12 @@ import { AuthService } from '../auth/auth.service';
 })
 export class UserService {
 
-  private apiUrl = URLConstant.API.ADMIN + URLConstant.ROUTE.ADMINISTRATION.USERS;
+  private apiUrl = URLConstant.API.ADMIN.ENDPOINT + URLConstant.API.ROLE.ADMIN + URLConstant.API.ADMIN.ROUTE.USERS;
 
-  headers = new HttpHeaders().set('Authorization', `Bearer ${this.authSvc.getToken()}`);
+  // headers = new HttpHeaders({
+  //   'Content-Type': 'application/json',
+  //   'Authorization': `Bearer ${this.authSvc.getToken()}`,
+  // });
 
   constructor(
     private http: HttpClient,
@@ -22,30 +25,29 @@ export class UserService {
   ) { }
 
   getAll(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(this.apiUrl, { headers: this.headers });
+    return this.http.get<IUser[]>(this.apiUrl);
   }
 
   getById(id: string): Observable<IUser[]> {
-    return this.http.get<IUser[]>(this.apiUrl + `/${id}`, { headers: this.headers });
+    return this.http.get<IUser[]>(this.apiUrl + `/${id}`);
   }
 
   getAllPaging(
     page: number,
     size: number,
-    search?: string,
-    sort?: string,
-    column?: string): Observable<IPagedResults<IUser>> {
+    fullname?: string,
+    phone?: string): Observable<IPagedResults<IUser>> {
     const params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString())
-      .set('search', search ?? '')
-      .set('sort', sort ?? '')
-      .set('column', column ?? '');
+      .set('limit', size.toString())
+      .set('fullname', fullname ?? '')
+      .set('phone', phone ?? '');
 
-    return this.http.get<IPagedResults<IUser>>(this.apiUrl + '/filter', { params });
+    return this.http.get<IPagedResults<IUser>>(this.apiUrl + '/filter', { params});
   }
 
   banAccount(id: string): Observable<IUser> {
-    return this.http.put<IUser>(this.apiUrl + `/${id}`, { headers: this.headers });
+    const updatedData = { banned: true };
+    return this.http.put<IUser>(this.apiUrl + `/${id}`, updatedData);
   }
 }

@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./journey-details.component.scss']
 })
 export class JourneyDetailsComponent {
+
+
   dataUsers = [
     {
       name: 'Phuc',
@@ -20,4 +22,10 @@ export class JourneyDetailsComponent {
       role: 'customer'
     }
   ]
+  makeCall(phoneNumber: string) {
+
+  }
+
+  constructor() {
+  }
 }

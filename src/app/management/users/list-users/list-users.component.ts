@@ -1,27 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { NgToastService } from 'ng-angular-popup';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IUser } from 'src/app/core/model/management/user.model';
+import { UserService } from 'src/app/core/services/management/user.service';
 import { BreadCrumb } from 'src/app/shared/widget/breadcrumb/breadcrumb.model';
-interface ItemData {
-  id: string;
-  avatar: string;
-  name: string;
-  email: string,
-  age: number;
-  address: string;
-  role: string;
-  ban: boolean;
-  active: boolean;
-}
+import { Paginate } from 'src/app/shared/widget/paginate/paginate.model';
+
 @Component({
   selector: 'app-list-users',
   templateUrl: './list-users.component.html',
   styleUrls: ['./list-users.component.scss']
 })
 export class ListUsersComponent implements OnInit{
-  listHeadTable = ['Avatar' ,'Name', 'Email', 'Age', 'Address', 'Role', 'Action'];
+  listHeadTable = ['Avatar' ,'Name', 'Phone', 'Address', 'Action'];
   checked = false;
   indeterminate = false;
-  listOfCurrentPageData: readonly ItemData[] = [];
-  listOfData: readonly ItemData[] = [];
+  listOfCurrentPageData: readonly IUser[] = [];
+  listOfData = new Paginate<IUser>();
   setOfCheckedId = new Set<string>();
 
   breadcrumbObj: BreadCrumb = new BreadCrumb({
@@ -46,7 +41,7 @@ export class ListUsersComponent implements OnInit{
     this.refreshCheckedStatus();
   }
 
-  onCurrentPageDataChange($event: readonly ItemData[]): void {
+  onCurrentPageDataChange($event: readonly IUser[]): void {
     this.listOfCurrentPageData = $event;
     this.refreshCheckedStatus();
   }
@@ -58,17 +53,26 @@ export class ListUsersComponent implements OnInit{
   onPageChange(index: number) {
     console.log('Chuyển đến trang', index);
   }
-  ngOnInit(): void {
-    this.listOfData = new Array(5).fill(0).map((_, index) => ({
-      id: index.toString(),
-      name: `Edward King ${index}`,
-      avatar:'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-      email:'phuc@gmail.com',
-      age: 32,
-      address: `London, Park Lane no. ${index}`,
-      role: index % 2 == 0 ? 'customer' : 'driver',
-      ban: index % 2 == 0 ? true : false,
-      active: index % 2 == 0 ? true : false
-    }));
+  getDataPaging(isSearch?: boolean): void {
+    this.userSvc.getAllPaging(1, 10)
+    .subscribe({
+      next: res => {
+        if(res){
+          this.listOfData.data = res.content
+          console.log(res.content)
+        }
+        else {
+          this.toast.error({ detail: "ERROR", summary: 'Đăng nhập thất bại', duration: 3000, position: 'topRight' });
+        }
+      }
+    })
   }
+  ngOnInit(): void {
+    this.getDataPaging();
+  }
+  constructor(
+    private userSvc: UserService,
+    private toast: NgToastService,
+    private spinner: NgxSpinnerService,
+  ){}
 }

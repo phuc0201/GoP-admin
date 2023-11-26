@@ -2,17 +2,21 @@ import { environment } from "src/environments/environment";
 
 export const URLConstant = {
   API: {
+    ROLE:{
+      ADMIN: '/admin'
+    },
     ADMIN: {
-      ENDPOINT: environment.serverUrl,
+      ENDPOINT: environment.serverTestUrl,
       AUTH: {
-        LOGIN: '/auth/login',
+        LOGIN: '/auth/admin/signin',
+        LOGOUT: '/auth/admin/logout',
         REGISTER: '/auth/register',
       },
       ROUTE: {
         ADMIN_PROFILE: '/profile',
         DASHBOARD: '/dashboard',
         USERS: '/users',
-        JOURNEYS: '/journeys'
+        JOURNEYS: '/orders'
       },
     }
   },

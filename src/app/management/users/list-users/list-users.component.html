@@ -3,7 +3,7 @@
   <div class="mb-4 flex items-end flex-col w-full">
     <div>
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-        <input type="text" nz-input placeholder="Tiềm kiếm người dùng" />
+        <input type="text" nz-input placeholder="Tìm kiếm người dùng" />
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch>
@@ -15,7 +15,7 @@
   <nz-table
   #rowSelectionTable
   nzShowSizeChanger
-  [nzData]="listOfData"
+  [nzData]="listOfData.data"
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
   (nzPageIndexChange)="onPageChange($event)"
   [nzFrontPagination]="false"
@@ -36,18 +36,17 @@
       <tr *ngFor="let data of rowSelectionTable.data">
         <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
         <td>
-          <div class="relative w-12">
+          <div class="relative w-12 h-12 rounded-[50%] overflow-hidden bg-black flex items-center justify-center">
             <img [src]="data.avatar" width="48" height="48">
-            <div class="absolute w-3 h-3 rounded-[50%] bottom-0 right-1" [ngClass]="data.active ? 'bg-green' : 'bg-red'"></div>
+            <!-- <div class="absolute w-3 h-3 rounded-[50%] bottom-0 right-1" [ngClass]="data.active ? 'bg-green' : 'bg-red'"></div> -->
           </div>
         </td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.email }}</td>
-        <td>{{ data.age }}</td>
-        <td>{{ data.address }}</td>
-        <td>
+        <td>{{ data.fullname }}</td>
+        <td>{{ data.phone }}</td>
+        <td>{{ data.location}}</td>
+        <!-- <td>
           <nz-tag [nzColor]="data.role === 'driver' ? 'orange' : 'cyan'">{{ data.role }}</nz-tag>
-        </td>
+        </td> -->
         <td>
          <div class="flex justify-center items-center">
           <a [routerLink]="[data.id]">
@@ -55,9 +54,9 @@
               <i class="fa-regular fa-eye"></i>
             </button>
           </a>
-          <button class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3" (click)="data.ban = !data.ban">
+          <!-- <button class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3" (click)="data.ban = !data.ban">
             <i class="fa-solid" [ngClass]="data.ban ? 'fa-lock': 'fa-lock-open'"></i>
-          </button>
+          </button> -->
          </div>
         </td>
       </tr>
