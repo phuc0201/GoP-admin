@@ -1,13 +1,29 @@
-export interface IOrder{
+import { IDriver } from "./driver.model";
+import { ILocation } from "./location.model";
+import { OrderStatus } from "./order-status.model";
+import { IUser } from "./user.model";
+
+export interface IOrder {
   id: number,
-  date: string,
-  customer_id: string,
-  driver_id: string,
-  source_lat: number,
-  source_long: number,
-  destiny_lat: number,
-  destiny_long: number,
+  orderStatus: OrderStatus,
+  orderTotal: number,
+  source_location: ILocation,
+  destination_location: ILocation,
   source_address: string,
-  destiny_address: string,
-  fare: number,
+  destination_address: string,
+  driver: IDriver,
+  user: IUser;
+}
+export interface IStatistics {
+  totalOrder: number,
+  orderPercentageChange: number,
+  totalEarning: number,
+  earningPercentageChange: number,
+  totalOrderCancelled: number,
+  cancelledPercentageChange: number,
+}
+export class StatisticsCard {
+  title: string = '';
+  percent: number = 0;
+  totalData: number = 0;
 }

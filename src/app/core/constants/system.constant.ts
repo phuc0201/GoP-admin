@@ -12,6 +12,13 @@ export class SystemConstant {
     VIEW: 'VIEW',
   };
 
+  public static STATISTICS_TITLE = {
+    BOOK_TRIPS: 'BOOK TRIPS',
+    CANCELLED_TRIPS: 'CANCELLED TRIPS',
+    AVAILABLE_VEHICLE: 'AVAILABLE VEHICLE',
+    TOTAL_EARNING: 'TOTAL EARNING'
+  }
+
   public static MNG_ROLE = {
     ADMIN: 'ROLE_ADMIN',
   };

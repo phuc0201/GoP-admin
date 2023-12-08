@@ -1,9 +1,8 @@
 export interface IPagedResults<T> {
   content: T[];
   totalElements: number;
-  offset: number;
   currentPage: number;
-  pageSize: number;
+  totalPage: number;
 }
 export interface ISort {
   empty: boolean;

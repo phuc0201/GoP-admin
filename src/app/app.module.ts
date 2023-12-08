@@ -14,6 +14,7 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -29,7 +30,7 @@ registerLocaleData(en);
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
-    NgToastModule
+    NgToastModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

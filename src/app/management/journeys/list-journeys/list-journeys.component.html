@@ -20,13 +20,13 @@
     <tbody>
       <tr *ngFor="let data of rowSelectionTable.data">
         <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-        <td>{{ data.date }}</td>
-        <td>{{ data.customer_id }}</td>
-        <td>{{ data.driver_id }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td>{{ data.source_address }}</td>
-        <td>{{ data.destiny_address }}</td>
+        <td>{{ data.destination_address }}</td>
         <td>
-          {{ data.fare }} VND
+          {{ data.orderTotal }} VND
         </td>
         <td>
           <div class="flex justify-center items-center">

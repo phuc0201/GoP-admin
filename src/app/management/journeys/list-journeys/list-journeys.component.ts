@@ -43,18 +43,18 @@ export class ListJourneysComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listOfData = new Array(200).fill(0).map((_, index) => ({
-      id: index,
-      date: '28/10/2023',
-      customer_id: '1adasdasdasda',
-      driver_id: 'awdsdsdcdvdbdfvdf',
-      source_lat: 1,
-      source_long: 1,
-      destiny_lat: 1,
-      destiny_long: 1,
-      source_address: 'Tp Hồ Chí Minh',
-      destiny_address: 'Tp Cần Thơ',
-      fare: 1000,
-    }));
+    // this.listOfData = new Array(200).fill(0).map((_, index) => ({
+    //   id: index,
+    //   date: '28/10/2023',
+    //   customer_id: '1adasdasdasda',
+    //   driver_id: 'awdsdsdcdvdbdfvdf',
+    //   source_lat: 1,
+    //   source_long: 1,
+    //   destiny_lat: 1,
+    //   destiny_long: 1,
+    //   source_address: 'Tp Hồ Chí Minh',
+    //   destiny_address: 'Tp Cần Thơ',
+    //   fare: 1000,
+    // }));
   }
 }

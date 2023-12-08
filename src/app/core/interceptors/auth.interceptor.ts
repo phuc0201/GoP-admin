@@ -22,22 +22,23 @@ export class AuthInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<unknown>> {
       let authservice = this.inject.get(AuthService);
       let authreq = request;
-      if(authservice.getToken()!==''){
-        authreq = this.addTokenHeader(request, authservice.getToken());
+      if(authservice.getToken()!== '' && !authservice.checkTokenExpired(authservice.getToken())){
+        authreq = this.addTokenHeader(request,authservice.getToken())
       }
       return next.handle(authreq).pipe(
         catchError(errordata => {
-          try {
-            if (errordata.status === 401 && authservice.getAuthData()) {
-              return this.handleRefrehToken(request, next);
-            }
-            else
-              authservice.doLogout();
-          } catch (error) {
-            authservice.doLogout();
+          const rfToken = authservice.getAuthData()?.refreshToken || '';
+          if(authservice.checkTokenExpired(rfToken)){
+            authservice.doLogout()
             return throwError(() => errordata);
           }
-          return throwError(() => errordata);
+          else if (errordata.status === 401){
+            return this.handleRefrehToken(request, next);
+          }
+          else{
+            authservice.doLogout();
+            return throwError(() => errordata);
+           }
         })
       );
   }

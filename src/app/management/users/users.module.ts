@@ -7,12 +7,20 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ListUsersComponent } from './list-users/list-users.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
 import { BreadcrumbComponent } from 'src/app/shared/widget/breadcrumb/breadcrumb.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { CustomerDetailsComponent } from './customer-details/customer-details.component';
+import { DriverDetailsComponent } from './driver-details/driver-details.component';
+import { LoaderComponent } from 'src/app/shared/widget/loader/loader.component';
+import { WidgetChartCardComponent } from 'src/app/shared/component-shared/widget-chart-card/widget-chart-card.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 @NgModule({
   declarations: [
     ListUsersComponent,
-    UserDetailsComponent
+    CustomerDetailsComponent,
+    DriverDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +30,13 @@ import { BreadcrumbComponent } from 'src/app/shared/widget/breadcrumb/breadcrumb
     NzInputModule,
     NzIconModule,
     NzButtonModule,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    NzSelectModule,
+    FormsModule,
+    NgxSpinnerModule,
+    LoaderComponent,
+    WidgetChartCardComponent,
+    NzGridModule
   ]
 })
 export class UsersModule { }

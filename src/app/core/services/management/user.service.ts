@@ -1,35 +1,26 @@
 import { Injectable } from '@angular/core';
 import { URLConstant } from '../../constants/url.constant';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { IUser } from '../../model/management/user.model';
 import { Observable } from 'rxjs';
 import { IPagedResults } from '../../model/common/response-data.model';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
   private apiUrl = URLConstant.API.ADMIN.ENDPOINT + URLConstant.API.ROLE.ADMIN + URLConstant.API.ADMIN.ROUTE.USERS;
-
-  // headers = new HttpHeaders({
-  //   'Content-Type': 'application/json',
-  //   'Authorization': `Bearer ${this.authSvc.getToken()}`,
-  // });
 
   constructor(
     private http: HttpClient,
-    private authSvc: AuthService
   ) { }
 
   getAll(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.apiUrl);
   }
 
-  getById(id: string): Observable<IUser[]> {
-    return this.http.get<IUser[]>(this.apiUrl + `/${id}`);
+  getById(id: string): Observable<IUser> {
+    return this.http.get<IUser>(this.apiUrl + `?id=${id}`);
   }
 
   getAllPaging(

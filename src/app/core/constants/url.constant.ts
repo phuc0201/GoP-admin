@@ -16,6 +16,7 @@ export const URLConstant = {
         ADMIN_PROFILE: '/profile',
         DASHBOARD: '/dashboard',
         USERS: '/users',
+        DRIVERS: '/drivers',
         JOURNEYS: '/orders'
       },
     }

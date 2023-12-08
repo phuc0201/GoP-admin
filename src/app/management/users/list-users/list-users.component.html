@@ -1,6 +1,7 @@
+<app-loader [progress]="progress"></app-loader>
 <div class="py-4 px-9">
   <app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
-  <div class="mb-4 flex items-end flex-col w-full">
+  <div class="mb-4 flex items-center flex-row-reverse w-full">
     <div>
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
         <input type="text" nz-input placeholder="Tìm kiếm người dùng" />
@@ -11,53 +12,59 @@
         </button>
       </ng-template>
     </div>
+    <nz-select [(ngModel)]="selectedRole" (ngModelChange)="onRoleChange($event)" class="w-32 mr-2">
+      <nz-option *ngFor="let option of listRole" [nzLabel]="option" [nzValue]="option"></nz-option>
+    </nz-select>
   </div>
-  <nz-table
-  #rowSelectionTable
-  nzShowSizeChanger
-  [nzData]="listOfData.data"
-  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-  (nzPageIndexChange)="onPageChange($event)"
-  [nzFrontPagination]="false"
-  [nzTotal]="200"
-  class="shadow-1x pt-4 px-4 rounded"
-  >
+  <nz-table #rowSelectionTable #fixedTable
+    [nzData]="listUser.data"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    [nzFrontPagination]="false"
+    (nzPageIndexChange)="onPageChange($event)"
+    [nzTotal]="listUser.totalElements"
+    [nzPageIndex]="currentPsge"
+    [nzScroll]="{ x: '1150px'}"
+    class="shadow-1x py-4 px-4 rounded">
     <thead>
       <tr>
-        <th
-          [(nzChecked)]="checked"
-          [nzIndeterminate]="indeterminate"
-          (nzCheckedChange)="onAllChecked($event)"
-        ></th>
+        <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)" class="w-20"></th>
         <th *ngFor="let item of listHeadTable">{{ item }}</th>
+        <th *ngIf="selectedRole==='Driver'">Status</th>
+        <th nzRight>Action</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="relative">
+      <ngx-spinner bdColor="rgba(0, 0, 0, 0.03)" size="default" color="#5850e6" type="ball-spin-clockwise-fade-rotating" [fullScreen]="false">
+      </ngx-spinner>
       <tr *ngFor="let data of rowSelectionTable.data">
         <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-        <td>
+        <td class="relative">
           <div class="relative w-12 h-12 rounded-[50%] overflow-hidden bg-black flex items-center justify-center">
             <img [src]="data.avatar" width="48" height="48">
-            <!-- <div class="absolute w-3 h-3 rounded-[50%] bottom-0 right-1" [ngClass]="data.active ? 'bg-green' : 'bg-red'"></div> -->
           </div>
         </td>
         <td>{{ data.fullname }}</td>
         <td>{{ data.phone }}</td>
-        <td>{{ data.location}}</td>
-        <!-- <td>
-          <nz-tag [nzColor]="data.role === 'driver' ? 'orange' : 'cyan'">{{ data.role }}</nz-tag>
-        </td> -->
+        <td>{{ data.location }}</td>
         <td>
-         <div class="flex justify-center items-center">
-          <a [routerLink]="[data.id]">
-            <button class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
-              <i class="fa-regular fa-eye"></i>
+          <nz-tag [nzColor]="selectedRole === 'Driver' ? 'orange' : 'cyan'">{{ selectedRole }}</nz-tag>
+        </td>
+        <td *ngIf="selectedRole === 'Driver'">
+          <nz-tag [nzColor]="data.status === 'offline' ? 'red' : 'cyan'">{{ data.status }}</nz-tag>
+        </td>
+        <td nzRight>
+          <div class="flex justify-center items-center">
+            <a [routerLink]="selectedRole === 'Customer' ? ['customers'] : ['drivers']" [queryParams]="{id: data.id}">
+              <button
+                class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </a>
+            <button class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3"
+              (click)="data.ban = !data.ban">
+              <i class="fa-solid" [ngClass]="data.ban ? 'fa-lock': 'fa-lock-open'"></i>
             </button>
-          </a>
-          <!-- <button class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3" (click)="data.ban = !data.ban">
-            <i class="fa-solid" [ngClass]="data.ban ? 'fa-lock': 'fa-lock-open'"></i>
-          </button> -->
-         </div>
+          </div>
         </td>
       </tr>
     </tbody>

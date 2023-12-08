@@ -3,7 +3,7 @@ export interface IUser {
   fullname: string;
   location: [],
   refreshToken: string;
-  avatar: string;
+  avatar?: string;
   phone: string;
   createdAt: string;
   updatedAt: string;

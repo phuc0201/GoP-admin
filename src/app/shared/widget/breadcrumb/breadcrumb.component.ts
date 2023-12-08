@@ -17,7 +17,5 @@ export const pluginsModules = [
   imports: pluginsModules,
 })
 export class BreadcrumbComponent {
-
   @Input() breadcrumb!: BreadCrumb;
-
 }

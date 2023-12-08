@@ -1,0 +1,96 @@
+<app-loader [progress]="progress"></app-loader>
+<div class="px-9 py-4">
+  <app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+  <div class="w-full flex flex-col">
+    <div class="flex gap-5 items-center">
+      <div class="w-40 h-40 rounded-[50%] overflow-hidden bg-black relative flex items-center justify-center">
+        <img [src]="userProfile?.avatar" class="w-full h-auto">
+      </div>
+      <div class="flex flex-col ">
+        <div><nz-tag [nzColor]="'cyan'">customer</nz-tag></div>
+        <div>
+          <span class="font-bold">Name:</span> {{ userProfile?.fullname }}
+        </div>
+        <div>
+          <span class="font-bold">Phone:</span> {{ userProfile?.phone }}
+        </div>
+        <div>
+          <span class="font-bold">Location:</span> Tp.HCM
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="mb-4 flex items-end flex-col w-full">
+        <div class="flex">
+          <nz-select [(ngModel)]="searchOption" class="w-32 mr-2">
+            <nz-option [nzLabel]="'Điểm đón'" [nzValue]="'source_address'"></nz-option>
+            <nz-option [nzLabel]="'Điểm đến'" [nzValue]="'destination_address'"></nz-option>
+          </nz-select>
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <input type="text" [(ngModel)]="searchValue" nz-input (keydown.enter)="loadOrders()"
+              placeholder="Tìm kiếm chuyến đi" />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" nzSearch (click)="loadOrders()">
+              <span nz-icon nzType="search"></span>
+            </button>
+          </ng-template>
+        </div>
+      </div>
+      <div nz-row nzGutter="20">
+        <div *ngFor="let item of statistics" nz-col nzSpan="24" nzLg="8" class="mb-5">
+          <app-widget-chart-card [title]="item.title" [percent]=item.percent
+            [totalData]=item.totalData></app-widget-chart-card>
+        </div>
+      </div>
+      <nz-table #rowSelectionTable #fixedTable [nzData]="listOfOrders.data"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzFrontPagination]="false"
+        [nzTotal]="listOfOrders.totalElements" (nzPageIndexChange)="onPageChange($event)" [nzScroll]="{ x: '1150px'}"
+        [nzPageIndex]="currentPage" class="shadow-1x py-4 px-4 rounded">
+        <thead>
+          <tr>
+            <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"
+              class="w-20"></th>
+            <th class="w-20">Avatar</th>
+            <th *ngFor="let item of listHeadTable">{{ item }}</th>
+            <th>Status</th>
+            <th nzRight class="w-32">Action</th>
+          </tr>
+        </thead>
+        <tbody class="relative">
+          <ngx-spinner bdColor="rgba(0, 0, 0, 0.03)" size="default" color="#5850e6"
+            type="ball-spin-clockwise-fade-rotating" [fullScreen]="false">
+          </ngx-spinner>
+          <tr *ngFor="let data of rowSelectionTable.data">
+            <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+            <td>
+              <div class="w-10 h-10 rounded-[50%] overflow-hidden bg-gray-500">
+                <img [src]="data?.driver?.avatar" class="w-full h-full">
+              </div>
+            </td>
+            <td>{{ data.driver.fullname }}</td>
+            <td>{{ data.driver.phone }}</td>
+            <td>{{ data.source_address }}</td>
+            <td>{{ data.destination_address }}</td>
+            <td>
+              {{ data.orderTotal.toLocaleString('vi', {style : 'currency', currency : 'VND'}) }}
+            </td>
+            <td>
+              <nz-tag [nzColor]="getTagColor(data.orderStatus)">{{ data.orderStatus }}</nz-tag>
+            </td>
+            <td nzRight>
+              <div class="flex justify-center items-center">
+                <a [routerLink]="['journeys',data.id]">
+                  <button
+                    class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>

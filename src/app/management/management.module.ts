@@ -8,7 +8,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
   declarations: [
-
   ],
   imports: [
     CommonModule,
@@ -16,7 +15,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     MatTableModule,
     MatCheckboxModule,
     ManagementLayoutModule,
-    NzGridModule
+    NzGridModule,
   ]
 })
 export class ManagementModule { }

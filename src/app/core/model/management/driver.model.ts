@@ -1,16 +1,24 @@
-import { Status } from "./driver-status.model";
+import { IStatus } from "./driver-status.model";
+import { ILocation } from "./location.model";
 import { Vehicle } from "./vehicle.model";
 
 export interface IDriver {
+  id: string;
   phone: string;
+  password: string;
+  fullname: string;
   vehicle: Vehicle;
   vehicleId: string;
-  avatar: string;
+  isVerified: boolean;
+  avatar?: string;
   vehicleImage: string;
-  location: {
-    lat: number,
-    long: number
-  };
-  status: Status;
-  refreshToken: string
+  cavet_f: string;
+  cavet_b: string;
+  identification_card_f: string;
+  identification_card_b: string;
+  license_image_f: string;
+  license_image_b: string;
+  location: ILocation;
+  status: IStatus;
+  refreshToken: string;
 }

@@ -9,22 +9,22 @@ export class DashboardComponent {
   data = [
     {
       title: 'BOOK TRIPS',
-      totalData: '100',
+      totalData: 100,
       percent: 10,
     },
     {
       title: 'CANCELLED TRIPS',
-      totalData: '200',
+      totalData: 200,
       percent: -20,
     },
     {
-      title: 'AVAILABLE TRANSPORTATION',
-      totalData: '150',
+      title: 'AVAILABLE VEHICLE',
+      totalData: 150,
       percent: 10,
     },
     {
       title: 'TOTAL EARNING',
-      totalData: '400',
+      totalData: 400,
       percent: 20,
     }
   ];

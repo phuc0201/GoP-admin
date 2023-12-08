@@ -7,7 +7,7 @@ import { URLConstant } from '../../constants/url.constant';
 import { IAuthData, ILoginDTO } from '../../model/auth/auth.model';
 import { SystemConstant } from '../../constants/system.constant';
 import { Router } from '@angular/router';
-// import { JwtHelperService } from '@auth0/angular-jwt';
+// import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private cookie: CookieService,
-    private router: Router
-    // private jwtHelper: JwtHelperService
+    private router: Router,
   ) { }
 
 
@@ -62,20 +61,22 @@ export class AuthService {
     this.cookie.set(SystemConstant.ACCESS_TOKEN, accessToken, new Date(Date.now() + 43200000), '/', undefined, true, 'Strict');
   }
 
-  checkRole(roleCheck: string): boolean {
-    return true;
-  }
-
   isTokenExpired(token: string) {
     const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
-    return expiry * 1000 > Date.now();
+    return expiry*1000 < Date.now();
   }
 
   checkTokenExpired(token: string): boolean {
-    return this.isTokenExpired(token) ? true : false;
+    try {
+      if(this.isTokenExpired(token))
+        return true;
+      return false;
+    } catch (error) {
+      return true
+    }
   }
 
-  generateRefreshToken() {
+  generateRefreshToken(){
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.getAuthData()?.refreshToken}`,
