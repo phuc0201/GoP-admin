@@ -16,6 +16,7 @@ import { DriverDetailsComponent } from './driver-details/driver-details.componen
 import { LoaderComponent } from 'src/app/shared/widget/loader/loader.component';
 import { WidgetChartCardComponent } from 'src/app/shared/component-shared/widget-chart-card/widget-chart-card.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 @NgModule({
   declarations: [
     ListUsersComponent,
@@ -36,7 +37,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NgxSpinnerModule,
     LoaderComponent,
     WidgetChartCardComponent,
-    NzGridModule
+    NzGridModule,
+    NzModalModule,
   ]
 })
 export class UsersModule { }

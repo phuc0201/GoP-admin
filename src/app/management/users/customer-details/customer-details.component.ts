@@ -83,6 +83,7 @@ export class CustomerDetailsComponent {
   onPageChange(index: number) {
     this.progress = 0;
     this.currentPage = index;
+    this.loadOrders();
   }
 
   getSearchOption(): void {
@@ -140,7 +141,7 @@ export class CustomerDetailsComponent {
         setTimeout(() => {
           this.spinner.hide();
           this.progress = 100;
-        }, 1500);
+        }, 500);
       }
     });
   }

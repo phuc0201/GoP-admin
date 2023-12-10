@@ -17,10 +17,82 @@
         <div>
           <span class="font-bold">Location:</span> Tp.HCM
         </div>
+        <div>
+          <button nz-button class="rounded hover:shadow-xl" [nzType]="'primary'" (click)="showModal()"><span>View
+              profile</span></button>
+          <nz-modal [(nzVisible)]="isViewProfile" [nzTitle]='driverProfile?.fullname' (nzOnCancel)="handleCancel()"
+            nzWidth="900px">
+            <ng-container *nzModalContent>
+              <div>
+                <label class="text-xl font-medium">Vehicle</label>
+                <div class="w-[500px] h-auto overflow-hidden cursor-pointer mb-5"
+                  (click)="previewImage(driverProfile?.vehicleImage)">
+                  <img class="w-full h-auto" [src]="driverProfile?.vehicleImage"
+                    onerror="this.src='assets/img/personal-information.png'">
+                </div>
+              </div>
+              <div>
+                <span class="text-xl font-medium">Indentification</span>
+                <div nz-row nzGutter="20">
+                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
+                    (click)="previewImage(driverProfile?.identification_card_b)">
+                    <img [src]="driverProfile?.identification_card_f" class="w-full h-auto">
+                  </div>
+                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
+                    (click)="previewImage(driverProfile?.identification_card_b)">
+                    <img [src]="driverProfile?.identification_card_b" class="w-full h-auto">
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span class="text-xl font-medium">Cavet</span>
+                <div nz-row nzGutter="20">
+                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
+                    (click)="previewImage(driverProfile?.Cavet_f)">
+                    <img [src]="driverProfile?.Cavet_f" class="w-full h-auto">
+                  </div>
+                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
+                    (click)="previewImage(driverProfile?.identification_card_b)">
+                    <img [src]="driverProfile?.Cavet_b" class="w-full h-auto">
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span class="text-xl font-medium">License image</span>
+                <div nz-row nzGutter="20">
+                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
+                    (click)="previewImage(driverProfile?.license_image_f)">
+                    <img [src]="driverProfile?.license_image_f" class="w-full h-auto">
+                  </div>
+                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
+                    (click)="previewImage(driverProfile?.license_image_b)">
+                    <img [src]="driverProfile?.license_image_b" class="w-full h-auto">
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <div *nzModalFooter>
+              <button nz-button nzType="primary" (click)="handleCancel()"
+                class="bg-red hover:bg-red border-red hover:border-red">Close</button>
+            </div>
+          </nz-modal>
+          <nz-modal [(nzVisible)]="onPreviewImg" (nzOnCancel)="previewImage()" nzWidth="900px"
+            [nzTitle]='driverProfile?.fullname'>
+            <ng-container *nzModalContent>
+              <div class="w-full h-auto">
+                <img [src]="imgPreview" alt="Image" class="w-full h-auto">
+              </div>
+            </ng-container>
+            <div *nzModalFooter>
+              <button nz-button nzType="primary" (click)="previewImage()"
+                class="bg-red hover:bg-red border-red hover:border-red">Close</button>
+            </div>
+          </nz-modal>
+        </div>
       </div>
     </div>
     <div>
-      <div class="mb-4 flex items-end flex-col w-full">
+      <div class=" mb-4 flex items-end flex-col w-full">
         <div class="flex">
           <nz-select [(ngModel)]="searchOption" class="w-32 mr-2">
             <nz-option [nzLabel]="'Điểm đón'" [nzValue]="'source_address'"></nz-option>
@@ -43,17 +115,23 @@
             [totalData]=item.totalData></app-widget-chart-card>
         </div>
       </div>
-      <nz-table #rowSelectionTable #fixedTable [nzData]="listOfOrders.data"
+      <nz-table #rowSelectionTable #fixedTable
+        [nzData]="listOfOrders.data"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzFrontPagination]="false"
-        [nzTotal]="listOfOrders.totalElements" (nzPageIndexChange)="onPageChange($event)" [nzScroll]="{ x: '1150px'}"
+        [nzTotal]="listOfOrders.totalElements"
+        (nzPageIndexChange)="onPageChange($event)" [nzScroll]="{ x: '1400px'}"
         [nzPageIndex]="currentPage" class="shadow-1x py-4 px-4 rounded">
         <thead>
           <tr>
             <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"
               class="w-20"></th>
             <th class="w-20">Avatar</th>
-            <th *ngFor="let item of listHeadTable">{{ item }}</th>
-            <th>Status</th>
+            <th nzWidth="200px">User</th>
+            <th nzWidth="150px">Phone</th>
+            <th nzWidth="250px">Source address</th>
+            <th nzWidth="250px">Destination address</th>
+            <th nzWidth="150px">Fare</th>
+            <th nzWidth="200px">Status</th>
             <th nzRight class="w-32">Action</th>
           </tr>
         </thead>

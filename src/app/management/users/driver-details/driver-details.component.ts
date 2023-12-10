@@ -44,6 +44,26 @@ export class DriverDetailsComponent {
   };
   searchOption: string = "source_address";
   statistics?: StatisticsCard[];
+  isViewProfile: boolean = false;
+  onPreviewImg: boolean = false;
+  imgPreview?: string = '';
+  previewImage(image?: string): void {
+    this.imgPreview = image;
+    this.onPreviewImg = !this.onPreviewImg;
+  }
+  showModal(): void {
+    this.isViewProfile = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isViewProfile = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isViewProfile = false;
+  }
 
   getTagColor(status: string): string {
     return status === OrderStatus.COMPLETED ? 'green' :
@@ -83,6 +103,7 @@ export class DriverDetailsComponent {
   onPageChange(index: number) {
     this.progress = 0;
     this.currentPage = index;
+    this.loadOrders();
   }
 
   getSearchOption(): void {
@@ -140,7 +161,7 @@ export class DriverDetailsComponent {
         setTimeout(() => {
           this.spinner.hide();
           this.progress = 100;
-        }, 1500);
+        }, 500);
       }
     });
   }
@@ -189,7 +210,7 @@ export class DriverDetailsComponent {
     private driverSvc: DriverService,
     private orderSvc: OrderService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.route.queryParams.subscribe(params => {
       this.driverID = params['id'];

@@ -45,15 +45,19 @@
       </div>
       <nz-table #rowSelectionTable #fixedTable [nzData]="listOfOrders.data"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzFrontPagination]="false"
-        [nzTotal]="listOfOrders.totalElements" (nzPageIndexChange)="onPageChange($event)" [nzScroll]="{ x: '1150px'}"
+        [nzTotal]="listOfOrders.totalElements" (nzPageIndexChange)="onPageChange($event)" [nzScroll]="{ x: '1400px'}"
         [nzPageIndex]="currentPage" class="shadow-1x py-4 px-4 rounded">
         <thead>
           <tr>
             <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"
               class="w-20"></th>
             <th class="w-20">Avatar</th>
-            <th *ngFor="let item of listHeadTable">{{ item }}</th>
-            <th>Status</th>
+            <th nzWidth="200px">Driver</th>
+            <th nzWidth="150px">Phone</th>
+            <th nzWidth="250px">Source address</th>
+            <th nzWidth="250px">Destination address</th>
+            <th nzWidth="150px">Fare</th>
+            <th nzWidth="200px">Status</th>
             <th nzRight class="w-32">Action</th>
           </tr>
         </thead>
