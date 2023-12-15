@@ -14,9 +14,6 @@
         <div>
           <span class="font-bold">Phone:</span> {{ userProfile?.phone }}
         </div>
-        <div>
-          <span class="font-bold">Location:</span> Tp.HCM
-        </div>
       </div>
     </div>
     <div>
@@ -72,8 +69,8 @@
                 <img [src]="data?.driver?.avatar" class="w-full h-full">
               </div>
             </td>
-            <td>{{ data.driver.fullname }}</td>
-            <td>{{ data.driver.phone }}</td>
+            <td>{{ data.driver?.fullname }}</td>
+            <td>{{ data.driver?.phone }}</td>
             <td>{{ data.source_address }}</td>
             <td>{{ data.destination_address }}</td>
             <td>
@@ -84,7 +81,7 @@
             </td>
             <td nzRight>
               <div class="flex justify-center items-center">
-                <a [routerLink]="['journeys',data.id]">
+                <a [routerLink]="['trips', 'details']" [queryParams]="{id: data.id}">
                   <button
                     class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
                     <i class="fa-regular fa-eye"></i>

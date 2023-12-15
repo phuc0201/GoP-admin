@@ -1,42 +1,80 @@
+<app-loader [progress]="progress"></app-loader>
 <div class="px-9 py-4">
+  <app-breadcrumb *ngIf="breadcrumbDisplay" [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+  <div (click)="goBackURL()" class="cursor-pointer ">
+    <i *ngIf="!breadcrumbDisplay" class="fa-solid fa-arrow-left text-xl"></i>
+  </div>
   <div nz-row nzGutter="30">
     <div nz-col nzSpan="24" nzMd="15" class="p-5 flex flex-col">
       <div nz-row nzGutter="20">
-        <div nz-col nzSpan="12" *ngFor="let data of dataUsers">
+        <div nz-col nzSpan="12">
           <div class="p-3 flex justify-between items-center border border-solid border-gray-300 rounded-[20px]">
             <div class="flex items-center gap-3">
-              <div class="rounded-[20px] w-16 h-16 overflow-hidden">
-                <img [src]="data.avatar" class="rounded-[20px] w-full h-auto">
+              <div
+                class="rounded-[20px] w-16 h-16 overflow-hidden flex items-center justify-center bg-slate-400 cursor-pointer">
+                <img [src]="order?.driver?.avatar" class="w-fit h-full">
               </div>
               <div class="flex flex-col">
-                <span class="text-xl font-bold">{{ data.name }}</span>
-                <nz-tag [nzColor]="data.role === 'driver' ? 'orange' : 'cyan'">{{ data.role }}</nz-tag>
+                <span class="text-xl font-bold">{{ order?.driver?.fullname }}</span>
+                <span>
+                  <nz-tag [nzColor]="'orange'" class="w-auto">driver</nz-tag>
+                </span>
               </div>
             </div>
-            <div class="bg-orange1 rounded-[20px] w-14 h-14 flex justify-center items-center cursor-pointer" (click)="makeCall('0328614013')">
-              <i class="fa-solid fa-phone text-white"></i>
+          </div>
+        </div>
+        <div nz-col nzSpan="12">
+          <div class="p-3 flex justify-between items-center border border-solid border-gray-300 rounded-[20px]">
+            <div class="flex items-center gap-3">
+              <div
+                class="rounded-[20px] w-16 h-16 overflow-hidden flex items-center justify-center bg-slate-400 cursor-pointer">
+                <img [src]="order?.user?.avatar" class="w-fit h-full">
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xl font-bold">{{ order?.user?.fullname }}</span>
+                <span class="mt-1">
+                  <nz-tag [nzColor]="'cyan'" class="w-fit">customer</nz-tag>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="relative flex-1 mt-5">
-        <app-journey-map></app-journey-map>
+        <app-journey-map [src_location]="order?.source_location" [des_location]="order?.destination_location"
+          (totalTime)="setTime($event)" (distance)="setDistance($event)"></app-journey-map>
       </div>
     </div>
     <div nz-col nzSpan="24" nzMd="9" class="p-5">
-      <div class="p-3 bg-white shadow-1x rounded-[20px]">
-        <img src="assets/img/car.jpg" class="w-full h-auto rounded-[20px]">
+      <div class="p-3 bg-white shadow-1x rounded-[20px] min-w-full">
+        <img [src]="order?.driver?.vehicleImage" onerror="this.src='assets/img/car.jpg'"
+          class="w-full h-auto min-h-[250px] min-w-full rounded-[20px]">
       </div>
       <div class="flex justify-between items-center mt-5">
         <div class="flex flex-col">
-          <span class="text-2xl font-bold">Porsche</span>
+          <span class="text-2xl font-bold">{{ order?.user?.fullname }}</span>
           <span class="text-sm text-gray-400">
             <i class="fa-solid fa-location-dot"></i>
-            128 Trần Quang Khải, P. Tân Định, Q1, TP HCM
+            {{ order?.source_address }}
           </span>
         </div>
         <div class="shadow-1x p-3 rounded bg-[#fff]">
-          <span class="text-base text-primary font-bold">100$</span>
+          <span class="text-base text-primary font-bold">
+            {{ order?.orderTotal?.toLocaleString('vi', {style : 'currency', currency : 'VND'}) }}
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 mt-2">
+        <div class="flex items-center gap-2">
+          <span nz-icon nzType="phone" nzTheme="twotone"></span>
+          <span>{{ order?.driver?.phone }} -
+            <nz-tag [nzColor]="'orange'" class="w-fit">driver</nz-tag>
+          </span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span nz-icon nzType="phone" nzTheme="twotone"></span>
+          <span>{{ order?.user?.phone }} -
+            <nz-tag [nzColor]="'cyan'" class="w-fit">customer</nz-tag></span>
         </div>
       </div>
       <div class="mt-5">
@@ -44,16 +82,16 @@
         <div class="flex gap-4 mt-3">
           <div class="bg-blue1 p-2 text-blue rounded">
             <i class="fa-regular fa-map"></i>
-            50km
+            {{ distance }}
           </div>
           <div class="bg-blue1 p-2 text-blue rounded">
             <i class="fa-regular fa-clock"></i>
-            30m
+            {{ time }}
           </div>
-          <div class="bg-blue1 p-2 text-blue rounded">
+          <!-- <div class="bg-blue1 p-2 text-blue rounded">
             <i class="fa-solid fa-car"></i>
             4 sit
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="flex mt-5 gap-5">
@@ -70,13 +108,13 @@
           <div class="flex flex-col border border-x-0 border-t-0 border-solid border-gray-200 pb-3">
             <span class="text-xl font-medium">Điểm đón</span>
             <span class="text-sm text-gray-400">
-              128 Trần Quang Khải, P. Tân Định, Q1, TP HCM
+              {{ order?.source_address }}
             </span>
           </div>
           <div class="flex flex-col">
             <span class="text-xl font-medium">Điểm đến</span>
             <span class="text-sm text-gray-400">
-              325 Trần Quang Khải, P. Tân Định, Q1, TP HCM
+              {{ order?.destination_address }}
             </span>
           </div>
         </div>

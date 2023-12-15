@@ -17,5 +17,5 @@ export class WidgetChartCardComponent {
   @Input() title: string = '';
   @Input() percent: number = 0;
   @Input() totalData: number = 0;
-  constructor(){}
+  constructor() { }
 }

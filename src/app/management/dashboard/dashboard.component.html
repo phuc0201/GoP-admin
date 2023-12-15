@@ -1,21 +1,20 @@
+<app-loader [progress]="progress"></app-loader>
 <div id="dashboard-page" class="px-9 py-4">
-    <div nz-row [nzGutter]="20" class="mb-5">
-      <div  nz-col nzLg="6" nzMd="12" nzSm="12" nzXs="24" *ngFor="let dataItem of data">
-        <app-widget-chart-card [totalData]="dataItem.totalData" [percent]="dataItem.percent" [title]="dataItem.title">
-        </app-widget-chart-card>
-      </div>
+  <div nz-row [nzGutter]="20" class="mb-5">
+    <div nz-col nzLg="8" nzSpan="24" *ngFor="let dataItem of statisticsCard">
+      <app-widget-chart-card [totalData]="dataItem.totalData" [percent]="dataItem.percent" [title]="dataItem.title">
+      </app-widget-chart-card>
     </div>
-    <div nz-row nzGutter="20" class="mb-5">
-      <app-line-chart-card nz-col nzSpan="16"></app-line-chart-card>
-      <div nz-col nzSpan="8">
-        <app-circle-chart-card [percent]="80" [chartLabel]="'Active Drivers'"></app-circle-chart-card>
-      </div>
+  </div>
+  <div nz-row nzGutter="20" class="mb-5">
+    <app-line-chart-card nz-col nzSpan="16" [orderByTime]="orderByTime"></app-line-chart-card>
+    <div nz-col nzSpan="8">
+      <app-circle-chart-card [percent]="statisticsData?.percentOrderCompleted"
+        [chartLabel]="'Completed Trips'"></app-circle-chart-card>
     </div>
-
-    <div nz-row nzGutter="20" class="mb-9 min-h-[500px]">
-      <app-map nz-col nzSpan="16"></app-map>
-      <app-top-drivers nz-col nzSpan="8"></app-top-drivers>
-    </div>
+  </div>
+  <div nz-row nzGutter="20" class="mb-9 min-h-[500px]">
+    <app-map nz-col nzSpan="16" [ordersInProgress]="ordersInProgress"></app-map>
+    <app-top-drivers nz-col nzSpan="8" [topDrivers]="topDrivers"></app-top-drivers>
+  </div>
 </div>
-
-

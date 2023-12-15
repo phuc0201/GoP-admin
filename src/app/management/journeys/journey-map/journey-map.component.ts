@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
+import { ILocation } from 'src/app/core/model/management/location.model';
 
 const customIcon = L.icon({
   iconUrl: 'assets/img/pin.png', // Đường dẫn đến biểu tượng
@@ -17,29 +19,70 @@ const carIcon = L.icon({
   templateUrl: './journey-map.component.html',
   styleUrls: ['./journey-map.component.scss']
 })
-export class JourneyMapComponent implements OnInit, OnDestroy {
+export class JourneyMapComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() src_location?: ILocation;
+  @Input() des_location?: ILocation;
+  @Output() totalTime = new EventEmitter<number>();
+  @Output() distance = new EventEmitter<number>();
+  waypoints: any[] = [];
+  tripID: string = '';
   private map!: L.Map;
   private initMap(): void {
+    if (this.map)
+      this.map.remove();
     this.map = L.map('journey-map').setView([10.850580, 106.771806], 10);
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       minZoom: 3,
     });
     tiles.addTo(this.map);
-
+    let marker = L.marker([10.850580, 106.771806], { icon: carIcon }).addTo(this.map);
+    if (this.src_location && this.des_location) {
+      marker.setLatLng([this.src_location.lat, this.src_location.long]);
+      this.waypoints = [L.latLng(this.src_location.lat, this.src_location.long), L.latLng(this.des_location.lat, this.des_location.long)];
+      L.Marker.prototype.options.icon = customIcon;
+      L.Routing.control({
+        waypoints: this.waypoints,
+        plan: L.Routing.plan(this.waypoints, {
+          createMarker: function (i, wp) {
+            return L.marker(wp.latLng, {
+              draggable: false
+            });
+          }
+        }),
+        addWaypoints: false,
+        routeWhileDragging: false,
+        show: false
+      }).on('routesfound', (e) => {
+        let routes = e.routes;
+        let speed = 40; //km/h
+        let distance = routes[0].summary.totalDistance;
+        let time = ((distance / 1000) / speed) * 60;
+        this.totalTime.emit(time);
+        this.distance.emit(distance);
+      })
+        .addTo(this.map);
+    }
   }
+
   ngOnInit(): void {
     this.initMap();
-    let marker = L.marker([28.2380, 83.9956], { icon: carIcon }).addTo(this.map);
-    marker.setLatLng([10.850580, 106.771806]);
-    L.Marker.prototype.options.icon = customIcon;
-    L.Routing.control({
-      waypoints: [L.latLng(10.850580, 106.771806), L.latLng(10.857601, 106.763528)],
-      routeWhileDragging: true,
-    })
-    .addTo(this.map);
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.initMap();
+  }
+
   ngOnDestroy(): void {
-    this.map.remove();
+    // this.map.remove();
+  }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.queryParams.subscribe(params => {
+      this.tripID = params['id'];
+    });
   }
 }
+

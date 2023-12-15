@@ -1,11 +1,11 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import {
-  ChartComponent,
+  ApexChart,
   ApexNonAxisChartSeries,
   ApexPlotOptions,
-  ApexChart,
-  ApexStroke
+  ApexStroke,
+  ChartComponent
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -21,13 +21,14 @@ export type ChartOptions = {
   templateUrl: './circle-chart-card.component.html',
   styleUrls: ['./circle-chart-card.component.scss']
 })
-export class CircleChartCardComponent implements OnInit {
-  @Input() chartLabel : string='';
-  @Input() percent : number = 0;
+export class CircleChartCardComponent implements OnInit, OnChanges {
+  @Input() chartLabel: string = '';
+  @Input() percent?: number = 0;
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
-  constructor() {}
-  ngOnInit(): void {
+
+  loadConfig() {
+    this.percent = this.percent ?? 0;
     this.chartOptions = {
       series: [this.percent],
       chart: {
@@ -55,4 +56,13 @@ export class CircleChartCardComponent implements OnInit {
       labels: [this.chartLabel]
     };
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.loadConfig();
+  }
+  ngOnInit(): void {
+    this.loadConfig();
+  }
+
+  constructor() { }
 }

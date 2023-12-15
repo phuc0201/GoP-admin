@@ -2,7 +2,7 @@ import { environment } from "src/environments/environment";
 
 export const URLConstant = {
   API: {
-    ROLE:{
+    ROLE: {
       ADMIN: '/admin'
     },
     ADMIN: {
@@ -30,7 +30,7 @@ export const URLConstant = {
       ADMIN_PROFILE: '/administration/profile',
       DASHBOARD: '/administration/dashboard',
       USERS: '/administration/users',
-      JOURNEYS: '/administration/journeys'
+      JOURNEYS: '/administration/trips',
     },
   }
-}
+};

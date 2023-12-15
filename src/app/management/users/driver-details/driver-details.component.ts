@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SystemConstant } from 'src/app/core/constants/system.constant';
 import { URLConstant } from 'src/app/core/constants/url.constant';
@@ -10,7 +11,6 @@ import { DriverService } from 'src/app/core/services/management/driver.service';
 import { OrderService } from 'src/app/core/services/management/order.service';
 import { BreadCrumb } from 'src/app/shared/widget/breadcrumb/breadcrumb.model';
 import { Paginate } from 'src/app/shared/widget/paginate/paginate.model';
-
 @Component({
   selector: 'app-driver-details',
   templateUrl: './driver-details.component.html',
@@ -18,6 +18,7 @@ import { Paginate } from 'src/app/shared/widget/paginate/paginate.model';
 })
 export class DriverDetailsComponent {
   progress: number = 100;
+  breadcrumbDisplay: boolean = false;
   breadcrumbObj: BreadCrumb = new BreadCrumb({
     heading: 'Details',
     listBreadcrumb: [
@@ -27,7 +28,6 @@ export class DriverDetailsComponent {
       },
     ],
   });
-  listHeadTable = ['User', 'Phone', 'Source Address', 'Destiny Address', 'Fare'];
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly IOrder[] = [];
@@ -47,6 +47,11 @@ export class DriverDetailsComponent {
   isViewProfile: boolean = false;
   onPreviewImg: boolean = false;
   imgPreview?: string = '';
+
+  goBackURL(): void {
+    this.location.back();
+  }
+
   previewImage(image?: string): void {
     this.imgPreview = image;
     this.onPreviewImg = !this.onPreviewImg;
@@ -68,7 +73,7 @@ export class DriverDetailsComponent {
   getTagColor(status: string): string {
     return status === OrderStatus.COMPLETED ? 'green' :
       status === OrderStatus.CANCELLED ? 'red' :
-        status === OrderStatus.DRIVERISARRIVING ? 'blue' :
+        status === OrderStatus.CONFIRM ? 'blue' :
           status === OrderStatus.INPROGRESS ? 'magenta' : 'orange';
   }
 
@@ -187,6 +192,9 @@ export class DriverDetailsComponent {
 
   ngOnInit(): void {
     this.loadData();
+    if (this.router.url.includes(URLConstant.ROUTE.ADMINISTRATION.USERS)) {
+      this.breadcrumbDisplay = true;
+    }
     this.statistics = [
       {
         title: SystemConstant.STATISTICS_TITLE.BOOK_TRIPS,
@@ -211,6 +219,8 @@ export class DriverDetailsComponent {
     private orderSvc: OrderService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
+    private location: Location,
+    private router: Router
   ) {
     this.route.queryParams.subscribe(params => {
       this.driverID = params['id'];

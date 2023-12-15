@@ -1,17 +1,20 @@
 <div class="p-5 rounded-lg shadow-1x h-full">
   <div class="border border-gray-200 pb-4 border-x-0 border-t-0">
-    <span class="capitalize text-2xl font-bold">Top Tài Xế</span>
+    <span class="capitalize text-2xl font-bold">Top 5 Drivers</span>
   </div>
   <div class="p-3 border border-gray-200 border-x-0 border-t-0" *ngFor="let item of topDrivers">
-    <div class="flex items-center justify-between" >
+    <div class="flex items-center justify-between">
       <div class="flex">
-        <img [src]="item.avatar" width="50" height="50" class="rounded-[50%] mr-3">
-        <div class="flex flex-col justify-center">
+        <div class="w-14 h-14 flex items-center justify-center bg-black rounded-[50%] overflow-hidden mr-3 ">
+          <img [src]="item.avatar" class="w-full h-auto">
+        </div>
+        <div class="flex flex-col justify-center flex-1">
           <span class="text-black font-bold text-lg">{{ item.fullname }}</span>
-          <span class="text-gray-500 text-sm">{{ item.email }}</span>
+          <span class="text-gray-500 text-sm">{{ item.phone }}</span>
         </div>
       </div>
-      <a [routerLink]="['/administration', 'users', item.UID]" class="text-primary cursor-pointer">Chi tiết</a>
+      <a [routerLink]="['driver-details']" [queryParams]="{id: item.id}" class="text-primary cursor-pointer">View
+        details</a>
     </div>
   </div>
 </div>

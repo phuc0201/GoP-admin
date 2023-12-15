@@ -1,11 +1,11 @@
-<div class="w-full h-full min-h-[315px]">
-  <div class="p-5 shadow-1x rounded-lg w-full">
+<div class="w-full h-full">
+  <div class="p-5 shadow-1x rounded-lg w-full min-h-full">
     <div class="flex justify-between items-center">
       <div class="flex items-center">
-        <span class="text-2xl font-bold">Active Drivers By Time</span>
+        <span class="text-2xl font-bold">Order By Time</span>
       </div>
       <div class="flex items-center">
-        <div
+        <!-- <div
           class="group cursor-pointer active flex px-4 py-1 hover:border-primary border-solid border-[2px] border-transparent  rounded-md "
           [ngClass]="{'active': chartOption === 'today'}" (click)="setActive('today')">
           <span class="m-auto text-grey group-hover:text-primary">Today</span>
@@ -14,12 +14,12 @@
           class="group cursor-pointer ml-6 flex px-4 py-1 hover:border-primary border-solid border-[2px] border-transparent hover:text-primary rounded-md"
           [ngClass]="{'active': chartOption === 'month'}" (click)="setActive('month')">
           <span class="m-auto text-grey group-hover:text-primary">Month</span>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="w-full block">
-      <canvas baseChart class="w-full" height="250px" [type]="'line'" [data]="lineChartData" [options]="lineChartOptions"
-        [legend]="lineChartLegend">
+      <canvas baseChart class="w-full" height="250px" [type]="'line'" [data]="lineChartData"
+        [options]="lineChartOptions" [legend]="lineChartLegend">
       </canvas>
     </div>
   </div>

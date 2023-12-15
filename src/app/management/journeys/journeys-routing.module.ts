@@ -7,12 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: ListJourneysComponent,
-    title: 'Journeys'
+    title: 'Trips'
   },
   {
-    path: ':id',
+    path: 'details',
     component: JourneyDetailsComponent,
-    title: 'Journeys'
+    title: 'Trip details'
   }
 ];
 

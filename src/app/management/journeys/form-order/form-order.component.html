@@ -1,0 +1,45 @@
+<app-loader [progress]="progress"></app-loader>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add new order" (nzOnCancel)="handleCancel()" (nzOnOk)="submitForm()">
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="form" class="w-full flex flex-col gap-2">
+      <nz-form-item nzFlex>
+        <nz-form-control nzErrorTip="Please input customer's phone number and not start with zero" class="w-full">
+          <input type="text" nz-input formControlName="userPhoneNumber" placeholder="phone number" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nzFlex>
+        <nz-form-control nzErrorTip="Please input your source address!" class="w-full">
+          <input type="text" nz-input formControlName="source_address" placeholder="source_address" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your destination address!" class="w-full">
+          <input type="text" nz-input formControlName="destination_address" placeholder="destination_address" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your source location lat!" class="w-full">
+          <input type="text" nz-input formControlName="source_location_lat" placeholder="source_location_lat" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your source location long!" class="w-full">
+          <input type="text" nz-input formControlName="source_location_long" placeholder="source_location_long" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your destination location lat!" class="w-full">
+          <input type="text" nz-input formControlName="destination_location_lat"
+            placeholder="destination_location_lat" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your destination location long!" class="w-full">
+          <input type="text" nz-input formControlName="destination_location_long"
+            placeholder="destination_location_long" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>
+<div id="getDistanceBasedOnMap" class="hidden"></div>

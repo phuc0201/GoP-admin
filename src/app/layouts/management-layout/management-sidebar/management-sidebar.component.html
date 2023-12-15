@@ -1,5 +1,9 @@
-<div id="side-bar" class="relative max-w-[250px] h-full max-h-[calc(100vh-78px)] flex flex-col justify-between pb-[50px] shadow-1x transition-all" [ngClass]="isOpen ? 'w-[250px]' : 'w-0'">
-  <div class="absolute flex justify-center items-center top-[50%] -right-4 w-4 h-20 border-2 border-solid border-l-0 border-[#ebebed] -translate-y-[50%] cursor-pointer rounded-tr-[20px] rounded-br-[20px]" (click)="isOpen = !isOpen">
+<div id="side-bar"
+  class="relative max-w-[250px] h-full max-h-[calc(100vh-78px)] flex flex-col justify-between pb-[50px] shadow-1x transition-all"
+  [ngClass]="isOpen ? 'w-[250px]' : 'w-0'">
+  <div
+    class="absolute flex justify-center items-center top-[50%] -right-4 w-4 h-20 border-2 border-solid border-l-0 border-[#ebebed] -translate-y-[50%] cursor-pointer rounded-tr-[20px] rounded-br-[20px]"
+    (click)="isOpen = !isOpen">
     <i class="fa-solid !m-0 text-grey" [ngClass]="isOpen ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
   </div>
   <ul *ngIf="isOpen" class="m-0 p-0">
@@ -15,8 +19,8 @@
         <span>Quản lý người dùng</span>
       </li>
     </a>
-    <a [routerLink]="['journeys']">
-      <li [ngClass]="{'active': isActive === 'journeys' }" (click)="setActive('journeys')">
+    <a [routerLink]="['trips']">
+      <li [ngClass]="{'active': isActive === 'trips' }" (click)="setActive('trips')">
         <i class="fa-solid fa-map-location-dot"></i>
         <span>Quản lý hành trình</span>
       </li>

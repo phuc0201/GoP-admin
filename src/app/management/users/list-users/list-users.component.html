@@ -4,10 +4,11 @@
   <div class="mb-4 flex items-center flex-row-reverse w-full">
     <div>
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-        <input type="text" nz-input placeholder="Tìm kiếm người dùng" />
+        <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Tìm kiếm người dùng"
+          (keydown.enter)="searchUsers()" />
       </nz-input-group>
       <ng-template #suffixIconButton>
-        <button nz-button nzType="primary" nzSearch>
+        <button nz-button nzType="primary" nzSearch (click)="searchUsers()">
           <span nz-icon nzType="search"></span>
         </button>
       </ng-template>
@@ -16,25 +17,22 @@
       <nz-option *ngFor="let option of listRole" [nzLabel]="option" [nzValue]="option"></nz-option>
     </nz-select>
   </div>
-  <nz-table #rowSelectionTable #fixedTable
-    [nzData]="listUser.data"
-    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-    [nzFrontPagination]="false"
-    (nzPageIndexChange)="onPageChange($event)"
-    [nzTotal]="listUser.totalElements"
-    [nzPageIndex]="currentPsge"
-    [nzScroll]="{ x: '1150px'}"
-    class="shadow-1x py-4 px-4 rounded">
+  <nz-table #rowSelectionTable #fixedTable [nzData]="listUser.data"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzFrontPagination]="false"
+    (nzPageIndexChange)="onPageChange($event)" [nzTotal]="listUser.totalElements" [nzPageIndex]="currentPage"
+    [nzScroll]="{ x: '1150px'}" class="shadow-1x py-4 px-4 rounded">
     <thead>
       <tr>
-        <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)" class="w-20"></th>
+        <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"
+          class="w-20"></th>
         <th *ngFor="let item of listHeadTable">{{ item }}</th>
         <th *ngIf="selectedRole==='Driver'">Status</th>
         <th nzRight>Action</th>
       </tr>
     </thead>
     <tbody class="relative">
-      <ngx-spinner bdColor="rgba(0, 0, 0, 0.03)" size="default" color="#5850e6" type="ball-spin-clockwise-fade-rotating" [fullScreen]="false">
+      <ngx-spinner bdColor="rgba(0, 0, 0, 0.03)" size="default" color="#5850e6" type="ball-spin-clockwise-fade-rotating"
+        [fullScreen]="false">
       </ngx-spinner>
       <tr *ngFor="let data of rowSelectionTable.data">
         <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
@@ -45,7 +43,6 @@
         </td>
         <td>{{ data.fullname }}</td>
         <td>{{ data.phone }}</td>
-        <td>{{ data.location }}</td>
         <td>
           <nz-tag [nzColor]="selectedRole === 'Driver' ? 'orange' : 'cyan'">{{ selectedRole }}</nz-tag>
         </td>
@@ -60,7 +57,8 @@
                 <i class="fa-regular fa-eye"></i>
               </button>
             </a>
-            <button class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3"
+            <button *ngIf="selectedRole === 'Driver'"
+              class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3"
               (click)="data.ban = !data.ban">
               <i class="fa-solid" [ngClass]="data.ban ? 'fa-lock': 'fa-lock-open'"></i>
             </button>

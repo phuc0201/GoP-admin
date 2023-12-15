@@ -1,10 +1,13 @@
 <app-loader [progress]="progress"></app-loader>
 <div class="px-9 py-4">
-  <app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+  <app-breadcrumb *ngIf="breadcrumbDisplay" [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+  <div (click)="goBackURL()" class="cursor-pointer ">
+    <i *ngIf="!breadcrumbDisplay" class="fa-solid fa-arrow-left text-xl"></i>
+  </div>
   <div class="w-full flex flex-col">
     <div class="flex gap-5 items-center">
       <div class="w-40 h-40 rounded-[50%] overflow-hidden bg-black relative flex items-center justify-center">
-        <img [src]="driverProfile?.avatar" class="w-full h-auto">
+        <img [src]="driverProfile?.avatar" class="object-contain">
       </div>
       <div class="flex flex-col ">
         <div><nz-tag [nzColor]="'cyan'">driver</nz-tag></div>
@@ -15,11 +18,9 @@
           <span class="font-bold">Phone:</span> {{ driverProfile?.phone }}
         </div>
         <div>
-          <span class="font-bold">Location:</span> Tp.HCM
-        </div>
-        <div>
-          <button nz-button class="rounded hover:shadow-xl" [nzType]="'primary'" (click)="showModal()"><span>View
-              profile</span></button>
+          <button nz-button [nzLoading]="progress===100 ? false : true"
+            class="rounded hover:shadow-xl flex items-center" [nzType]="'primary'" (click)="showModal()">View
+            Profile</button>
           <nz-modal [(nzVisible)]="isViewProfile" [nzTitle]='driverProfile?.fullname' (nzOnCancel)="handleCancel()"
             nzWidth="900px">
             <ng-container *nzModalContent>
@@ -115,11 +116,9 @@
             [totalData]=item.totalData></app-widget-chart-card>
         </div>
       </div>
-      <nz-table #rowSelectionTable #fixedTable
-        [nzData]="listOfOrders.data"
+      <nz-table #rowSelectionTable #fixedTable [nzData]="listOfOrders.data"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzFrontPagination]="false"
-        [nzTotal]="listOfOrders.totalElements"
-        (nzPageIndexChange)="onPageChange($event)" [nzScroll]="{ x: '1400px'}"
+        [nzTotal]="listOfOrders.totalElements" (nzPageIndexChange)="onPageChange($event)" [nzScroll]="{ x: '1400px'}"
         [nzPageIndex]="currentPage" class="shadow-1x py-4 px-4 rounded">
         <thead>
           <tr>
@@ -146,8 +145,8 @@
                 <img [src]="data?.user?.avatar" class="w-full h-full">
               </div>
             </td>
-            <td>{{ data.user.fullname }}</td>
-            <td>{{ data.user.phone }}</td>
+            <td>{{ data.user?.fullname }}</td>
+            <td>{{ data.user?.phone }}</td>
             <td>{{ data.source_address }}</td>
             <td>{{ data.destination_address }}</td>
             <td>
@@ -158,7 +157,7 @@
             </td>
             <td nzRight>
               <div class="flex justify-center items-center">
-                <a [routerLink]="['journeys',data.id]">
+                <a [routerLink]="['trips', 'details']" [queryParams]="{id: data.id}">
                   <button
                     class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
                     <i class="fa-regular fa-eye"></i>

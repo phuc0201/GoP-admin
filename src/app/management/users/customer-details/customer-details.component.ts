@@ -10,7 +10,6 @@ import { OrderService } from 'src/app/core/services/management/order.service';
 import { UserService } from 'src/app/core/services/management/user.service';
 import { BreadCrumb } from 'src/app/shared/widget/breadcrumb/breadcrumb.model';
 import { Paginate } from 'src/app/shared/widget/paginate/paginate.model';
-
 @Component({
   selector: 'app-customer-details',
   templateUrl: './customer-details.component.html',
@@ -26,7 +25,7 @@ export class CustomerDetailsComponent {
       },
     ],
   });
-  listHeadTable = ['Driver', 'Phone', 'Source Address', 'Destiny Address', 'Fare'];
+
   progress = 0;
   checked = false;
   indeterminate = false;
@@ -48,7 +47,7 @@ export class CustomerDetailsComponent {
   getTagColor(status: string): string {
     return status === OrderStatus.COMPLETED ? 'green' :
       status === OrderStatus.CANCELLED ? 'red' :
-        status === OrderStatus.DRIVERISARRIVING ? 'blue' :
+        status === OrderStatus.CONFIRM ? 'blue' :
           status === OrderStatus.INPROGRESS ? 'magenta' : 'orange';
   }
 
@@ -186,7 +185,7 @@ export class CustomerDetailsComponent {
     private userSvc: UserService,
     private orderSvc: OrderService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.route.queryParams.subscribe(params => {
       this.userID = params['id'];
