@@ -59,8 +59,8 @@
             </a>
             <button *ngIf="selectedRole === 'Driver'"
               class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3"
-              (click)="data.ban = !data.ban">
-              <i class="fa-solid" [ngClass]="data.ban ? 'fa-lock': 'fa-lock-open'"></i>
+              (click)="data.isVerified = !data.isVerified">
+              <i class="fa-solid" [ngClass]="!data.isVerified ? 'fa-lock': 'fa-lock-open'"></i>
             </button>
           </div>
         </td>

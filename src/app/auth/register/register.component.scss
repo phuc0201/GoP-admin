@@ -1,4 +1,14 @@
 ::ng-deep .ant-form-item-feedback-icon-success {
-  @apply flex
+  @apply flex;
 }
 
+::ng-deep #form-driver-register .ant-input-group-addon {
+  @apply rounded-r-lg;
+}
+::ng-deep nz-option-container > div > cdk-virtual-scroll-viewport {
+  overflow: unset !important;
+}
+
+::ng-deep .ant-form-item-explain-error {
+  @apply text-xs mt-1 flex-wrap;
+}

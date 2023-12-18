@@ -3,7 +3,16 @@ import { environment } from "src/environments/environment";
 export const URLConstant = {
   API: {
     ROLE: {
-      ADMIN: '/admin'
+      ADMIN: '/admin',
+      DRIVER: '/driver'
+    },
+    DRIVER: {
+      ENDPOINT: environment.serverTestUrl,
+      AUTH: {
+        LOGIN: '/auth/driver/signin',
+        LOGOUT: '/auth/driver/logout',
+        REGISTER: '/auth/driver/signup',
+      },
     },
     ADMIN: {
       ENDPOINT: environment.serverTestUrl,
@@ -23,8 +32,12 @@ export const URLConstant = {
   },
   ROUTE: {
     AUTH: {
-      LOGIN: '/auth/login',
-      REGISTER: '/auth/register',
+      LOGIN: '/auth/admin/login',
+      REGISTER: '/auth/driver/register',
+      DRIVER_LOGIN: '/auth/driver/login'
+    },
+    DRIVER: {
+      PROFILE: '/driver/profile'
     },
     ADMINISTRATION: {
       ADMIN_PROFILE: '/administration/profile',

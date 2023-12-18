@@ -1,0 +1,23 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Verify OTP" (nzOnCancel)="handleCancel()">
+  <ng-container *nzModalContent>
+    <div class="w-full flex justify-center items-center">
+      <div class="w-fit">
+        <ng-otp-input #otpInput class="flex justify-center" (onInputChange)="onOtpChange($event)"
+          [config]="{length:6}"></ng-otp-input>
+        <div class="w-full flex justify-end">
+          <span class="text-gray-500 mt-2">thời gian còn lại: {{ timeOut }}s</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button [disabled]="isVerifing" nz-button nzType="default" (click)="resetOtpInput()" class="w-20">
+      <span *ngIf="resetOTP" nz-icon [nzType]="'sync'" [nzSpin]="true"></span>
+      <span *ngIf="!resetOTP">Gửi lại</span>
+    </button>
+    <button nz-button nzType="primary" class="w-28" (click)="verifyOTP()">
+      <span *ngIf="isVerifing" nz-icon [nzType]="'sync'" [nzSpin]="true"></span>
+      <span *ngIf="!isVerifing">Xác nhận</span>
+    </button>
+  </div>
+</nz-modal>

@@ -7,6 +7,11 @@ export interface ILoginDTO {
   password: string;
   remember: boolean;
 }
+export interface IDriverLoginDTO {
+  phone: string;
+  password: string;
+  remember: boolean;
+}
 export interface IRegisterDTO {
   email: string;
   password: string;

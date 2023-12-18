@@ -20,5 +20,34 @@ export interface IDriver {
   license_image_b?: string;
   location: ILocation;
   status: IStatus;
+  rate?: number;
+  totalRate?: number;
+  totalRateCount?: number;
   refreshToken: string;
 }
+
+export interface IDriverDTO {
+  phone: string,
+  password: string,
+  fullname: string,
+  vehicle: string;
+}
+
+export interface IDriverImageDTO {
+  avatar?: File,
+  vehicleImage?: File,
+  Cavet_f?: File,
+  Cavet_b?: File,
+  identification_card_f?: File,
+  identification_card_b?: File,
+  license_image_f?: File,
+  license_image_b?: File,
+}
+
+// rate: number
+
+// @Prop({ default: 0 })
+// totalRate: number
+
+// @Prop({ default: 0 })
+// totalRateCount: number

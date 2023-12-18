@@ -1,0 +1,73 @@
+<div class="w-full flex justify-center">
+  <div class="p-5 h-auto">
+    <div class="shadow-3x bg-grey-100 flex flex-col p-5 rounded-lg">
+      <div class="flex justify-center items-center">
+        <span class="text-2xl font-bold">TẠO HỒ SƠ</span>
+      </div>
+      <div class="h-fit">
+        <div class="flex flex-col gap-5">
+          <div class="driver-infor mb-2">
+            <div class="text-2xl font-bold">
+              Xin chào Trịnh Hoàng Phúc
+            </div>
+            <div>
+              <label class="font-bold">Số điện thoại: </label>
+              <span>09876654321</span>
+            </div>
+          </div>
+          <div class="driver-profile-image">
+            <div
+              class="driver-avatar w-36 h-36 rounded-[50%] overflow-hidden bg-slate-100 relative flex justify-center items-center">
+              <img class="w-auto h-auto mt-5x1"
+                [src]="avatarImage !==null ? ( avatarImage | blobToB64:'data:image/jpeg;base64,' | async) : (driverInfor?.avatar ?  driverInfor?.avatar : '')">
+              <i class="fa-solid fa-camera absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-5xl cursor-pointer opacity-40 hover:opacity-80"
+                (click)="openCropImgModal(modalCropImg, 'avatar')"></i>
+            </div>
+            <div class="driver-vehicle mt-5">
+              <label>Ảnh phương tiện <span class="text-red">*</span></label>
+              <div
+                class="driver-avatar w-80 h-52  overflow-hidden bg-slate-100 relative flex justify-center items-center">
+                <img class="w-auto h-auto mt-5x1"
+                  [src]="vehicleImage !==null ? ( vehicleImage | blobToB64:'data:image/jpeg;base64,' | async) : (driverInfor?.vehicleImage ?  driverInfor?.vehicleImage : '')">
+                <i class="fa-solid fa-camera absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-5xl cursor-pointer opacity-40 hover:opacity-80"
+                  (click)="openCropImgModal(modalCropImg, 'vehicle')"></i>
+              </div>
+            </div>
+            <div *ngFor="let item of driverProfile" class="lg:flex items-center gap-5">
+              <div class="driver-identification mt-5">
+                <label>{{item.label_front}}<span class="text-red">*</span></label>
+                <div
+                  class="driver-avatar w-80 h-52  overflow-hidden bg-slate-100 relative flex justify-center items-center">
+                  <img class="w-auto h-auto mt-5x1"
+                    [src]="item.imageFront !==null ? ( item.imageFront | blobToB64:'data:image/jpeg;base64,' | async) : (item.imageLinkFront ?  item.imageLinkFront : '')">
+                  <i class="fa-solid fa-camera absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-5xl cursor-pointer opacity-40 hover:opacity-80"
+                    (click)="openCropImgModal(modalCropImg, item.typeImageFront)"></i>
+                </div>
+              </div>
+              <div class="driver-identification mt-5">
+                <label>{{ item.label_back }}<span class="text-red">*</span></label>
+                <div
+                  class="driver-avatar w-80 h-52  overflow-hidden bg-slate-100 relative flex justify-center items-center">
+                  <img class="w-auto h-auto mt-5x1"
+                    [src]="item.imageBack !==null ? ( item.imageBack | blobToB64:'data:image/jpeg;base64,' | async) : (item.imageLinkBack ?  item.imageLinkBack : '')">
+                  <i class="fa-solid fa-camera absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-5xl cursor-pointer opacity-40 hover:opacity-80"
+                    (click)="openCropImgModal(modalCropImg, item.typeImageBack)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button nz-button nzSize="large" nzType="primary" class="hover:bg-transparent hover:text-[#1890ff]"
+              (click)="onSubmit()">Lưu hồ
+              sơ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalCropImg>
+  <app-image-cropping (outpuFile)="closeCropImgModal($event)"
+    [maintainAspectRatio]="typeImage==='avatar'"></app-image-cropping>
+</ng-template>

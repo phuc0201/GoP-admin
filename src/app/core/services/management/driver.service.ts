@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { URLConstant } from '../../constants/url.constant';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { URLConstant } from '../../constants/url.constant';
 import { IPagedResults } from '../../model/common/response-data.model';
 import { IDriver } from '../../model/management/driver.model';
 
@@ -10,7 +10,7 @@ import { IDriver } from '../../model/management/driver.model';
 })
 export class DriverService {
   private apiUrl = URLConstant.API.ADMIN.ENDPOINT + URLConstant.API.ROLE.ADMIN + URLConstant.API.ADMIN.ROUTE.DRIVERS;
-
+  private apiUrlDriver = URLConstant.API.DRIVER.ENDPOINT + '/drivers';
   constructor(
     private http: HttpClient,
   ) { }
@@ -21,6 +21,10 @@ export class DriverService {
 
   getById(id: string): Observable<IDriver> {
     return this.http.get<IDriver>(this.apiUrl + `?id=${id}`);
+  }
+
+  getDriverInfor(): Observable<IDriver> {
+    return this.http.get<IDriver>(this.apiUrlDriver + '/userInfor');
   }
 
   getAllPaging(
@@ -34,6 +38,10 @@ export class DriverService {
       .set('fullname', fullname ?? '')
       .set('phone', phone ?? '');
 
-    return this.http.get<IPagedResults<IDriver>>(this.apiUrl + '/filter', { params});
+    return this.http.get<IPagedResults<IDriver>>(this.apiUrl + '/filter', { params });
+  }
+
+  updateImageProfile(formData: FormData): Observable<IDriver> {
+    return this.http.patch<IDriver>(URLConstant.API.DRIVER.ENDPOINT + '/drivers/image-profile', formData);
   }
 }

@@ -22,15 +22,15 @@ const routes: Routes = [
     title: 'Users'
   },
   {
-    path: 'customers/trips/:id',
+    path: 'customers/trip-detail',
     component: JourneyDetailsComponent,
-    title: 'User order details'
+    title: 'Trip details'
   },
   {
-    path: 'driver/trips/:id',
+    path: 'drivers/trip-detail',
     component: JourneyDetailsComponent,
-    title: 'Driver order details'
-  }
+    title: 'Trip details'
+  },
 ];
 
 @NgModule({

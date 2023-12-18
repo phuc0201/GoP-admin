@@ -2,7 +2,7 @@
   <div class="card shadow-1x px-5 py-4 rounded-lg h-full">
     <span class="title font-bold uppercase text-grey">{{title}}</span>
     <div class="flex items-center justify-between mt-4">
-      <span class="!m-0 text-2xl font-bold">{{ totalData }}</span>
+      <span class="!m-0 text-2xl font-bold">{{ total }}</span>
       <div class="flex items-center" [ngClass]="percent > 0 ? 'text-green':'text-red'">
         <span class="font-bold leading-none text-lg">{{ percent }}%</span>
         <i class="fa-solid ml-1" [ngClass]="percent > 0 ? 'text-green fa-arrow-up':'text-red fa-arrow-down'"></i>

@@ -26,48 +26,55 @@
             <ng-container *nzModalContent>
               <div>
                 <label class="text-xl font-medium">Vehicle</label>
-                <div class="w-[500px] h-auto overflow-hidden cursor-pointer mb-5"
+                <div
+                  class="w-[500px] h-[330px] overflow-hidden cursor-pointer mb-5 bg-slate-100 flex items-center justify-center"
                   (click)="previewImage(driverProfile?.vehicleImage)">
                   <img class="w-full h-auto" [src]="driverProfile?.vehicleImage"
                     onerror="this.src='assets/img/personal-information.png'">
                 </div>
               </div>
               <div>
-                <span class="text-xl font-medium">Indentification</span>
+                <span class="text-xl font-medium">Identification</span>
                 <div nz-row nzGutter="20">
-                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
-                    (click)="previewImage(driverProfile?.identification_card_b)">
-                    <img [src]="driverProfile?.identification_card_f" class="w-full h-auto">
+                  <div class="overflow-hidden mb-5 cursor-pointer w-[416px] h-[280px] flex justify-center items-center"
+                    nz-col nzSpan="24" nzLg="12" (click)="previewImage(driverProfile?.identification_card_f)">
+                    <img [src]="driverProfile?.identification_card_f" class="w-full h-auto"
+                      onerror="this.src='assets/img/personal-information.png'">
                   </div>
-                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
-                    (click)="previewImage(driverProfile?.identification_card_b)">
-                    <img [src]="driverProfile?.identification_card_b" class="w-full h-auto">
+                  <div class="overflow-hidden mb-5 cursor-pointer w-[416px] h-[280px] flex justify-center items-center"
+                    nz-col nzSpan="24" nzLg="12" (click)="previewImage(driverProfile?.identification_card_b)">
+                    <img [src]="driverProfile?.identification_card_b" class="w-full h-auto"
+                      onerror="this.src='assets/img/personal-information.png'">
                   </div>
                 </div>
               </div>
               <div>
                 <span class="text-xl font-medium">Cavet</span>
                 <div nz-row nzGutter="20">
-                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
-                    (click)="previewImage(driverProfile?.Cavet_f)">
-                    <img [src]="driverProfile?.Cavet_f" class="w-full h-auto">
+                  <div class="overflow-hidden mb-5 cursor-pointer w-[416px] h-[280px] flex justify-center items-center"
+                    nz-col nzSpan="24" nzLg="12" (click)="previewImage(driverProfile?.Cavet_f)">
+                    <img [src]="driverProfile?.Cavet_f" class="w-full h-auto"
+                      onerror="this.src='assets/img/personal-information.png'">
                   </div>
-                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
-                    (click)="previewImage(driverProfile?.identification_card_b)">
-                    <img [src]="driverProfile?.Cavet_b" class="w-full h-auto">
+                  <div class="overflow-hidden mb-5 cursor-pointer w-[416px] h-[280px] flex justify-center items-center"
+                    nz-col nzSpan="24" nzLg="12" (click)="previewImage(driverProfile?.Cavet_b)">
+                    <img [src]="driverProfile?.Cavet_b" class="w-full h-auto"
+                      onerror="this.src='assets/img/personal-information.png'">
                   </div>
                 </div>
               </div>
               <div>
                 <span class="text-xl font-medium">License image</span>
                 <div nz-row nzGutter="20">
-                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
-                    (click)="previewImage(driverProfile?.license_image_f)">
-                    <img [src]="driverProfile?.license_image_f" class="w-full h-auto">
+                  <div class="overflow-hidden mb-5 cursor-pointer w-[416px] h-[280px] flex justify-center items-center"
+                    nz-col nzSpan="24" nzLg="12" (click)="previewImage(driverProfile?.license_image_f)">
+                    <img [src]="driverProfile?.license_image_f" class="w-full h-auto"
+                      onerror="this.src='assets/img/personal-information.png'">
                   </div>
-                  <div class="overflow-hidden mb-5 cursor-pointer" nz-col nzSpan="24" nzLg="12"
-                    (click)="previewImage(driverProfile?.license_image_b)">
-                    <img [src]="driverProfile?.license_image_b" class="w-full h-auto">
+                  <div class="overflow-hidden mb-5 cursor-pointer w-[416px] h-[280px] flex justify-center items-center"
+                    nz-col nzSpan="24" nzLg="12" (click)="previewImage(driverProfile?.license_image_b)">
+                    <img [src]="driverProfile?.license_image_b" class="w-full h-auto"
+                      onerror="this.src='assets/img/personal-information.png'">
                   </div>
                 </div>
               </div>
@@ -157,7 +164,7 @@
             </td>
             <td nzRight>
               <div class="flex justify-center items-center">
-                <a [routerLink]="['trips', 'details']" [queryParams]="{id: data.id}">
+                <a [routerLink]="['trip-detail']" [queryParams]="{id: data.id}">
                   <button
                     class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3">
                     <i class="fa-regular fa-eye"></i>

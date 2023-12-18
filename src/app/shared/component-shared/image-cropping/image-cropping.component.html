@@ -1,0 +1,53 @@
+<div nz-row class="pb-2.5">
+  <div nz-col nzSpan="24">
+    <input type="file" (change)="fileChangeEvent($event)" accept=".jpg,.jpeg,.png,.bmp,.webp" hidden #selectFile />
+    <button nz-button nzType="dashed" class="w-full" (click)="selectFile.click()">
+      Chọn ảnh
+    </button>
+  </div>
+</div>
+
+<div nz-row class="pb-2.5" *ngIf="isSelectedFile">
+  <div nz-col nzSpan="12">
+    <label>Cắt ảnh</label>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="rotateLeft()" class="mr-2">
+      <i class="fa-solid fa-rotate-left mr-5x1"></i>
+    </button>
+    <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="rotateRight()">
+      <i class="fa-solid fa-rotate-right mr-5x1"></i>
+    </button>
+  </div>
+  <div nz-col nzSpan="24" class="text-center">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="maintainAspectRatio" format="jpeg"
+      [aspectRatio]="1" [cropperMinHeight]="150" [cropperMinWidth]="250" [backgroundColor]="'white'"
+      [canvasRotation]="rotateCanvas" [resizeToWidth]="1000" (imageCropped)="imageCropped($event)" [imageQuality]="96"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+</div>
+
+<div nz-row class="pb-2.5" *ngIf="isSelectedFile">
+  <div nz-col nzSpan="24">
+    <label>Ảnh sau khi cắt<b class="text-red">{{croppedImage?.width}} x
+        {{croppedImage?.height}} (px) -
+        {{(croppedImage?.blob?.size ?? 0)/1024 | number:'1.0-0'}} KB</b></label>
+  </div>
+  <div nz-col nzSpan="24">
+    <span *ngIf="!croppedImage?.objectUrl"><i>Đăng tải</i></span>
+    <img [src]="croppedImage?.objectUrl" class="w-full" />
+  </div>
+</div>
+
+<div nz-row class="ant-modal-footer fk-modal-footer">
+  <div nz-col nzSpan="24" class="text-right flex">
+    <div class="pl-2.5 footer-btn">
+      <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red"
+        (click)="onCancel()">Hủy</button>
+    </div>
+    <div class="pl-2.5 footer-btn">
+      <button nz-button nzType="primary" nzSize="default" (click)="onSubmit()">
+        Lưu</button>
+    </div>
+  </div>
+</div>

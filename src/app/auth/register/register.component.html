@@ -1,114 +1,64 @@
-<div class="h-[100vh] w-full bg-white1 flex justify-center">
-  <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" class="w-full max-w-[1200px] bg-white p-5 shadow-3x flex flex-col items-center mt-5">
-    <div class="capitalize text-2xl font-bold my-5">đăng ký đối tác tài xế</div>
-    <div nz-row nzGutter="40" class="w-full">
-      <div nz-col nzSpan="24" nzLg="15" class="lg:border-y-0 lg:border-l-0 lg:border border-0 border-gray-300">
-        <nz-form-item nzFlex>
-          <nz-form-control
-          [nzErrorTip]="'Vui lòng nhập địa chỉ!'"
-          [nzHasFeedback]="form.controls.address.valid">
-            <input
-              type="text"
-              nz-input
-              formControlName="address"
-              placeholder="address"
-              class="p-2"
-            />
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-control>
-            <nz-select formControlName="vehicle" [ngModel]="'Xe máy'" nzSize="large">
-              <nz-option nzValue="Xe máy" nzLabel="Xe máy"></nz-option>
-              <nz-option nzValue="Ô tô 4 chỗ" nzLabel="Ô tô 4 chỗ"></nz-option>
-              <nz-option nzValue="Ô tô 6 chỗ" nzLabel="Ô tô 6 chỗ"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item nzFlex>
-          <nz-form-control
-          [nzErrorTip]="'Vui lòng nhập họ và tên!'"
-          [nzHasFeedback]="form.controls.fullname.valid">
-            <input
-            type="text"
-            nz-input
-            formControlName="fullname"
-            placeholder="name"
-            class="p-2"/>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item nzFlex>
-          <nz-form-control
-          [nzErrorTip]="'Vui lòng nhập email'"
-          [nzHasFeedback]="form.controls.email.valid">
-            <input
-            type="text"
-            nz-input
-            formControlName="email"
-            placeholder="email"
-            class="p-2"/>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item nzFlex>
-          <nz-form-control
-          [nzErrorTip]="'Vui lòng nhập password'"
-          [nzHasFeedback]="form.controls.password.valid">
-            <nz-input-group nzPrefixIcon="lock" nzSize="large" [nzAddOnAfter]="addOnAfterEyeIcon">
-              <input [type]="hidePassword ? 'password' : 'text'"
-              nz-input
-              formControlName="password"
-              placeholder="password"
-              class="p-2" />
-              <ng-template #addOnAfterEyeIcon>
-                <div class="flex items-center cursor-pointer" (click)="hidePassword = !hidePassword">
-                  <span nz-icon [nzType]="hidePassword ? 'eye': 'eye-invisible'" nzTheme="outline" class="text-lg"></span>
-                </div>
-              </ng-template>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <div nz-row nzGutter="20" class="items-center">
-          <div nz-col nzSpan="16">
-            <nz-form-item>
-              <nz-form-control
-              [nzHasFeedback]="form.controls.phoneNumber.valid && verifyOTP"
-              nzSpan="24">
-                <nz-input-group nzSize="large" [nzAddOnAfter]="addOnAfterTemplate">
-                  <ng-template #addOnBeforeTemplate>
-                    <nz-select class="phone-select !w-20" formControlName="" [ngModel]="'+84'">
-                      <nz-option nzLabel="+84" nzValue="+84"></nz-option>
-                    </nz-select>
-                  </ng-template>
-                  <ng-template #addOnAfterTemplate>
-                    <div formControlName="verify-otp" class="cursor-pointer text-gray-400" (click)="showModal()">
-                      <span>
-                        Gửi mã
-                      </span>
-                    </div>
-                  </ng-template>
-                  <input formControlName="phoneNumber" placeholder="phone" nz-input/>
-                </nz-input-group>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-          <div nz-col nzSpan="8">
-            <nz-form-item>
-              <nz-form-control>
-                <nz-date-picker formControlName="birthDate" nzSize="large" class="w-full"></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
+<app-loader [progress]="progress"></app-loader>
+<div id="form-driver-register" class="flex justify-center items-center h-full">
+  <div class="bg-slate-100 shadow-3x flex flex-col justify-center rounded-2xl py-5 px-7">
+    <div class="mb-5 font-bold text-3xl">Đăng ký tài khoản tài xế</div>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Vui lòng cung cấp họ và tên">
+          <label for="fullname">Fullname<span class="text-red">*</span></label>
+          <input id="fullname" type="text" nz-input nzSize="large" formControlName="fullname" class="w-full rounded-lg"
+            placeholder="fullname">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Vui lòng cung cấp chính xác số điện thoại" [nzValidateStatus]="phoneValidateStatus"
+          [nzHasFeedback]="verifyOTP">
+          <label for="phoneNumber">Phone number <span class="text-red">*</span></label>
+          <nz-input-group nzSize="large" [nzAddOnAfter]="sendOTPtoPhone">
+            <input id="phoneNumber" type="text" nz-input formControlName="phone" class="w-full rounded-lg"
+              placeholder="phone number">
+            <ng-template #sendOTPtoPhone>
+              <div class="flex justify-center items-center cursor-pointer text-gray-400 w-12" (click)="showModal()">
+                <span *ngIf="isSendOTP" nz-icon [nzType]="'sync'" [nzSpin]="true"></span>
+                <span *ngIf="!isSendOTP">Gửi mã</span>
+              </div>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Mật khẩu có ít nhất 8 ký tự gồm chữ thường, hoa, số, ký tự đặc biệt">
+          <label for="password">Password<span class="text-red">*</span></label>
+          <nz-input-group nzSize="large" [nzAddOnAfter]="showPassword">
+            <input id="password" [type]="hidePassword ? 'password' : 'text'" nz-input formControlName="password"
+              class="w-full rounded-lg" placeholder="password">
+            <ng-template #showPassword>
+              <div class="cursor-pointer text-gray-400 rounded-r-lg w-12" (click)="hidePassword = !hidePassword">
+                <i class="fa-solid" [ngClass]="hidePassword ? ' fa-eye' : ' fa-eye-slash'"></i>
+              </div>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Vui lòng cung cấp chính xác số điện thoại">
+          <label>Service<span class="text-red">*</span></label>
+          <nz-select nzSize="large" formControlName="vehicle">
+            <nz-option nzValue="bike" nzLabel="Bike"></nz-option>
+            <nz-option nzValue="car" nzLabel="Car"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <button class="w-full hover:shadow-2x bg-red text-white p-2 font-medium text-lg rounded mb-2">Sign up</button>
+      <a [routerLink]="[ '/auth/driver','login' ]">
+        <div
+          class="w-full hover:shadow-2x bg-primary text-white p-2 font-medium text-lg rounded cursor-pointer text-center">
+          Login
         </div>
-        <button nz-button class="mb-2 w-full" [nzType]="'primary'">Sign in</button>
-      </div>
-      <div nz-col nzSpan="24" nzLg="9" class="">
-
-      </div>
-    </div>
-  </form>
+      </a>
+    </form>
+  </div>
 </div>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Verify OTP" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <ng-container *nzModalContent>
-    <ng-otp-input class="flex justify-center" (onInputChange)="onOtpChange($event)"  [config]="{length:6}"></ng-otp-input>
-  </ng-container>
-</nz-modal>
+<app-verify-otp [isVisible]="showModalOTP" (showModal)="closeModal($event)" (phoneVerified)="verifyPhone($event)"
+  [phoneNumber]="form.controls.phone.valid ? form.controls.phone.value : ''"
+  (sendOTP)="sendOTP($event)"></app-verify-otp>

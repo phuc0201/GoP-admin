@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   onLoginWithForm(): void {
     if (this.formLogin.valid) {
       this.spinner.show();
-      this.authSvc.doLoginForm(this.formLogin.value)
+      this.authSvc.doAdminLoginForm(this.formLogin.value)
         .subscribe({
           next: res => {
             if (res) {
@@ -38,6 +38,9 @@ export class LoginComponent implements OnInit {
               this.toast.error({ detail: "ERROR", summary: 'Đăng nhập thất bại', duration: 3000, position: 'topRight' });
             }
           },
+          error: () => {
+            this.toast.error({ detail: "ERROR", summary: 'Đăng nhập thất bại', duration: 3000, position: 'topRight' });
+          }
         });
     }
     else {
@@ -52,6 +55,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.createFormGroupLogin();
+    this.authSvc.doLogout();
   }
   constructor(
     private fb: FormBuilder,

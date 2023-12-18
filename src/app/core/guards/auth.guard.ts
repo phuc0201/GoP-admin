@@ -1,23 +1,46 @@
-import { AuthService } from '../services/auth/auth.service';
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { URLConstant } from '../constants/url.constant';
-export const canActiveGuard: CanActivateFn = (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) => {
+import { AuthService } from '../services/auth/auth.service';
 
+export const administrationGuard: CanActivateFn = (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) => {
   const authSvc = inject(AuthService);
   const routerSvc = inject(Router);
 
-  const fallbackRedirectUrl: string = URLConstant.ROUTE.AUTH.LOGIN
+  const fallbackRedirectUrl: string = URLConstant.ROUTE.AUTH.LOGIN;
   try {
-      if(authSvc.isLogged()){
-        return true;
-      }
+    if (authSvc.isLogged()) {
+      if (authSvc.isAdmin()) return true;
       else {
-        routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.LOGIN);
+        routerSvc.navigateByUrl(URLConstant.ROUTE.DRIVER.PROFILE);
         return false;
       }
+    }
+    else {
+      routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.DRIVER_LOGIN);
+      return false;
+    }
   } catch (error) {
-    routerSvc.navigateByUrl(fallbackRedirectUrl);
+    routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.REGISTER);
+    return false;
+  }
+};
+
+export const driverGuard: CanActivateFn = (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) => {
+  const authSvc = inject(AuthService);
+  const routerSvc = inject(Router);
+
+  const fallbackRedirectUrl: string = URLConstant.ROUTE.AUTH.LOGIN;
+  try {
+    if (authSvc.isLogged()) {
+      return true;
+    }
+    else {
+      routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.DRIVER_LOGIN);
+      return false;
+    }
+  } catch (error) {
+    routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.REGISTER);
     return false;
   }
 };
