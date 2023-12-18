@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { SystemConstant } from '../../constants/system.constant';
 import { URLConstant } from '../../constants/url.constant';
 import { IAuthData, IDriverLoginDTO, ILoginDTO } from '../../model/auth/auth.model';
@@ -24,9 +24,17 @@ export class AuthService {
 
 
   doLogout(): void {
-    // if (this.isAdmin())
-    //   this.router.navigateByUrl(URLConstant.ROUTE.AUTH.LOGIN);
+    if (this.router.url.includes('administration') || this.router.url.includes('admin')) {
+      this.router.navigateByUrl(URLConstant.ROUTE.AUTH.LOGIN);
+      this.clearToken();
+    }
+    else {
+      this.router.navigateByUrl(URLConstant.ROUTE.AUTH.DRIVER_LOGIN);
+      this.clearToken();
+    }
+  }
 
+  clearToken() {
     this.cookie.delete(SystemConstant.ACCESS_TOKEN, '/', undefined, true, 'Strict');
     localStorage.removeItem(SystemConstant.CURRENT_INFO);
   }
@@ -56,7 +64,7 @@ export class AuthService {
   }
 
   isLogged() {
-    return localStorage.getItem(SystemConstant.CURRENT_INFO) != null;
+    return localStorage.getItem(SystemConstant.CURRENT_INFO) ? true : false;
   }
 
   getToken(): string {
@@ -68,15 +76,23 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    const token = this.getAuthData()?.refreshToken ?? '';
-    const role = (JSON.parse(atob(token.split('.')[1]))).role;
-    return role ? (role === 'admin' ? true : false) : false;
+    try {
+      const token = this.getAuthData()?.refreshToken ?? '';
+      const role = (JSON.parse(atob(token.split('.')[1]))).role;
+      return role ? (role === 'admin' ? true : false) : false;
+    } catch (error) {
+      return false;
+    }
   }
 
   isDriver(): boolean {
-    const token = this.getAuthData()?.refreshToken ?? '';
-    const role = (JSON.parse(atob(token.split('.')[1]))).role;
-    return role ? (role === 'driver' ? true : false) : false;
+    try {
+      const token = this.getAuthData()?.refreshToken ?? '';
+      const role = (JSON.parse(atob(token.split('.')[1]))).role;
+      return role ? (role === 'driver' ? true : false) : false;
+    } catch (error) {
+      return false;
+    }
   }
 
 
@@ -95,17 +111,20 @@ export class AuthService {
     }
   }
 
-  generateRefreshToken() {
+  generateRefreshToken(): Observable<IAuthData> {
+    const authData = this.getAuthData();
+    if (!authData || !authData.refreshToken) {
+      return throwError(() => 'Refresh token is not available.');
+    }
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.getAuthData()?.refreshToken}`,
+      'Authorization': `Bearer ${authData.refreshToken}`,
     });
-    if (this.isAdmin()) {
-      return this.http.get(this.apiUrl + '/auth/admin/refresh', { headers: header });
-    }
-    else {
-      return this.http.get(this.apiUrl + '/auth/driver/refresh', { headers: header });
-    }
+    const url = this.router.url.includes('administration') || this.router.url.includes('admin')
+      ? `${this.apiUrl}/auth/admin/refresh`
+      : `${this.apiUrl}/auth/driver/refresh`;
+
+    return this.http.get<IAuthData>(url, { headers: header });
   }
 
   sendOTP(phone: string): any {

@@ -185,14 +185,7 @@ export class DriverProfileComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    this.vehicleImage = null;
-    this.avatarImage = null;
-    this.cavetImageF = null;
-    this.cavetImageB = null;
-    this.identificationImageF = null;
-    this.identificationImageB = null;
-    this.licenseImageF = null;
-    this.licenseImageB = null;
+    this.initProfileImage();
     this.loadImg();
   }
 

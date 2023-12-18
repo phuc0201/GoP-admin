@@ -5,6 +5,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { IAuthData } from '../model/auth/auth.model';
 import { AuthService } from '../services/auth/auth.service';
@@ -13,7 +14,8 @@ import { AuthService } from '../services/auth/auth.service';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private inject: Injector
+    private inject: Injector,
+    private router: Router,
   ) { }
 
   intercept(
@@ -22,44 +24,48 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     let authservice = this.inject.get(AuthService);
     let authreq = request;
-    try {
-      if (authservice.getToken() !== '' && !authservice.checkTokenExpired(authservice.getToken())) {
-        authreq = this.addTokenHeader(request, authservice.getToken());
-      }
-      return next.handle(authreq).pipe(
-        catchError((errordata) => {
-          const rfToken = authservice.getAuthData()?.refreshToken || '';
-          if (authservice.checkTokenExpired(rfToken)) {
-            return throwError(() => errordata);
-          }
-          if (errordata.status === 401) {
-            return this.handleRefrehToken(request, next);
-          }
-          return throwError(() => errordata);
-        })
-      );
-    } catch (error) {
-      return throwError(() => error);
+    if (authservice.getToken() !== '' && !authservice.checkTokenExpired(authservice.getToken())) {
+      authreq = this.addTokenHeader(request, authservice.getToken());
     }
+    return next.handle(authreq).pipe(
+      catchError((errordata) => {
+        const rfToken = authservice.getAuthData()?.refreshToken || '';
+        if (authservice.checkTokenExpired(rfToken)) {
+          authservice.doLogout();
+          return throwError(() => errordata);
+        }
+        else if (errordata.status === 401) {
+          return this.handleRefrehToken(request, next);
+        }
+        else {
+          authservice.doLogout();
+          return throwError(() => errordata);
+        }
+      }),
+    );
   }
 
   handleRefrehToken(request: HttpRequest<any>, next: HttpHandler) {
-    try {
-      let authservice = this.inject.get(AuthService);
-      return authservice.generateRefreshToken()?.pipe(
-        switchMap((data: IAuthData) => {
+    let authservice = this.inject.get(AuthService);
+
+    return authservice.generateRefreshToken().pipe(
+      switchMap((data: IAuthData) => {
+        if (data.refreshToken) {
           authservice.setToken(data?.accessToken ??
             '');
           authservice.setAuthData(data);
           return next.handle(this.addTokenHeader(request, data.accessToken));
-        }),
-        catchError(errordata => {
-          return throwError(() => errordata);
-        })
-      );
-    } catch (error) {
-      return throwError(() => error);;
-    }
+        }
+        else {
+          authservice.doLogout();
+          return throwError(() => '');
+        }
+      }),
+      catchError((err) => {
+        authservice.doLogout();
+        return throwError(() => err);
+      }),
+    );
   }
 
   addTokenHeader(request: HttpRequest<any>, token: any) {

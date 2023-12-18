@@ -26,8 +26,11 @@ export class DriverLoginComponent implements OnInit {
 
   submitForm(): void {
     if (this.formLogin.valid) {
-      let phone = '+84' + this.formLogin.controls.phone.value.slice(1, 10);
-      this.formLogin.controls.phone.setValue(phone);
+      let phone = '';
+      if (this.formLogin.controls.phone.value[0] === '0') {
+        phone = '+84' + this.formLogin.controls.phone.value.slice(1, 10);
+        this.formLogin.controls.phone.setValue(phone);
+      }
       this.authSvc.doDriverLoginForm(this.formLogin.value).subscribe({
         next: res => {
           if (res) {

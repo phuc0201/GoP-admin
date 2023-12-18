@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       error: err => {
-        console.log(err);
+        // console.log(err);
       }
     });
   }
@@ -85,8 +85,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       error: err => {
-        console.log(err);
-
+        // console.log(err);
       }
     });
   }
@@ -97,7 +96,7 @@ export class DashboardComponent implements OnInit {
         this.orderByTime = res;
       },
       error: err => {
-        console.log(err);
+        // console.log(err);
       }
     });
   }

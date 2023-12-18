@@ -12,12 +12,12 @@ export const administrationGuard: CanActivateFn = (_route: ActivatedRouteSnapsho
     if (authSvc.isLogged()) {
       if (authSvc.isAdmin()) return true;
       else {
-        routerSvc.navigateByUrl(URLConstant.ROUTE.DRIVER.PROFILE);
+        routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.LOGIN);
         return false;
       }
     }
     else {
-      routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.DRIVER_LOGIN);
+      routerSvc.navigateByUrl(URLConstant.ROUTE.AUTH.LOGIN);
       return false;
     }
   } catch (error) {

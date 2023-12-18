@@ -26,7 +26,7 @@
             <div class="driver-vehicle mt-5">
               <label>Ảnh phương tiện <span class="text-red">*</span></label>
               <div
-                class="driver-avatar w-80 h-52  overflow-hidden bg-slate-100 relative flex justify-center items-center">
+                class="driver-avatar w-80 h-52 overflow-hidden bg-slate-100 relative flex justify-center items-center">
                 <img class="w-auto h-auto mt-5x1"
                   [src]="vehicleImage !==null ? ( vehicleImage | blobToB64:'data:image/jpeg;base64,' | async) : (driverInfor?.vehicleImage ?  driverInfor?.vehicleImage : '')">
                 <i class="fa-solid fa-camera absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-5xl cursor-pointer opacity-40 hover:opacity-80"
@@ -37,7 +37,7 @@
               <div class="driver-identification mt-5">
                 <label>{{item.label_front}}<span class="text-red">*</span></label>
                 <div
-                  class="driver-avatar w-80 h-52  overflow-hidden bg-slate-100 relative flex justify-center items-center">
+                  class="driver-avatar w-80 h-52 overflow-hidden bg-slate-100 relative flex justify-center items-center">
                   <img class="w-auto h-auto mt-5x1"
                     [src]="item.imageFront !==null ? ( item.imageFront | blobToB64:'data:image/jpeg;base64,' | async) : (item.imageLinkFront ?  item.imageLinkFront : '')">
                   <i class="fa-solid fa-camera absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-5xl cursor-pointer opacity-40 hover:opacity-80"
