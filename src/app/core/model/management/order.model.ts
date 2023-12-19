@@ -23,6 +23,7 @@ export interface IOrderFormDTO {
   destination_location_long: string,
   source_address: string,
   destination_address: string,
+  vehicle_type: string;
 }
 
 export interface IStatistics {
@@ -60,4 +61,5 @@ export interface IOrderDTO {
   distance: number;
   duration: number;
   user: string;
+  vehicle_type: string;
 }

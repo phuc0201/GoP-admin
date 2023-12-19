@@ -4,39 +4,55 @@
     <form nz-form [formGroup]="form" class="w-full flex flex-col gap-2">
       <nz-form-item nzFlex>
         <nz-form-control nzErrorTip="Please input customer's phone number and not start with zero" class="w-full">
+          <label class="text-gray-500">Số điện thoại khách hàng<span class="text-red">*</span></label>
           <input type="text" nz-input formControlName="userPhoneNumber" placeholder="phone number" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item nzFlex>
         <nz-form-control nzErrorTip="Please input your source address!" class="w-full">
+          <label class="text-gray-500">Điểm đón<span class="text-red">*</span></label>
           <input type="text" nz-input formControlName="source_address" placeholder="source_address" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your destination address!" class="w-full">
+          <label class="text-gray-500">Điểm đến<span class="text-red">*</span></label>
           <input type="text" nz-input formControlName="destination_address" placeholder="destination_address" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your source location lat!" class="w-full">
+          <label class="text-gray-500">Kinh độ của điểm đón<span class="text-red">*</span></label>
           <input type="text" nz-input formControlName="source_location_lat" placeholder="source_location_lat" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your source location long!" class="w-full">
+          <label class="text-gray-500">Vĩ độ của điểm đón<span class="text-red">*</span></label>
           <input type="text" nz-input formControlName="source_location_long" placeholder="source_location_long" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your destination location lat!" class="w-full">
+          <label class="text-gray-500">Kinh độ của điểm đến<span class="text-red">*</span></label>
           <input type="text" nz-input formControlName="destination_location_lat"
             placeholder="destination_location_lat" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your destination location long!" class="w-full">
+          <label class="text-gray-500">Vĩ độ của điểm đến<span class="text-red">*</span></label>
           <input type="text" nz-input formControlName="destination_location_long"
             placeholder="destination_location_long" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label class="text-gray-500">Loại phương tiện<span class="text-red">*</span></label>
+          <nz-select nzSize="large" formControlName="vehicle_type">
+            <nz-option nzValue="bike" nzLabel="Bike"></nz-option>
+            <nz-option nzValue="car" nzLabel="Car"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </form>

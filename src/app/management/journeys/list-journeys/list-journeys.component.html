@@ -2,7 +2,7 @@
 <div class="px-9 py-4">
   <app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
   <div class="mb-4 flex">
-    <button nz-button nzType="primary" class="mr-2" (click)="addNewOrder()">Add new</button>
+    <!-- <button nz-button nzType="primary" class="mr-2" (click)="addNewOrder()">Add new</button> -->
     <nz-select [(ngModel)]="orderStatusOption" class="w-48 mr-2" (ngModelChange)="onOrderStatusChange($event)">
       <nz-option [nzLabel]="'ALL'" [nzValue]="'ALL'"></nz-option>
       <nz-option *ngFor="let item of listOrderStatus" [nzValue]="item" [nzLabel]="item"></nz-option>

@@ -18,6 +18,9 @@
           <span class="font-bold">Phone:</span> {{ driverProfile?.phone }}
         </div>
         <div>
+          <span class="font-bold">Vehicle:</span> {{ driverProfile?.vehicle }}
+        </div>
+        <div>
           <button nz-button [nzLoading]="progress===100 ? false : true"
             class="rounded hover:shadow-xl flex items-centerfont-bold text-white" nzType="primary"
             (click)="showModal()">View

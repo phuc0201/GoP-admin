@@ -15,7 +15,8 @@
                 <img [src]="order?.driver?.avatar" class="w-fit h-full">
               </div>
               <div class="flex flex-col">
-                <span class="text-xl font-bold">{{ order?.driver?.fullname }}</span>
+                <span class="text-xl font-bold">{{ order?.driver?.fullname ? order?.driver?.fullname : 'Đang chờ nhận
+                  đơn'}}</span>
                 <span>
                   <nz-tag [nzColor]="'orange'" class="w-auto">driver</nz-tag>
                 </span>
@@ -31,7 +32,7 @@
                 <img [src]="order?.user?.avatar" class="w-fit h-full">
               </div>
               <div class="flex flex-col">
-                <span class="text-xl font-bold">{{ order?.user?.fullname }}</span>
+                <span class="text-xl font-bold">{{ order?.user?.fullname ? order?.user?.fullname : 'Guest' }}</span>
                 <span class="mt-1">
                   <nz-tag [nzColor]="'cyan'" class="w-fit">customer</nz-tag>
                 </span>

@@ -28,6 +28,7 @@ export class FormOrderComponent implements OnInit {
       source_location_lat: ['', [Validators.required, this.isNumber]],
       source_location_long: ['', [Validators.required, this.isNumber]], destination_location_lat: ['', [Validators.required, this.isNumber]],
       destination_location_long: ['', [Validators.required, this.isNumber]],
+      vehicle_type: ['bike', [Validators.required]]
     });
   }
 
@@ -91,6 +92,7 @@ export class FormOrderComponent implements OnInit {
           let time = parseFloat((distance / (speed * (1000 / 3600))).toFixed(2));
 
           this.order = {
+            vehicle_type: this.form.controls.vehicle_type.value,
             user: userPhoneNumber,
             source_address: this.form.value.source_address ?? '',
             destination_address: this.form.value.destination_address ?? '',
