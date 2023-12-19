@@ -29,7 +29,7 @@ export class JourneyDetailsComponent implements OnInit, AfterViewInit {
 
   goBackURL(): void {
     this.location.back();
- }
+  }
 
   setTime(time: number): void {
     if (time >= 60) {

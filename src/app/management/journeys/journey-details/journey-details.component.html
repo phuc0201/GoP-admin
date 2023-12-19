@@ -74,7 +74,7 @@
         </div>
         <div class="flex items-center gap-2">
           <span nz-icon nzType="phone" nzTheme="twotone"></span>
-          <span>{{ order?.user?.phone }} -
+          <span>{{ order?.user?.phone ?? order?.user }} -
             <nz-tag [nzColor]="'cyan'" class="w-fit">customer</nz-tag></span>
         </div>
       </div>

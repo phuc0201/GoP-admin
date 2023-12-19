@@ -13,6 +13,7 @@ export interface IOrder {
   destination_address: string,
   driver?: IDriver,
   user?: IUser;
+  vehicle_type?: string;
 }
 
 export interface IOrderFormDTO {
@@ -47,6 +48,7 @@ export interface IOrderByTime {
 }
 
 export interface IOrderDTO {
+  user: string;
   source_address: string;
   destination_address: string;
   orderTotal: number;
@@ -60,6 +62,5 @@ export interface IOrderDTO {
   };
   distance: number;
   duration: number;
-  user: string;
   vehicle_type: string;
 }

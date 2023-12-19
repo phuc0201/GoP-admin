@@ -16,7 +16,7 @@ export class FormOrderComponent implements OnInit {
   @Input() isVisible: boolean = false;
   @Output() closeModal = new EventEmitter<boolean>();
   progress: number = 100;
-  order?: IOrderDTO;
+  order!: IOrderDTO;
   form!: FormGroup<MakeForm<IOrderFormDTO>>;
   map!: L.Map;
 
@@ -65,7 +65,6 @@ export class FormOrderComponent implements OnInit {
       let distance = source.distanceTo(destination);
       let speed = 40; // km/h
       let duration = parseFloat((distance / (speed * (1000 / 3600))).toFixed(2));
-
       if (this.map)
         this.map.remove();
       this.map = L.map('getDistanceBasedOnMap').setView([10.850580, 106.771806], 10);
@@ -108,7 +107,6 @@ export class FormOrderComponent implements OnInit {
               long: parseFloat(destination_location_long)
             }
           };
-
           this.createOrder(this.order);
 
         }).addTo(this.map);
