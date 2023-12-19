@@ -91,7 +91,9 @@ export class DashboardComponent implements OnInit {
   }
 
   loadOrderByTime() {
-    this.orderSvc.getOrderByTime(12, 2023).subscribe({
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    this.orderSvc.getOrderByTime(currentMonth, 2023).subscribe({
       next: res => {
         this.orderByTime = res;
       },

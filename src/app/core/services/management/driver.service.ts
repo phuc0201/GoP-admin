@@ -44,4 +44,9 @@ export class DriverService {
   updateImageProfile(formData: FormData): Observable<IDriver> {
     return this.http.patch<IDriver>(URLConstant.API.DRIVER.ENDPOINT + '/drivers/image-profile', formData);
   }
+
+  verifyAccount(id: string, status: boolean): Observable<IDriver>{
+    return this.http.patch<IDriver>(URLConstant.API.ADMIN.ENDPOINT + '/admin/driver/verify', { id: id, status: status })
+  }
+
 }

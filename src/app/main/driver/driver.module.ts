@@ -8,6 +8,7 @@ import { DriverProfileComponent } from './driver-profile/driver-profile.componen
 import { DriverRoutingModule } from './driver-routing.module';
 import { ImageCroppingComponent } from 'src/app/shared/component-shared/image-cropping/image-cropping.component';
 import { BlobToBase64Pipe } from 'src/app/shared/widget/pipes/blob-to-base64.pipe';
+import { LoaderComponent } from 'src/app/shared/widget/loader/loader.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { BlobToBase64Pipe } from 'src/app/shared/widget/pipes/blob-to-base64.pip
     NzFormModule,
     NzModalModule,
     ImageCroppingComponent,
-    BlobToBase64Pipe
+    BlobToBase64Pipe,
+    LoaderComponent
   ]
 })
 export class DriverModule { }

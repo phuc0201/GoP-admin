@@ -23,8 +23,8 @@
     [nzScroll]="{ x: '1150px'}" class="shadow-1x py-4 px-4 rounded">
     <thead>
       <tr>
-        <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"
-          class="w-20"></th>
+        <!-- <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"
+          class="w-20"></th> -->
         <th *ngFor="let item of listHeadTable">{{ item }}</th>
         <th *ngIf="selectedRole==='Driver'">Status</th>
         <th nzRight>Action</th>
@@ -35,7 +35,7 @@
         [fullScreen]="false">
       </ngx-spinner>
       <tr *ngFor="let data of rowSelectionTable.data">
-        <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+        <!-- <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
         <td class="relative">
           <div class="relative w-12 h-12 rounded-[50%] overflow-hidden bg-black flex items-center justify-center">
             <img [src]="data.avatar" width="48" height="48">
@@ -59,7 +59,7 @@
             </a>
             <button *ngIf="selectedRole === 'Driver'"
               class="flex justify-center items-center w-8 h-8 text-red border border-solid border-red rounded p-3"
-              (click)="data.isVerified = !data.isVerified">
+              (click)="data.isVerified = verifyDriver(data.id, !data.isVerified)">
               <i class="fa-solid" [ngClass]="!data.isVerified ? 'fa-lock': 'fa-lock-open'"></i>
             </button>
           </div>

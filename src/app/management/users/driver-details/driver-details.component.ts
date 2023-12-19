@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SystemConstant } from 'src/app/core/constants/system.constant';
 import { URLConstant } from 'src/app/core/constants/url.constant';
@@ -48,6 +49,7 @@ export class DriverDetailsComponent {
   onPreviewImg: boolean = false;
   imgPreview?: string = '';
 
+  isVerified: boolean = false;
   goBackURL(): void {
     this.location.back();
   }
@@ -124,7 +126,7 @@ export class DriverDetailsComponent {
   loadStatistics(): void {
     this.orderSvc.getStatisticsByDriver(this.driverID).subscribe({
       next: res => {
-        if (res) {
+        if (res.totalEarning) {
           this.statistics = [
             {
               title: SystemConstant.STATISTICS_TITLE.BOOK_TRIPS,
@@ -146,6 +148,31 @@ export class DriverDetailsComponent {
       },
       error: err => {
         console.log(err);
+      }
+    });
+  }
+
+  verifyDriver() {
+    this.driverSvc.verifyAccount(this.driverID, !this.isVerified).subscribe({
+      next: res => {
+        if (res) {
+          if (this.isVerified) {
+            this.toast.success({ detail: "SUCCESS", summary: 'Khóa tài khoản thành công', duration: 3000, position: 'topRight' });
+            this.isVerified = false;
+          }
+          else {
+            this.toast.success({ detail: "SUCCESS", summary: 'Kích hoạt thành công', duration: 3000, position: 'topRight' });
+            this.isVerified = true;
+          }
+        }
+      },
+      error: err => {
+        this.toast.error({ detail: "ERROR", summary: 'Kích hoạt thất bại', duration: 3000, position: 'topRight' });
+      },
+      complete: () => {
+        if (this.driverProfile) {
+          this.driverProfile.isVerified = this.isVerified;
+        }
       }
     });
   }
@@ -178,6 +205,7 @@ export class DriverDetailsComponent {
       next: (res) => {
         if (res) {
           this.driverProfile = res;
+          this.isVerified = res.isVerified;
         }
       },
       error: err => {
@@ -191,10 +219,6 @@ export class DriverDetailsComponent {
   }
 
   ngOnInit(): void {
-    this.loadData();
-    if (this.router.url.includes(URLConstant.ROUTE.ADMINISTRATION.USERS)) {
-      this.breadcrumbDisplay = true;
-    }
     this.statistics = [
       {
         title: SystemConstant.STATISTICS_TITLE.BOOK_TRIPS,
@@ -212,6 +236,10 @@ export class DriverDetailsComponent {
         totalData: 0,
       },
     ];
+    this.loadData();
+    if (this.router.url.includes(URLConstant.ROUTE.ADMINISTRATION.USERS)) {
+      this.breadcrumbDisplay = true;
+    }
   }
 
   constructor(
@@ -220,7 +248,8 @@ export class DriverDetailsComponent {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private toast: NgToastService
   ) {
     this.route.queryParams.subscribe(params => {
       this.driverID = params['id'];

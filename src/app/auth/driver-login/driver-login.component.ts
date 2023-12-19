@@ -15,7 +15,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 export class DriverLoginComponent implements OnInit {
   hidePassword: boolean = false;
   formLogin!: FormGroup<MakeForm<IDriverLoginDTO>>;
-
+  progress: number = 100;
   createFormGroupLogin(): void {
     this.formLogin = this.fb.nonNullable.group({
       phone: ['', [Validators.required]],
@@ -25,6 +25,7 @@ export class DriverLoginComponent implements OnInit {
   }
 
   submitForm(): void {
+    this.progress = 0;
     if (this.formLogin.valid) {
       let phone = '';
       if (this.formLogin.controls.phone.value[0] === '0') {
@@ -55,6 +56,9 @@ export class DriverLoginComponent implements OnInit {
             duration: 1000,
             position: 'topRight'
           });
+        },
+        complete: () => {
+          this.progress = 100;
         }
       });
     }

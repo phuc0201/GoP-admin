@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
   showModal(): void {
     if (this.form.controls.phone.valid) {
       this.isSendOTP = true;
-      // this.sendOTP();
+      this.sendOTP();
     }
     else {
       this.toast.warning({ detail: "WARNING", summary: 'Vui lòng nhập số điện thoại', duration: 1500, position: 'topRight' });
@@ -97,13 +97,17 @@ export class RegisterComponent implements OnInit {
           if (res) {
             setTimeout(() => {
               this.toast.success({ detail: "SUCCESS", summary: 'Đăng ký thành công', duration: 3000, position: 'topRight' });
-              this.progress = 100;
               this.router.navigateByUrl('/auth/driver/login');
             }, 1000);
           }
         },
         error: err => {
           this.toast.error({ detail: "ERROR", summary: 'Đăng ký thất bại', duration: 3000, position: 'topRight' });
+        },
+        complete: () => {
+          setTimeout(() => {
+            this.progress = 100;
+          }, 1200);
         }
       });
     } else {
@@ -123,7 +127,7 @@ export class RegisterComponent implements OnInit {
     private authSvc: AuthService,
   ) { }
   ngOnInit(): void {
-    this.authSvc.doLogout();
+    this.authSvc.clearToken();
     this.createForm();
   }
 }

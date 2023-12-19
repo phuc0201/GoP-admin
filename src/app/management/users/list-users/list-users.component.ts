@@ -91,6 +91,25 @@ export class ListUsersComponent implements OnInit {
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
+  verifyDriver(id: string, isVerified: boolean): boolean {
+    this.driverSvc.verifyAccount(id, isVerified).subscribe({
+      next: res => {
+        if (res) {
+          if (isVerified) {
+            this.toast.success({ detail: "SUCCESS", summary: 'Kích hoạt thành công', duration: 3000, position: 'topRight' });
+          }
+          else {
+            this.toast.success({ detail: "SUCCESS", summary: 'Khóa tài khoản thành công', duration: 3000, position: 'topRight' });
+          }
+        }
+      },
+      error: err => {
+        this.toast.error({ detail: "ERROR", summary: 'Kích hoạt thất bại', duration: 3000, position: 'topRight' });
+      },
+    });
+    return isVerified;
+  }
+
   onPageChange(index: number) {
     this.progress = 0;
     this.currentPage = index;

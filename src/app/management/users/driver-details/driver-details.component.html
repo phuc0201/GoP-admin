@@ -19,8 +19,10 @@
         </div>
         <div>
           <button nz-button [nzLoading]="progress===100 ? false : true"
-            class="rounded hover:shadow-xl flex items-center" [nzType]="'primary'" (click)="showModal()">View
+            class="rounded hover:shadow-xl flex items-centerfont-bold text-white" nzType="primary"
+            (click)="showModal()">View
             Profile</button>
+          <button class="rounded hover:shadow-xl flex items-center text-white mt-2 font-medium px-4 py-1" [ngClass]="isVerified ? 'bg-red' : 'bg-green'" (click)="verifyDriver()">{{ isVerified ? 'Khóa' : 'Kích hoạt' }}</button>
           <nz-modal [(nzVisible)]="isViewProfile" [nzTitle]='driverProfile?.fullname' (nzOnCancel)="handleCancel()"
             nzWidth="900px">
             <ng-container *nzModalContent>

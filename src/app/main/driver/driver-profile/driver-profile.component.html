@@ -1,8 +1,9 @@
+<app-loader [progress]="progress"></app-loader>
 <div class="w-full flex justify-center">
   <div class="p-5 h-auto">
     <div class="shadow-3x bg-grey-100 flex flex-col p-5 rounded-lg">
       <div class="flex justify-center items-center">
-        <span class="text-2xl font-bold">TẠO HỒ SƠ</span>
+        <span class="text-3xl font-bold">TẠO HỒ SƠ</span>
       </div>
       <div class="h-fit">
         <div class="flex flex-col gap-5">
@@ -57,6 +58,7 @@
             </div>
           </div>
           <div class="flex justify-end">
+            <a [routerLink]="['/auth/driver/login']" nz-button nzSize="large"  class="hover:bg-transparent mr-3 hover:text-[#1890ff]">Đăng xuất</a>
             <button nz-button nzSize="large" nzType="primary" class="hover:bg-transparent hover:text-[#1890ff]"
               (click)="onSubmit()">Lưu hồ
               sơ</button>

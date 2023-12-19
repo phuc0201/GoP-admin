@@ -22,6 +22,7 @@ export interface profileImage {
   styleUrls: ['./driver-profile.component.scss']
 })
 export class DriverProfileComponent implements OnChanges, OnInit {
+  progress: number = 100;
   modalRef!: NzModalRef;
   typeImage: string = '';
   driverProfile?: profileImage[];
@@ -80,6 +81,7 @@ export class DriverProfileComponent implements OnChanges, OnInit {
   }
 
   loadImg(): void {
+    this.progress = 0;
     this.driverSvc.getDriverInfor().subscribe({
       next: res => {
         if (res) {
@@ -89,6 +91,9 @@ export class DriverProfileComponent implements OnChanges, OnInit {
       },
       error: () => {
         this.toast.error({ detail: "ERROR", summary: 'Lấy thông tin tài xế thất bại', duration: 2000, position: 'topRight' });
+      },
+      complete: () => {
+        this.progress = 100;
       }
     });
   }
@@ -125,6 +130,7 @@ export class DriverProfileComponent implements OnChanges, OnInit {
   }
 
   onSubmit(): void {
+    this.progress = 0;
     const formData = new FormData();
     if (this.isChangeImg) {
       this.isChangeImg = false;
@@ -172,6 +178,9 @@ export class DriverProfileComponent implements OnChanges, OnInit {
         },
         error: err => {
           this.toast.error({ detail: "ERROR", summary: 'Cập nhật hồ sơ thất bại', duration: 2000, position: 'topRight' });
+        },
+        complete: () => {
+          this.progress = 100;
         }
       });
     }
