@@ -4,7 +4,9 @@ import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { NgToastService } from 'ng-angular-popup';
 import { MakeForm } from 'src/app/core/model/common/make-form.model';
+import { IAddress } from 'src/app/core/model/management/address.model';
 import { IOrderDTO, IOrderFormDTO } from 'src/app/core/model/management/order.model';
+import { MapService } from 'src/app/core/services/management/map.service';
 import { OrderService } from 'src/app/core/services/management/order.service';
 
 @Component({
@@ -19,14 +21,19 @@ export class FormOrderComponent implements OnInit {
   order!: IOrderDTO;
   form!: FormGroup<MakeForm<IOrderFormDTO>>;
   map!: L.Map;
-
+  timeoutId: any;
+  listSrcAddress: IAddress[] = [];
+  listDesAddress: IAddress[] = [];
+  listAddress: IAddress[] = [];
+  search: boolean = false;
   createForm(): void {
     this.form = this.fb.nonNullable.group({
       userPhoneNumber: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.startsWithZeroValidator()]],
       source_address: ['', [Validators.required, Validators.minLength(10)]],
       destination_address: ['', [Validators.required, Validators.minLength(10)]],
       source_location_lat: ['', [Validators.required, this.isNumber]],
-      source_location_long: ['', [Validators.required, this.isNumber]], destination_location_lat: ['', [Validators.required, this.isNumber]],
+      source_location_long: ['', [Validators.required, this.isNumber]],
+      destination_location_lat: ['', [Validators.required, this.isNumber]],
       destination_location_long: ['', [Validators.required, this.isNumber]],
       vehicle_type: ['bike', [Validators.required]]
     });
@@ -96,8 +103,8 @@ export class FormOrderComponent implements OnInit {
             source_address: this.form.value.source_address ?? '',
             destination_address: this.form.value.destination_address ?? '',
             orderTotal: parseFloat((parseFloat((distance / 1000).toFixed(2)) * 5000).toFixed(2)),
-            distance: parseFloat((distance).toFixed(2)),
-            duration: time,
+            distance: Math.ceil(distance),
+            duration: Math.ceil(time),
             source_location: {
               lat: parseFloat(source_location_lat),
               long: parseFloat(source_location_long)
@@ -118,6 +125,61 @@ export class FormOrderComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
+    }
+  }
+
+  getSrcLocation(): void {
+    this.listSrcAddress = [];
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.mapSvc.searchAddress(this.form.value.source_address ?? '').subscribe({
+        next: res => {
+          if (res) {
+            this.listSrcAddress = res;
+          }
+        },
+      });
+    }, 500);
+  }
+
+  getDesLocation(): void {
+    this.listDesAddress = [];
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.mapSvc.searchAddress(this.form.value.destination_address ?? '').subscribe({
+        next: res => {
+          if (res) {
+            this.listDesAddress = res;
+          }
+        },
+      });
+    }, 250);
+  }
+
+  selectSourceAddress(address: string, lat: string, long: string): void {
+    this.form.controls.source_address.setValue(address);
+    this.form.controls.source_location_lat.setValue(lat);
+    this.form.controls.source_location_long.setValue(long);
+    this.listSrcAddress = [];
+  }
+
+  selectDesinationAddress(address: string, lat: string, long: string): void {
+    this.form.controls.destination_address.setValue(address);
+    this.form.controls.destination_location_lat.setValue(lat);
+    this.form.controls.destination_location_long.setValue(long);
+    this.listDesAddress = [];
+  }
+
+  stopSeeking(): void {
+    this.timeoutId = setTimeout(() => {
+      this.search = false;
+    }, 3000);
+  }
+
+  Seeking(): void {
+    console.log('sdfsf');
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
   }
 
@@ -146,6 +208,7 @@ export class FormOrderComponent implements OnInit {
     private fb: FormBuilder,
     private orderSvc: OrderService,
     private toast: NgToastService,
+    private mapSvc: MapService,
   ) { }
 
 }
