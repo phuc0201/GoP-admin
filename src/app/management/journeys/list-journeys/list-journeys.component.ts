@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { NgToastService } from 'ng-angular-popup';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ListOrderStatus, OrderStatus } from 'src/app/core/model/management/order-status.model';
 import { IOrder } from 'src/app/core/model/management/order.model';
@@ -11,12 +12,12 @@ import { Paginate } from 'src/app/shared/widget/paginate/paginate.model';
   templateUrl: './list-journeys.component.html',
   styleUrls: ['./list-journeys.component.scss']
 })
-export class ListJourneysComponent implements OnInit {
+export class ListJourneysComponent implements OnInit, OnChanges {
   progress: number = 0;
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly IOrder[] = [];
-  listOfOrdes = new Paginate<IOrder>();
+  listOfOrders = new Paginate<IOrder>();
   setOfCheckedId = new Set<number>();
   currentPage: number = 1;
   listOrderStatus = ListOrderStatus;
@@ -32,6 +33,70 @@ export class ListJourneysComponent implements OnInit {
     heading: 'Trips',
     listBreadcrumb: [],
   });
+
+  deleteOrder(order: IOrder) {
+    if (order.orderStatus === OrderStatus.CANCELLED) {
+      this.toast.warning({ detail: "WARNING", summary: 'order canceled', duration: 2000, position: 'topRight' });
+    }
+    else if (order.orderStatus === OrderStatus.PENDING) {
+      this.orderSvc.deleteOrder(order.id).subscribe({
+        complete: () => {
+          // let index = this.listOfOrders.data.indexOf(order);
+          // if (index > -1) {
+          //   let listOrders = [...this.listOfOrders.data.slice(0, index), ...this.listOfOrders.data.slice(index + 1)];
+          //   this.listOfOrders.data = listOrders;
+          //   if (this.listOfOrders.data.length == 0) {
+          //     this.listOfOrders.totalElements = this.listOfOrders.totalElements - 1;
+          //     this.currentPage = this.currentPage > 1 ? this.currentPage - 1 : this.currentPage + 1;
+          //     this.loadOrders();
+          //   }
+          // };
+          let index = this.listOfOrders.data.indexOf(order);
+          this.listOfOrders.data[index].orderStatus = OrderStatus.CANCELLED;
+          this.toast.success({ detail: "SUCCESS", summary: 'Cancel trip successful', duration: 2000, position: 'topRight' });
+        },
+        error: err => {
+          this.toast.error({ detail: "ERROR", summary: 'Delete failed', duration: 2000, position: 'topRight' });
+        }
+      });
+    }
+    else {
+      this.toast.warning({ detail: "WARNING", summary: 'Can not cancel order', duration: 2000, position: 'topRight' });
+    }
+  }
+
+  deleteListOrders() {
+    let listOrders: number[] = [];
+    this.setOfCheckedId.forEach(id => {
+      this.listOfOrders.data.forEach(order => {
+        if (order.id === id && order.orderStatus === OrderStatus.PENDING) {
+          listOrders.push(id);
+        }
+      });
+    });
+    if (listOrders.length === 0) {
+      this.toast.warning({ detail: "WARNING", summary: 'Please select pending orders', duration: 2000, position: 'topRight' });
+    }
+    else {
+      this.orderSvc.deleteListOrder(listOrders).subscribe({
+        next: res => {
+          this.listOfOrders.data.forEach(order => {
+            if (listOrders.includes(order.id)) {
+              order.orderStatus = OrderStatus.CANCELLED;
+            }
+          });
+          this.checked = false;
+          this.onAllChecked(false);
+        },
+        error: err => {
+          this.toast.error({ detail: "ERROR", summary: 'Delete failed', duration: 2000, position: 'topRight' });
+        },
+        complete: () => {
+          this.toast.success({ detail: "SUCCESS", summary: 'Cancel trip successful', duration: 2000, position: 'topRight' });
+        }
+      });
+    }
+  }
   addNewOrder(): void {
     this.showModal = true;
   }
@@ -106,8 +171,8 @@ export class ListJourneysComponent implements OnInit {
     this.orderSvc.getAllPaging(this.currentPage, 10, this.orderStatusOption, this.searchOrdersByAddress.src, this.searchOrdersByAddress.des).subscribe({
       next: res => {
         if (res) {
-          this.listOfOrdes.data = res.content;
-          this.listOfOrdes.totalElements = res.totalElements;
+          this.listOfOrders.data = res.content;
+          this.listOfOrders.totalElements = res.totalElements;
         }
       },
       complete: () => {
@@ -121,7 +186,14 @@ export class ListJourneysComponent implements OnInit {
   ngOnInit(): void {
     this.loadOrders();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('sssfdsd');
+
+  }
+
   constructor(
     private orderSvc: OrderService,
+    private toast: NgToastService,
     private spinner: NgxSpinnerService) { }
 }

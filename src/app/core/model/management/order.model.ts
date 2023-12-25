@@ -1,3 +1,4 @@
+import { IAddressDetail } from "./address.model";
 import { IDriver } from "./driver.model";
 import { ILocation } from "./location.model";
 import { OrderStatus } from "./order-status.model";
@@ -18,12 +19,8 @@ export interface IOrder {
 
 export interface IOrderFormDTO {
   userPhoneNumber: string;
-  source_location_lat: string,
-  source_location_long: string,
-  destination_location_lat: string,
-  destination_location_long: string,
-  source_address: string,
-  destination_address: string,
+  source_address: IAddressDetail,
+  destination_address: IAddressDetail,
   vehicle_type: string;
 }
 

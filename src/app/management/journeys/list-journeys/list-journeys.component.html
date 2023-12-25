@@ -2,6 +2,18 @@
 <div class="px-9 py-4">
   <app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
   <div class="mb-4 flex">
+    <div >
+      <button class="flex justify-center items-center w-8 h-8 text-red mr-2 border border-solid border-red rounded p-3"
+        (click)="deleteListOrders()">
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+    </div>
+    <div >
+      <button class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3"
+        (click)="loadOrders()">
+        <i class="fa-solid fa-rotate"></i>
+      </button>
+    </div>
     <button nz-button nzType="primary" class="mr-2" (click)="addNewOrder()">Add new</button>
     <nz-select [(ngModel)]="orderStatusOption" class="w-48 mr-2" (ngModelChange)="onOrderStatusChange($event)">
       <nz-option [nzLabel]="'ALL'" [nzValue]="'ALL'"></nz-option>
@@ -21,10 +33,9 @@
       </button>
     </ng-template>
   </div>
-  <nz-table #rowSelectionTable #fixedTable [nzData]="listOfOrdes.data" [nzFrontPagination]="false"
-    [nzTotal]="listOfOrdes.totalElements" [nzPageIndex]="currentPage" (nzPageIndexChange)="onPageChange($event)"
-    [nzScroll]="{ x: '1400px'}" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-    class="shadow-1x pt-4 px-4 rounded">
+  <nz-table #rowSelectionTable #fixedTable [nzData]="listOfOrders.data" [nzFrontPagination]="false"
+    [nzShowPagination]="false" [nzPageIndex]="currentPage" [nzScroll]="{ x: '1400px'}"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" class="shadow-1x pt-4 px-4 rounded">
     <thead>
       <tr>
         <th nzWidth="80px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
@@ -44,8 +55,8 @@
       </ngx-spinner>
       <tr *ngFor="let data of rowSelectionTable.data">
         <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-        <td>{{ data.user?.fullname }}</td>
-        <td>{{ data.driver?.fullname }}</td>
+        <td>{{ data.user?.fullname ?? 'Guest' }}</td>
+        <td>{{ data.driver?.fullname ?? 'Waiting' }}</td>
         <td>{{ data.source_address }}</td>
         <td>{{ data.destination_address }}</td>
         <td> {{ data.orderTotal.toLocaleString('vi', {style : 'currency', currency : 'VND'}) }}</td>
@@ -64,10 +75,22 @@
                 <i class="fa-regular fa-eye"></i>
               </button>
             </a>
+            <div>
+              <button
+                class="flex justify-center items-center w-8 h-8 text-red mr-2 border border-solid border-red rounded p-3"
+                (click)="deleteOrder(data)">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
           </div>
         </td>
       </tr>
     </tbody>
   </nz-table>
+  <div class="py-3 float-right">
+    <nz-pagination [nzPageIndex]="currentPage" [nzTotal]="listOfOrders.totalElements"
+      (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+  </div>
 </div>
+
 <app-form-order [isVisible]="showModal" (closeModal)="closeModal($event)"></app-form-order>

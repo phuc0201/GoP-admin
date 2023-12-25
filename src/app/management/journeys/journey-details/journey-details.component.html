@@ -12,7 +12,7 @@
             <div class="flex items-center gap-3">
               <div
                 class="rounded-[20px] w-16 h-16 overflow-hidden flex items-center justify-center bg-slate-400 cursor-pointer">
-                <img [src]="order?.driver?.avatar" class="w-fit h-full">
+                <img [src]="order?.driver?.avatar" onerror="this.src='assets/img/bg-login.jpg'" class="w-fit h-full">
               </div>
               <div class="flex flex-col">
                 <span class="text-xl font-bold">{{ order?.driver?.fullname ? order?.driver?.fullname : 'Đang chờ nhận
@@ -29,7 +29,7 @@
             <div class="flex items-center gap-3">
               <div
                 class="rounded-[20px] w-16 h-16 overflow-hidden flex items-center justify-center bg-slate-400 cursor-pointer">
-                <img [src]="order?.user?.avatar" class="w-fit h-full">
+                <img [src]="order?.user?.avatar" onerror="this.src='assets/img/bg-login.jpg'" class="w-fit h-full">
               </div>
               <div class="flex flex-col">
                 <span class="text-xl font-bold">{{ order?.user?.fullname ? order?.user?.fullname : 'Guest' }}</span>

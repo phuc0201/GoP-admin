@@ -16,13 +16,13 @@
     <a [routerLink]="['users']">
       <li [ngClass]="{'active': isActive === 'users' }" (click)="setActive('users')">
         <i class="fa-regular fa-user"></i>
-        <span>Quản lý người dùng</span>
+        <span>Users</span>
       </li>
     </a>
     <a [routerLink]="['trips']">
       <li [ngClass]="{'active': isActive === 'trips' }" (click)="setActive('trips')">
         <i class="fa-solid fa-map-location-dot"></i>
-        <span>Quản lý hành trình</span>
+        <span>Trips</span>
       </li>
     </a>
   </ul>

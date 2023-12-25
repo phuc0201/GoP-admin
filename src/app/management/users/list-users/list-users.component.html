@@ -16,6 +16,13 @@
     <nz-select [(ngModel)]="selectedRole" (ngModelChange)="onRoleChange($event)" class="w-32 mr-2">
       <nz-option *ngFor="let option of listRole" [nzLabel]="option" [nzValue]="option"></nz-option>
     </nz-select>
+    <div>
+      <button
+        class="flex justify-center items-center w-8 h-8 text-green mr-2 border border-solid border-green rounded p-3"
+        (click)="getDataPaging(currentPage, 10)">
+        <i class="fa-solid fa-rotate"></i>
+      </button>
+    </div>
   </div>
   <nz-table #rowSelectionTable #fixedTable [nzData]="listUser.data"
     (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzFrontPagination]="false"

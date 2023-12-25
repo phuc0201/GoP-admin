@@ -59,7 +59,7 @@ export class OrderService {
     return this.http.get<IOrderByTime[]>(this.apiUrl + '/by-time', { params });
   }
 
-  createOrder(order: IOrderDTO): Observable<IOrder>{
+  createOrder(order: IOrderDTO): Observable<IOrder> {
     return this.http.post<IOrder>(this.apiUrl, order);
   }
 
@@ -108,5 +108,15 @@ export class OrderService {
       .set('src', src_address ?? '');
 
     return this.http.get<IPagedResults<IOrder>>(this.apiUrl + '/drivers/filter', { params });
+  }
+
+  deleteOrder(id: number) {
+    return this.http.delete(this.apiUrl + '/delete?id=' + id);
+  }
+
+  deleteListOrder(id: number[]) {
+    return this.http.post(this.apiUrl + '/delete', {
+      id: id
+    });
   }
 }

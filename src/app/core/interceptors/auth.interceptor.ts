@@ -7,6 +7,7 @@ import {
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
+import { URLConstant } from '../constants/url.constant';
 import { IAuthData } from '../model/auth/auth.model';
 import { AuthService } from '../services/auth/auth.service';
 
@@ -24,25 +25,29 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     let authservice = this.inject.get(AuthService);
     let authreq = request;
-    if (authservice.getToken() !== '' && !authservice.checkTokenExpired(authservice.getToken())) {
-      authreq = this.addTokenHeader(request, authservice.getToken());
+    if (request.headers.get('Authorization') === URLConstant.API.KEY_MAP)
+      return next.handle(request);
+    else{
+      if (authservice.getToken() !== '' && !authservice.checkTokenExpired(authservice.getToken())) {
+        authreq = this.addTokenHeader(request, authservice.getToken());
+      }
+      return next.handle(authreq).pipe(
+        catchError((errordata) => {
+          const rfToken = authservice.getAuthData()?.refreshToken || '';
+          if (authservice.checkTokenExpired(rfToken)) {
+            authservice.doLogout();
+            return throwError(() => errordata);
+          }
+          else if (errordata.status === 401) {
+            return this.handleRefrehToken(request, next);
+          }
+          else {
+            authservice.doLogout();
+            return throwError(() => errordata);
+          }
+        }),
+      );
     }
-    return next.handle(authreq).pipe(
-      catchError((errordata) => {
-        const rfToken = authservice.getAuthData()?.refreshToken || '';
-        if (authservice.checkTokenExpired(rfToken)) {
-          authservice.doLogout();
-          return throwError(() => errordata);
-        }
-        else if (errordata.status === 401) {
-          return this.handleRefrehToken(request, next);
-        }
-        else {
-          authservice.doLogout();
-          return throwError(() => errordata);
-        }
-      }),
-    );
   }
 
   handleRefrehToken(request: HttpRequest<any>, next: HttpHandler) {
@@ -50,16 +55,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return authservice.generateRefreshToken().pipe(
       switchMap((data: IAuthData) => {
-        if (data.refreshToken) {
-          authservice.setToken(data?.accessToken ??
-            '');
-          authservice.setAuthData(data);
-          return next.handle(this.addTokenHeader(request, data.accessToken));
-        }
-        else {
-          authservice.doLogout();
-          return throwError(() => '');
-        }
+        authservice.setToken(data?.accessToken ??
+          '');
+        authservice.setAuthData(data);
+        return next.handle(this.addTokenHeader(request, data.accessToken));
       }),
       catchError((err) => {
         authservice.doLogout();

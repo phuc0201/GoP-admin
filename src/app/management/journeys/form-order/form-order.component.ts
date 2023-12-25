@@ -4,8 +4,10 @@ import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { NgToastService } from 'ng-angular-popup';
 import { MakeForm } from 'src/app/core/model/common/make-form.model';
-import { IAddress } from 'src/app/core/model/management/address.model';
+import { IAddress, IAddressDetail } from 'src/app/core/model/management/address.model';
 import { IOrderDTO, IOrderFormDTO } from 'src/app/core/model/management/order.model';
+import { IRoutesSummary } from 'src/app/core/model/management/routes-summary.model';
+import { Vehicle } from 'src/app/core/model/management/vehicle.model';
 import { MapService } from 'src/app/core/services/management/map.service';
 import { OrderService } from 'src/app/core/services/management/order.service';
 
@@ -22,20 +24,74 @@ export class FormOrderComponent implements OnInit {
   form!: FormGroup<MakeForm<IOrderFormDTO>>;
   map!: L.Map;
   timeoutId: any;
-  listSrcAddress: IAddress[] = [];
-  listDesAddress: IAddress[] = [];
-  listAddress: IAddress[] = [];
-  search: boolean = false;
+  srcAddress: IAddress = {
+    features: []
+  };
+  desAddress: IAddress = {
+    features: []
+  };
+  srcAddressDetail: IAddressDetail = {
+    geometry: {
+      coordinates: []
+    },
+    properties: {
+      name: ''
+    }
+  };
+  desAddressDetail: IAddressDetail = {
+    geometry: {
+      coordinates: []
+    },
+    properties: {
+      name: ''
+    }
+  };
+  routesSummary?: IRoutesSummary;
+  nzFilterOption = (): boolean => true;
+  selectedSrcValue = null;
+  selectedDesValue = null;
+  duration: number = 1;
+  distance: number = 1;
+  searchSrcAddress(value: string): void {
+    this.srcAddress.features = [];
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      if (value !== '') {
+        this.mapSvc.searchAddress(value).subscribe({
+          next: res => {
+            this.srcAddress = res;
+          },
+          error: err => {
+            this.toast.error({ detail: "ERROR", summary: 'Location not found', duration: 2000, position: 'topRight' });
+          }
+        });
+      }
+    }, 300);
+  }
+
+  searchDesAddress(value: string): void {
+    this.desAddress.features = [];
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      if (value !== '') {
+        this.mapSvc.searchAddress(value).subscribe({
+          next: res => {
+            this.desAddress = res;
+          },
+          error: err => {
+            this.toast.error({ detail: "ERROR", summary: 'Location not found', duration: 2000, position: 'topRight' });
+          }
+        });
+      }
+    }, 300);
+  }
+
   createForm(): void {
     this.form = this.fb.nonNullable.group({
       userPhoneNumber: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.startsWithZeroValidator()]],
-      source_address: ['', [Validators.required, Validators.minLength(10)]],
-      destination_address: ['', [Validators.required, Validators.minLength(10)]],
-      source_location_lat: ['', [Validators.required, this.isNumber]],
-      source_location_long: ['', [Validators.required, this.isNumber]],
-      destination_location_lat: ['', [Validators.required, this.isNumber]],
-      destination_location_long: ['', [Validators.required, this.isNumber]],
-      vehicle_type: ['bike', [Validators.required]]
+      source_address: [this.srcAddressDetail, [Validators.required, this.addressValidator()]],
+      destination_address: [this.desAddressDetail, [Validators.required, this.addressValidator()]],
+      vehicle_type: ['bike', [Validators.required]],
     });
   }
 
@@ -44,6 +100,13 @@ export class FormOrderComponent implements OnInit {
       return null;
     }
     return { notANumber: 'The value is not a number' };
+  }
+
+  addressValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any; } | null => {
+      const invalid = !control.value || !control.value.geometry || !control.value.geometry.coordinates || control.value.geometry.coordinates.length !== 2;
+      return invalid ? { value: control.value } : null;
+    };
   }
 
   startsWithZeroValidator(): ValidatorFn {
@@ -60,63 +123,36 @@ export class FormOrderComponent implements OnInit {
 
   submitForm(): void {
     if (this.form.valid) {
-      this.progress = 0;
-      let userPhoneNumber = '+84' + this.form.value.userPhoneNumber ?? 'admin';
-      let source_location_lat = this.form.value.source_location_lat ?? '0';
-      let source_location_long = this.form.value.source_location_long ?? '0';
-
-      let destination_location_lat = this.form.value.destination_location_lat ?? '0';
-      let destination_location_long = this.form.value.destination_location_long ?? '0';
-      let source = L.latLng(parseFloat(source_location_lat), parseFloat(source_location_long));
-      let destination = L.latLng(parseFloat(destination_location_lat), parseFloat(destination_location_long));
-      let distance = source.distanceTo(destination);
-      let speed = 40; // km/h
-      let duration = parseFloat((distance / (speed * (1000 / 3600))).toFixed(2));
-      if (this.map)
-        this.map.remove();
-      this.map = L.map('getDistanceBasedOnMap').setView([10.850580, 106.771806], 10);
-      const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        minZoom: 3,
-      });
-      tiles.addTo(this.map);
-      let waypoints = [L.latLng(parseFloat(source_location_lat), parseFloat(source_location_long)), L.latLng(parseFloat(destination_location_lat), parseFloat(destination_location_long))];
-      L.Routing.control({
-        waypoints: waypoints,
-        plan: L.Routing.plan(waypoints, {
-          createMarker: function (i, wp) {
-            return L.marker(wp.latLng, {
-              draggable: false
-            });
+      this.mapSvc.calculateDistance([this.form.value.source_address?.geometry.coordinates[0] ?? 0, this.form.value.source_address?.geometry.coordinates[1] ?? 0],
+        [this.form.value.destination_address?.geometry.coordinates[0] ?? 0, this.form.value.destination_address?.geometry.coordinates[1] ?? 0]).subscribe({
+          next: res => {
+            this.duration = Math.ceil(res.routes[0].summary.duration);
+            this.distance = Math.ceil(res.routes[0].summary.distance);
+          },
+          complete: () => {
+            this.order = {
+              user: '+84' + this.form.value.userPhoneNumber,
+              source_address: this.form.value.source_address?.properties.name ?? '',
+              destination_address: this.form.value.destination_address?.properties.name ?? '',
+              source_location: {
+                lat: this.form.value.source_address?.geometry.coordinates[1] ?? 0,
+                long: this.form.value.source_address?.geometry.coordinates[0] ?? 0
+              },
+              destination_location: {
+                lat: this.form.value.destination_address?.geometry.coordinates[1] ?? 0,
+                long: this.form.value.destination_address?.geometry.coordinates[0] ?? 0
+              },
+              distance: this.distance,
+              duration: this.duration,
+              vehicle_type: this.form.value.vehicle_type ?? 'bike',
+              orderTotal: this.form.value.vehicle_type === Vehicle.BIKE ? Math.ceil((this.distance / 1000) * 6000) * 1.1 : Math.ceil((this.distance / 1000) * 6000) * 1.4
+            };
+            this.createOrder(this.order);
+          },
+          error: err => {
+            this.toast.error({ detail: "ERROR", summary: 'Get distance and duration failed', duration: 3000, position: 'topRight' });
           }
-        }),
-      })
-        .on('routesfound', (e) => {
-          let routes = e.routes;
-          let speed = 40; //km/h
-          let distance = routes[0].summary.totalDistance;
-          let time = parseFloat((distance / (speed * (1000 / 3600))).toFixed(2));
-
-          this.order = {
-            vehicle_type: this.form.controls.vehicle_type.value,
-            user: userPhoneNumber,
-            source_address: this.form.value.source_address ?? '',
-            destination_address: this.form.value.destination_address ?? '',
-            orderTotal: parseFloat((parseFloat((distance / 1000).toFixed(2)) * 5000).toFixed(2)),
-            distance: Math.ceil(distance),
-            duration: Math.ceil(time),
-            source_location: {
-              lat: parseFloat(source_location_lat),
-              long: parseFloat(source_location_long)
-            },
-            destination_location: {
-              lat: parseFloat(destination_location_lat),
-              long: parseFloat(destination_location_long)
-            }
-          };
-          this.createOrder(this.order);
-
-        }).addTo(this.map);
+        });
     }
     else {
       Object.values(this.form.controls).forEach(control => {
@@ -128,60 +164,6 @@ export class FormOrderComponent implements OnInit {
     }
   }
 
-  getSrcLocation(): void {
-    this.listSrcAddress = [];
-    clearTimeout(this.timeoutId);
-    this.timeoutId = setTimeout(() => {
-      this.mapSvc.searchAddress(this.form.value.source_address ?? '').subscribe({
-        next: res => {
-          if (res) {
-            this.listSrcAddress = res;
-          }
-        },
-      });
-    }, 500);
-  }
-
-  getDesLocation(): void {
-    this.listDesAddress = [];
-    clearTimeout(this.timeoutId);
-    this.timeoutId = setTimeout(() => {
-      this.mapSvc.searchAddress(this.form.value.destination_address ?? '').subscribe({
-        next: res => {
-          if (res) {
-            this.listDesAddress = res;
-          }
-        },
-      });
-    }, 250);
-  }
-
-  selectSourceAddress(address: string, lat: string, long: string): void {
-    this.form.controls.source_address.setValue(address);
-    this.form.controls.source_location_lat.setValue(lat);
-    this.form.controls.source_location_long.setValue(long);
-    this.listSrcAddress = [];
-  }
-
-  selectDesinationAddress(address: string, lat: string, long: string): void {
-    this.form.controls.destination_address.setValue(address);
-    this.form.controls.destination_location_lat.setValue(lat);
-    this.form.controls.destination_location_long.setValue(long);
-    this.listDesAddress = [];
-  }
-
-  stopSeeking(): void {
-    this.timeoutId = setTimeout(() => {
-      this.search = false;
-    }, 3000);
-  }
-
-  Seeking(): void {
-    console.log('sdfsf');
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
-    }
-  }
 
   createOrder(order: IOrderDTO) {
     this.orderSvc.createOrder(order).subscribe({

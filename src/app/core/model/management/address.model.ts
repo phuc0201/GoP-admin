@@ -1,5 +1,17 @@
-export interface IAddress{
-  display_name: string,
-  lat: string,
-  lon: string
+export interface IAddress {
+  features: IAddressDetail[];
+}
+export interface IAddressDetail {
+  geometry: {
+    coordinates: number[];
+  },
+  properties: {
+    name: string;
+  };
+}
+
+export interface IAddressDTO {
+  address: string,
+  lat: number,
+  long: number;
 }

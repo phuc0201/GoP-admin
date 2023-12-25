@@ -2,6 +2,7 @@ import { environment } from "src/environments/environment";
 
 export const URLConstant = {
   API: {
+    KEY_MAP: 'Bearer 5b3ce3597851110001cf6248b8ac911881304205ab03a6431b40bc13',
     ROLE: {
       ADMIN: '/admin',
       DRIVER: '/driver'

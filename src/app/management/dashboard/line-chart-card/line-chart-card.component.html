@@ -4,7 +4,19 @@
       <div class="flex items-center">
         <span class="text-2xl font-bold">Order By Time</span>
       </div>
-      <div class="flex items-center">
+      <div class="flex items-center gap-2">
+        <div>
+          <nz-select [(ngModel)]="month" (ngModelChange)="loadOrdersByTime()" class="w-20">
+            <nz-option *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]" [nzLabel]="item" [nzValue]="item">
+            </nz-option>
+          </nz-select>
+        </div>
+        <div>
+          <nz-select [(ngModel)]="year" (ngModelChange)="loadOrdersByTime()" class="w-20">
+            <nz-option *ngFor="let item of  listYear" [nzLabel]="item" [nzValue]="item">
+            </nz-option>
+          </nz-select>
+        </div>
         <!-- <div
           class="group cursor-pointer active flex px-4 py-1 hover:border-primary border-solid border-[2px] border-transparent  rounded-md "
           [ngClass]="{'active': chartOption === 'today'}" (click)="setActive('today')">

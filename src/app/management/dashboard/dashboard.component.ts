@@ -42,6 +42,9 @@ export class DashboardComponent implements OnInit {
       },
       error: err => {
         // console.log(err);
+      },
+      complete: () => {
+        this.loadOrdersInProgress();
       }
     });
   }
@@ -72,7 +75,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       complete: () => {
-        this.progress = 100;
+        this.loadTopDriver();
       }
     });
   }
@@ -82,31 +85,35 @@ export class DashboardComponent implements OnInit {
       next: res => {
         if (res) {
           this.ordersInProgress = res;
+          // console.log(this.ordersInProgress);
         }
       },
       error: err => {
         // console.log(err);
+      },
+      complete: () => {
+        this.progress = 100;
       }
     });
   }
 
-  loadOrderByTime() {
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1;
-    this.orderSvc.getOrderByTime(currentMonth, 2023).subscribe({
-      next: res => {
-        this.orderByTime = res;
-      },
-      error: err => {
-        // console.log(err);
-      }
-    });
-  }
+  // loadOrderByTime() {
+  //   const currentDate = new Date();
+  //   const currentMonth = currentDate.getMonth() + 1;
+  //   this.orderSvc.getOrderByTime(currentMonth, 2023).subscribe({
+  //     next: res => {
+  //       this.orderByTime = res;
+  //     },
+  //     error: err => {
+  //       // console.log(err);
+  //     },
+  //     complete: () => {
+  //       this.loadTopDriver();
+  //     }
+  //   });
+  // }
   ngOnInit(): void {
     this.loadStatisticsOrders();
-    this.loadTopDriver();
-    this.loadOrdersInProgress();
-    this.loadOrderByTime();
   }
   constructor(
     private orderSvc: OrderService,

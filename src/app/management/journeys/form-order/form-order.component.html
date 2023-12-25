@@ -11,54 +11,23 @@
       <nz-form-item nzFlex>
         <nz-form-control nzErrorTip="Please input your source address!" class="w-full relative">
           <label class="text-gray-500">Điểm đón<span class="text-red">*</span></label>
-          <input type="text" nz-input formControlName="source_address" placeholder="source_address"
-            (input)="getSrcLocation()" />
-          <div class="absolute top-full left-0 z-10 bg-white right-0">
-            <ul *ngFor="let item of listSrcAddress">
-              <li class="cursor-pointer text-ellipsis p-2 border-b border-solid border-gray-300"
-                (click)="selectSourceAddress(item.display_name, item.lat, item.lon)">{{ item.display_name }}</li>
-            </ul>
-          </div>
+          <nz-select nzShowSearch nzServerSearch nzPlaceHolder="search address" formControlName="source_address"
+            [nzShowArrow]="false" [nzFilterOption]="nzFilterOption" (nzOnSearch)="searchSrcAddress($event)">
+            <nz-option *ngFor="let src of srcAddress.features" [nzLabel]="src.properties.name"
+              [nzValue]="src"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your destination address!" class="w-full relative">
           <label class="text-gray-500">Điểm đến<span class="text-red">*</span></label>
-          <input type="text" nz-input formControlName="destination_address" placeholder="destination_address" (input)="getDesLocation()">
-          <div class="absolute top-full left-0 z-10 bg-white right-0">
-            <ul *ngFor="let item of listDesAddress">
-              <li class="cursor-pointer text-ellipsis p-2 border-b border-solid border-gray-300"
-                (click)="selectDesinationAddress(item.display_name, item.lat, item.lon)">{{ item.display_name }}</li>
-            </ul>
-          </div>
+          <nz-select nzShowSearch nzServerSearch nzPlaceHolder="search address" formControlName="destination_address"
+            [nzShowArrow]="false" [nzFilterOption]="nzFilterOption" (nzOnSearch)="searchDesAddress($event)">
+            <nz-option *ngFor="let des of desAddress.features" [nzLabel]="des.properties.name"
+              [nzValue]="des"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
-      <!-- <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your source location lat!" class="w-full">
-          <label class="text-gray-500">Kinh độ của điểm đón<span class="text-red">*</span></label>
-          <input type="text" nz-input formControlName="source_location_lat" placeholder="source_location_lat" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your source location long!" class="w-full">
-          <label class="text-gray-500">Vĩ độ của điểm đón<span class="text-red">*</span></label>
-          <input type="text" nz-input formControlName="source_location_long" placeholder="source_location_long" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your destination location lat!" class="w-full">
-          <label class="text-gray-500">Kinh độ của điểm đến<span class="text-red">*</span></label>
-          <input type="text" nz-input formControlName="destination_location_lat"
-            placeholder="destination_location_lat" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your destination location long!" class="w-full">
-          <label class="text-gray-500">Vĩ độ của điểm đến<span class="text-red">*</span></label>
-          <input type="text" nz-input formControlName="destination_location_long"
-            placeholder="destination_location_long" />
-        </nz-form-control>
-      </nz-form-item> -->
       <nz-form-item>
         <nz-form-control>
           <label class="text-gray-500">Loại phương tiện<span class="text-red">*</span></label>
@@ -71,4 +40,3 @@
     </form>
   </ng-container>
 </nz-modal>
-<div id="getDistanceBasedOnMap" class="hidden"></div>

@@ -1,23 +1,42 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IAddress } from '../../model/management/address.model';
+import { IRoutesSummary } from '../../model/management/routes-summary.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
-  private nominatimUrl = 'https://nominatim.openstreetmap.org/';
-  searchAddress(query: string): Observable<IAddress[]> {
-    const params = new HttpParams()
-      .set('q', query)
-      .set('format', 'json')
-      .set('limit', '5');
+  private APIKEY = '5b3ce3597851110001cf6248b8ac911881304205ab03a6431b40bc13';
+  private apiUrl = 'https://api.openrouteservice.org/geocode';
+  private apiUrl_v2 = 'https://api.openrouteservice.org/v2/directions/driving-car';
 
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+  searchAddress(query: string): Observable<IAddress> {
+    const params = {
+      api_key: this.APIKEY,
+      text: query,
+      size: '10',
+    };
 
-    return this.http.get<IAddress[]>(this.nominatimUrl + 'search', { params, headers });
+    return this.http.get<IAddress>(this.apiUrl + '/search', { params });
   }
 
+  calculateDistance(src: number[], des: number[]): Observable<IRoutesSummary> {
+    const body = {
+      "coordinates": [
+        src,
+        des,
+      ],
+      "profile": "driving-car",
+      "format": "geojson"
+    };
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + `${this.APIKEY}`
+    });
+
+    return this.http.post<IRoutesSummary>(this.apiUrl_v2, body, { headers: headers });
+  }
   constructor(private http: HttpClient) { }
 }
