@@ -8,7 +8,7 @@ export const URLConstant = {
       DRIVER: '/driver'
     },
     DRIVER: {
-      ENDPOINT: environment.serverTestUrl,
+      ENDPOINT: environment.serverUrl,
       AUTH: {
         LOGIN: '/auth/driver/signin',
         LOGOUT: '/auth/driver/logout',
@@ -16,7 +16,7 @@ export const URLConstant = {
       },
     },
     ADMIN: {
-      ENDPOINT: environment.serverTestUrl,
+      ENDPOINT: environment.serverUrl,
       AUTH: {
         LOGIN: '/auth/admin/signin',
         LOGOUT: '/auth/admin/logout',
