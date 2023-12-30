@@ -14,7 +14,6 @@ export class PaymentComponent {
   getPayment(): void {
     this.paymentSvc.getPayment(this.amount).subscribe({
       next: res => {
-        console.log(res);
         if (res) {
           window.location.href = res.url;
         }
