@@ -25,6 +25,11 @@ const routes: Routes = [
     title: 'Driver',
     canActivate: [driverGuard]
   },
+  {
+    path: 'user',
+    loadChildren: () => import('./main/main.module').then((m) => m.MainModule),
+    title: 'User',
+  },
 ];
 
 @NgModule({
